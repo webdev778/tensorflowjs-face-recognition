@@ -1,0 +1,35 @@
+<div class="right">
+    <div class="rectangle rectangle--right" style="background: transparent">
+      <div id="emotions-panel-top" class="emotions_panel_sec">
+      </div>
+      <div class="padding--right panel_sec" style="background: #454b61; border-radius: 5px">
+        <div id="info-panel-top">
+          <div class="infobox">
+            <div class="infobox-icon">
+              <i class="fas fa-street-view"></i>
+            </div>
+            <p class="info-paragraph">
+              As soon as the system identifies the offender, information will appear here.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="tab mt-5">
+        <div class="tab-item tab-item--active" onclick="information_init()">Information</div>
+        <div class="tab-item" onclick="point_cloud_init()">Point Cloud</div>
+      </div>
+      <div class="padding--right" style="height: 390px;border: 1px solid #454b61;position: relative;">
+        <div id="info-panel-bottom">
+          <div class="tag-cloud">
+          </div>
+          <div id="vehicle-panel">
+          </div>
+          <div class="infobox pos-absolute">
+          </div>
+        </div>
+      </div>
+      <div id="about" style="border: 1px solid #454b61;border-top:none">
+        <div class="about">Details about the car</div>
+      </div>
+    </div>
+  </div>
