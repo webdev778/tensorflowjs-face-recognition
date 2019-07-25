@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { first } from 'rxjs/operators';
 
 //import COCO-SSD model as cocoSSD
 import * as cocoSSD from '@tensorflow-models/coco-ssd';
+import { User } from '../_models';
+import { UserService } from '../_services';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,37 +14,52 @@ import * as cocoSSD from '@tensorflow-models/coco-ssd';
 export class DashboardComponent implements OnInit {
   title = 'TF-ObjectDetection';
   private video: HTMLVideoElement;
+  currentUser: User;
+  users: User[] = [];
 
-
-  ngOnInit()
-  {
+  constructor(private userService: UserService) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
+  ngOnInit() {
     this.webcam_init();
     this.predictWithCocoModel();
+    this.loadAllUsers();
   }
 
-public async predictWithCocoModel(){
-  const model = await cocoSSD.load('lite_mobilenet_v2');
-  this.detectFrame(this.video,model);
-  console.log('model loaded');
-}
+  public async predictWithCocoModel() {
+    const model = await cocoSSD.load('lite_mobilenet_v2');
+    this.detectFrame(this.video, model);
+    console.log('model loaded');
+  }
 
-webcam_init()
-  {
-  this.video = <HTMLVideoElement> document.getElementById("vid");
-
-     navigator.mediaDevices
-    .getUserMedia({
-    audio: false,
-    video: {
-      facingMode: "user",
-    }
-     })
-    .then(stream => {
-    this.video.srcObject = stream;
-    this.video.onloadedmetadata = () => {
-      this.video.play();
-    };
+  deleteUser(id: number) {
+    this.userService.delete(id).pipe(first()).subscribe(() => {
+      this.loadAllUsers()
     });
+  }
+
+  private loadAllUsers() {
+    this.userService.getAll().pipe(first()).subscribe(users => {
+      this.users = users;
+    });
+  }
+
+  webcam_init() {
+    this.video = <HTMLVideoElement>document.getElementById("vid");
+
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "user",
+        }
+      })
+      .then(stream => {
+        this.video.srcObject = stream;
+        this.video.onloadedmetadata = () => {
+          this.video.play();
+        };
+      });
   }
 
   detectFrame = (video, model) => {
@@ -54,19 +72,19 @@ webcam_init()
   }
 
   renderPredictions = predictions => {
-    const canvas = <HTMLCanvasElement> document.getElementById("canvas");
+    const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 
     const ctx = canvas.getContext("2d");
 
-    canvas.width  = 300;
-    canvas.height = 300;
+    canvas.width = 640;
+    canvas.height = 480;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     // Font options.
     const font = "16px sans-serif";
     ctx.font = font;
     ctx.textBaseline = "top";
-    ctx.drawImage(this.video,0, 0,300,300);
+    ctx.drawImage(this.video, 0, 0, 640, 480);
 
     predictions.forEach(prediction => {
       const x = prediction.bbox[0];

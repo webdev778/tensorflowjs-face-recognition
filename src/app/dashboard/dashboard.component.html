@@ -1,4 +1,73 @@
-<app-header></app-header>
+<!-- <app-header></app-header> -->
+
+<header>
+  <nav class="navbar navbar-expand-sm">
+      <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
+      <ul class="navbar-nav">
+          <li class="nav-item">
+              <div class="modal-btn" data-toggle="modal" data-target=#addCar>
+                  <div class="icon-blue mod"><span class=" icon-cars"></span></div>
+                  <div class="icon-plus">
+                  </div>
+              </div>
+          </li>
+          <li class="nav-item">
+              <div class="modal-btn" onclick="location.href='/captured';">
+                  <div class="icon-blue mod"><i class="fas fa-user"></i></div>
+                  <div class="icon-plus">
+                  </div>
+              </div>
+          </li>
+
+          <li class="nav-item">
+              <div class="nav-box">
+                  <span class="icon mr-3"><i class="fas fa-calendar-alt"></i></span>
+                  <span class="nav-box__info mr-4">
+                      <script> document.write(new Date().toLocaleDateString()); </script></span>
+              </div>
+          </li> <!-- /.nav-item -->
+          <li class="nav-item">
+              <div class="nav-box">
+                  <span class="icon icon-clock mr-3"></span>
+                  <span class="nav-box__info mr-4">
+                      <script> document.write(new Date().toLocaleTimeString()); </script></span>
+              </div>
+          </li> <!-- /.nav-item -->
+          <li class="nav-item hover">
+              <a href="#" class="nav-link p-0">
+                  <div class="nav-box hover">
+                      <span class="icon icon--b icon-group-signal nav-box--b"></span>
+                  </div>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="" class="nav-link p-0">
+                  <a href="/profile">
+                      <div class="nav-box nav-box--user hover">
+                          <div class="user-img">
+                              <img class="oval img" src="./static/img/user.png" alt="user-img">
+                          </div>
+                          <div class="username">
+                            {{currentUser.firstName}}
+                          </div>
+                      </div>
+                  </a>
+
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="" class="nav-link p-0">
+                  <div class="nav-box nav-box--b hover">
+                      <div class="icon icon-logout icon--b">
+                        <p><a [routerLink]="['/login']">Logout</a></p>
+                      </div>
+                  </div>
+              </a>
+          </li> 
+      </ul> 
+  </nav> 
+</header>
+
 <div class="main-wrapper">
   <div class="container-fluid">
     <div class="row main-row">
@@ -12,7 +81,7 @@
       <div class="col-lg-7 px-lg-3 px-sm-0">
         <!-- <app-video></app-video> -->
         <!-- <app-camera-panel></app-camera-panel> -->
-        <video hidden id="vid" width="300" height="300"></video>
+        <video hidden id="vid" width="640" height="480"></video>
         <canvas id="canvas"></canvas>
       </div>
       <div class="col-lg-3">

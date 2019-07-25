@@ -21,6 +21,8 @@
     "@angular/router": "~8.1.0",
     "@tensorflow-models/coco-ssd": "^0.1.1",
     "@tensorflow/tfjs": "^0.13.5",
+    "@tensorflow/tfjs-node": "^1.2.3",
+    "canvas": "^2.5.0",
     "core-js": "^2.5.4",
     "rxjs": "~6.5.2",
     "tslib": "^1.9.0",

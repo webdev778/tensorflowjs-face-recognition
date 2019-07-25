@@ -41,3 +41,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
         curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
         sudo apt-get update && sudo apt-get install yarn
+
+# AWS EC2
+
+https://medium.com/@sandeeptengale/deploy-angular-app-on-aws-ec2-instance-20749f17b33e
+
+https://appdividend.com/2019/06/04/angular-8-tutorial-with-example-learn-angular-8-crud-from-scratch/
