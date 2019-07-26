@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-//import COCO-SSD model as cocoSSD
 import * as cocoSSD from '@tensorflow-models/coco-ssd';
 import { User } from '../_models';
 import { UserService } from '../_services';

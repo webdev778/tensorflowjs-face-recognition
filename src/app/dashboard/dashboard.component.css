@@ -1,0 +1,8 @@
+body {
+    line-height: 1.2;
+    background: #353b49;
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    min-height: 100vh;
+    overflow: hidden;
+}
