@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { ReactiveFormsModule }    from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
@@ -20,12 +20,10 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { VideoComponent } from './video/video.component';
-import { CnnComponent } from './cnn/cnn.component';
 import { HeaderComponent } from './header/header.component';
-import { DangerAlertComponent } from './danger-alert/danger-alert.component';
 import { FaceAlertComponent } from './face-alert/face-alert.component';
-import { IdentifiedObjectsComponent } from './identified-objects/identified-objects.component';
 import { CameraPanelComponent } from './camera-panel/camera-panel.component';
+import { AffectivaEmotionsComponent } from './affectiva-emotions/affectiva-emotions.component';
 
 @NgModule({
   declarations: [
@@ -36,12 +34,10 @@ import { CameraPanelComponent } from './camera-panel/camera-panel.component';
     RegisterComponent,
     HomeComponent,
     VideoComponent,
-    CnnComponent,
     HeaderComponent,
-    DangerAlertComponent,
     FaceAlertComponent,
-    IdentifiedObjectsComponent,
-    CameraPanelComponent
+    CameraPanelComponent,
+    AffectivaEmotionsComponent
   ],
   imports: [
     BrowserModule,

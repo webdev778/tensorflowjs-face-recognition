@@ -47,3 +47,59 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 https://medium.com/@sandeeptengale/deploy-angular-app-on-aws-ec2-instance-20749f17b33e
 
 https://appdividend.com/2019/06/04/angular-8-tutorial-with-example-learn-angular-8-crud-from-scratch/
+
+
+Add external js file in index.html.
+
+<script src="./assets/vendors/myjs.js"></script>
+
+Here's myjs.js file :
+
+  var myExtObject = (function() {
+
+      return {
+        func1: function() {
+          alert('function 1 called');
+        },
+        func2: function() {
+          alert('function 2 called');
+        }
+      }
+
+  })(myExtObject||{})
+
+
+  var webGlObject = (function() { 
+      return { 
+        init: function() { 
+          alert('webGlObject initialized');
+        } 
+      } 
+  })(webGlObject||{})
+
+Then declare it is in component like below
+
+demo.component.ts
+
+  declare var myExtObject: any;
+  declare var webGlObject: any;
+
+  constructor(){
+      webGlObject.init();
+  }
+
+  callFunction1() {
+      myExtObject.func1();
+  }
+
+  callFunction2() {
+      myExtObject.func2();
+  }
+
+demo.component.html
+
+<div>
+    <p>click below buttons for function call</p>
+    <button (click)="callFunction1()">Call Function 1</button>
+    <button (click)="callFunction2()">Call Function 2</button>
+</div>
