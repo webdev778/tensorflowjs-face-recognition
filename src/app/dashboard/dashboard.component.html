@@ -33,21 +33,6 @@
     </nav>
 </header>
 
-<!-- <div class="main-wrapper">
-    <div class="container-fluid">
-        <div class="row main-row">
-            <div class="col-lg-2">
-            </div>
-            <div class="col-lg-7 px-lg-3 px-sm-0">
-                <video hidden id="vid" width="640" height="480"></video>
-                <canvas id="canvas"></canvas>
-            </div>
-            <div class="col-lg-3">
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <body>
     <div class="main-wrapper">
         <div class="container-fluid">
@@ -224,8 +209,11 @@
                             </div>
                             <!-- /.tab-header -->
                             <div class="thumb thumb--middle">
-                                <video hidden id="vid" width="640" height="480"></video>
-                                <canvas id="canvas"></canvas>
+                                <div id="def-video" style='width: 640px; height: 485px; margin-left: auto; margin-right: auto'>
+                                    <video hidden id="vid" width="640" height="480"></video>
+                                    <canvas id="canvas"></canvas>
+                                </div>
+
                             </div>
                             <div class="option-box">
                                 <div class="option-list row">

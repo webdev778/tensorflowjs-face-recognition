@@ -6,3 +6,8 @@ body {
     min-height: 100vh;
     overflow: hidden;
 }
+
+.main-wrapper {
+    width: 90% !important;
+    margin: 0 auto;
+}
