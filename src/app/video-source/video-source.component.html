@@ -1,13 +1,15 @@
 <div class="rectangle rectangle--camera">
-    <div class="camera-box">
-        <video src="rtmp://rtmp.codeda.com:1935/live/app" class="cam_video" id="me" width="400" height="150" autoplay #me></video>
+  <div class="camera-box">
+    <video class="cam_video" width="100%" height="100%" autoplay loop>
+      <source src="{{ video_url }}" type="video/mp4" />
+    </video>
+  </div>
+  <div class="camera-box-footer">
+    <div class="camera-box-icon">
+      <i class="fas fa-video"></i>
     </div>
-    <div class="camera-box-footer">
-        <div class="camera-box-icon">
-            <i class="fas fa-video"></i>
-        </div>
-        <div class="camera-box-title">
-            Camera 01
-        </div>
+    <div class="camera-box-title">
+      Camera 01
     </div>
+  </div>
 </div>
