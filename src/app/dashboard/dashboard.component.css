@@ -11,3 +11,8 @@ body {
     width: 90% !important;
     margin: 0 auto;
 }
+
+canvas {
+    position: relative;
+    top: -480px;
+}
