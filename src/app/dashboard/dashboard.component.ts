@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.webcam_init();
-    // this.predictWithCocoModel();
+    this.predictWithCocoModel();
     this.loadAllUsers();
     this.initModel();
   }
@@ -43,26 +43,17 @@ export class DashboardComponent implements OnInit {
   detectFace = (video) => {
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
     const displaySize = { width: 640, height: 480 }
-
     faceapi.matchDimensions(canvas, displaySize)
     setInterval(async () => {
-
-
       const labeledFaceDescriptors = await this.loadLabeledImages()
-
       const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
-
       const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors()
-
       const resizedDetections = faceapi.resizeResults(detections, displaySize)
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-
       const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
-
       results.forEach((result, i) => {
         const box = resizedDetections[i].detection.box
         //const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
-        console.log(box);
         // drawBox.draw(canvas)
         const ctx = canvas.getContext("2d");
         // Font options.
@@ -81,11 +72,7 @@ export class DashboardComponent implements OnInit {
         ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
         ctx.fillStyle = "#000000";
         ctx.fillText(result.toString(), x, y);
-      })
-
-      // faceapi.draw.drawDetections(canvas, resizedDetections)
-      // faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-      // faceapi.draw.drawFaceDescriptors(canvas, resizedDetections)
+      }, 100)
     })
   }
 
@@ -94,13 +81,11 @@ export class DashboardComponent implements OnInit {
     return Promise.all(
       labels.map(async label => {
         const descriptions = []
-
         for (let i = 1; i <= 2; i++){
           const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`)
           const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
           descriptions.push(detections.descriptor)
         }
-
         return new faceapi.LabeledFaceDescriptors(label, descriptions)
       })
     )
