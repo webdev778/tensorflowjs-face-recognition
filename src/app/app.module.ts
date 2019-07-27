@@ -24,6 +24,8 @@ import { HeaderComponent } from './header/header.component';
 import { FaceAlertComponent } from './face-alert/face-alert.component';
 import { CameraPanelComponent } from './camera-panel/camera-panel.component';
 import { AffectivaEmotionsComponent } from './affectiva-emotions/affectiva-emotions.component';
+import { FooterComponent } from './footer/footer.component';
+import { VideoSourceComponent } from './video-source/video-source.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { AffectivaEmotionsComponent } from './affectiva-emotions/affectiva-emoti
     HeaderComponent,
     FaceAlertComponent,
     CameraPanelComponent,
-    AffectivaEmotionsComponent
+    AffectivaEmotionsComponent,
+    FooterComponent,
+    VideoSourceComponent
   ],
   imports: [
     BrowserModule,

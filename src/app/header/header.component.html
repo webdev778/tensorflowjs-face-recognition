@@ -1,36 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-sm">
         <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <div class="modal-btn" data-toggle="modal" data-target=#addCar>
-                    <div class="icon-blue mod"><span class=" icon-cars"></span></div>
-                    <div class="icon-plus">
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item">
-                <div class="modal-btn" onclick="location.href='/captured';">
-                    <div class="icon-blue mod"><i class="fas fa-user"></i></div>
-                    <div class="icon-plus">
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <div class="nav-box">
-                    <span class="icon mr-3"><i class="fas fa-calendar-alt"></i></span>
-                    <span class="nav-box__info mr-4">
-                        <script> document.write(new Date().toLocaleDateString()); </script></span>
-                </div>
-            </li> <!-- /.nav-item -->
-            <li class="nav-item">
-                <div class="nav-box">
-                    <span class="icon icon-clock mr-3"></span>
-                    <span class="nav-box__info mr-4">
-                        <script> document.write(new Date().toLocaleTimeString()); </script></span>
-                </div>
-            </li> <!-- /.nav-item -->
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item hover">
                 <a href="#" class="nav-link p-0">
                     <div class="nav-box hover">
@@ -43,23 +14,28 @@
                     <a href="/profile">
                         <div class="nav-box nav-box--user hover">
                             <div class="user-img">
-                                <img class="oval img" src="./static/img/user.png" alt="user-img">
+                                <img class="oval img" src="./assets/img/user.png" alt="user-img">
                             </div>
                             <div class="username">
                                 Admin
                             </div>
                         </div>
                     </a>
-
                 </a>
             </li>
             <li class="nav-item">
                 <a href="" class="nav-link p-0">
-                    <div class="nav-box nav-box--b hover">
-                        <div class="icon icon-logout icon--b"></div>
-                    </div>
+                    <a href="/profile">
+                        <div class="nav-box nav-box--user hover">
+                            <div class="username">
+                                <a [routerLink]="['/login']">
+                                  Logout
+                              </a>
+                            </div>
+                        </div>
+                    </a>
                 </a>
-            </li> <!-- /.nav-item -->
-        </ul> <!-- /.navbar-nav -->
-    </nav> <!-- /.nav -->
+            </li>
+        </ul>
+    </nav>
 </header>

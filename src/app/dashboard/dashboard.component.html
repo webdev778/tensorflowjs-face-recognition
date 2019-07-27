@@ -1,220 +1,49 @@
-<header>
-    <nav class="navbar navbar-expand-sm">
-        <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item hover">
-                <a href="#" class="nav-link p-0">
-                    <div class="nav-box hover">
-                        <span class="icon icon--b icon-group-signal nav-box--b"></span>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link p-0">
-                    <a href="/profile">
-                        <div class="nav-box nav-box--user hover">
-                            <div class="user-img">
-                                <img class="oval img" src="./assets/img/user.png" alt="user-img">
-                            </div>
-                            <div class="username">
-                                Admin
-                            </div>
-                        </div>
-                    </a>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link p-0">
-                    <a href="/profile">
-                        <div class="nav-box nav-box--user hover">
-                            <div class="username">
-                                <a [routerLink]="['/login']">
-                                  Logout
-                              </a>
-                            </div>
-                        </div>
-                    </a>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
+<app-header></app-header>
 
 <body>
     <div class="main-wrapper">
         <div class="container-fluid">
             <div class="content row main-row">
-                <div class="col-lg-3 col-md-3 mt-3 pl-0">
+                <div class="col-lg-4 col-md-4 mt-4 pl-0">
                     <div class="left-sidebar scroll-sidebar pr-3">
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 01
-                                </div>
-                                <!-- /.camera-box-title-->
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-footer-->
                         </div>
-                        <!-- /.rectangle camera-->
-
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 02
-                                </div>
-                                <!-- /.camera-box-title-->
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-footer-->
                         </div>
-                        <!-- /.rectangle camera-->
-
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 03
-                                </div>
-                                <!-- /.camera-box-title-->
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-footer-->
                         </div>
-                        <!-- /.rectangle camera-->
-
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 04
-                                </div>
-                                <!-- /.camera-box-title-->
+                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
+                                <app-video-source></app-video-source>
                             </div>
-                            <!-- /.camera-box-footer-->
                         </div>
-                        <!-- /.rectangle camera-->
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
-                            </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 05
-                                </div>
-                                <!-- /.camera-box-title-->
-                            </div>
-                            <!-- /.camera-box-footer-->
-                        </div>
-                        <!-- /.rectangle camera-->
-
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
-                            </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 06
-                                </div>
-                                <!-- /.camera-box-title-->
-                            </div>
-                            <!-- /.camera-box-footer-->
-                        </div>
-                        <!-- /.rectangle camera-->
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
-                            </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 07
-                                </div>
-                                <!-- /.camera-box-title-->
-                            </div>
-                            <!-- /.camera-box-footer-->
-                        </div>
-                        <!-- /.rectangle camera-->
-
-                        <div class="rectangle rectangle--camera">
-                            <div class="camera-box">
-
-                            </div>
-                            <!-- /.camera-box-->
-                            <div class="camera-box-footer">
-                                <div class="camera-box-icon">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <!-- /.camera-box-icon-->
-                                <div class="camera-box-title">
-                                    Camera 08
-                                </div>
-                                <!-- /.camera-box-title-->
-                            </div>
-                            <!-- /.camera-box-footer-->
-                        </div>
-                        <!-- /.rectangle camera-->
-
-
-
-
                     </div>
-                    <!-- /.left sidebar-->
                 </div>
-                <!-- /.col -->
-                <div class="col-lg-6 col-md-6 px-lg-3 px-sm-0 mt-3">
+
+                <div class="col-lg-5 col-md-5 px-lg-3 px-sm-0 mt-3">
                     <div class="">
                         <div class="rectangle rectangle--middle">
-                            <!-- <div class="tab-header">
-                                <div class="tab-header-item tab-br active">
-                                    Target Detections
-                                </div>
-                                <div class="tab-header-item">
-                                    Analytics
-                                </div>
-                            </div> -->
-                            <!-- /.tab-header -->
                             <div class="thumb thumb--middle">
                                 <div id="def-video" style='width: 640px; height: 485px; margin-left: auto; margin-right: auto'>
                                     <video hidden id="vid" width="640" height="480"></video>
@@ -250,7 +79,6 @@
 
                         </div>
                     </div>
-                    <!-- /.rectangle with nav -->
                     <div class="rectangle rectangle--camera">
                         <div class="row mx-0 w-100">
                             <div class="col-lg-8 p-0 thumb thumb--map">
@@ -395,48 +223,7 @@
                 <!-- /.col -->
                 <div class="col-lg-3 col-md-3 mt-3">
                     <div class="right">
-                        <div class="rectangle rectangle--right">
-                            <div class="padding--right">
-                                <div class="person-info">
-                                    <div class="person-id">
-                                        <div class="thumb thumb-pic">
-                                            <img class="thumb-img thumb-img--pic" src="./assets/img/haris.JPG" alt="Picture">
-                                        </div>
-                                        <button class="id">
-                    <span class="icon-id"></span>
-                  </button>
-                                    </div>
-                                    <div class="person-details">
-                                        <div class="label label--person">Name:</div>
-                                        <div class="detail">Haris A V</div>
-                                        <div class="label label--person">Country:</div>
-                                        <div class="detail">United Arab Emirates</div>
-                                        <div class="label label--person">Expiry Date:</div>
-                                        <div class="detail">7 June 2020</div>
-                                    </div>
-                                    <!-- /.person-details-->
-                                </div>
-                                <!-- /.person-info-->
-                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
-                                <div class="person-info">
-                                    <div class="person-id">
-                                        <div class="thumb thumb-pic">
-                                            <img class="thumb-img" src="./assets/img/haris.JPG" alt="Picture">
-                                        </div>
-                                    </div>
-                                    <!-- /.person-id -->
-                                    <div class="person-details">
-                                        <div class="label label--person">Coordinates:</div>
-                                        <div class="detail">25.2048° N, 55.2708° E</div>
-                                        <div class="label label--person">Location:</div>
-                                        <div class="detail detail--upper">Absconding</div>
-                                    </div>
-                                    <!-- /.person-details -->
-                                </div>
-                                <!-- /.person-info -->
-                            </div>
-                            <!-- /.padding-box-->
-                        </div>
+                        <app-face-alert></app-face-alert>
                         <!-- /.rectangle right -->
 
                         <div class="rectangle rectangle--camera">
@@ -488,35 +275,6 @@
         </div>
 
     </div>
-    <!-- /.main-wrapper -->
-    <div class=" footer row">
-
-        <div class="popup-btn aqua" data-toggle="modal" data-target="#addCamera">
-            <div class="popup-btn-icon aqua">
-                <i class="fas fa-video"></i>
-            </div>
-            <div class="popup-btn-title">Add Camera</div>
-        </div>
-        <!-- /.popup-btn-->
-
-
-        <div class="popup-btn" data-toggle="modal" data-target="#addUser">
-            <div class="popup-btn-icon">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="popup-btn-title">Face Registration</div>
-        </div>
-        <!-- /.popup-btn-->
-
-
-        <div class="popup-btn" data-toggle="modal" data-target="#addCar">
-            <div class="popup-btn-icon">
-                <span class="icon-cars"></span>
-            </div>
-            <div class="popup-btn-title">Car Registration</div>
-        </div>
-        <!-- /.popup-btn-->
-
-    </div>
+    <app-footer></app-footer>
 
 </body>
