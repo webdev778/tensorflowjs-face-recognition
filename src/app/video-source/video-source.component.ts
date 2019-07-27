@@ -1,28 +1,32 @@
 // import { Component, OnInit } from '@angular/core';
 
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  NgZone
+} from "@angular/core";
+import { Observable } from "rxjs";
 declare let RTCPeerConnection: any;
 
-
 @Component({
-  selector: 'app-video-source',
-  templateUrl: './video-source.component.html',
-  styleUrls: ['./video-source.component.css']
+  selector: "app-video-source",
+  templateUrl: "./video-source.component.html",
+  styleUrls: ["./video-source.component.css"]
 })
 export class VideoSourceComponent implements OnInit {
-
   callActive: boolean = false;
   pc: any;
   localStream: any;
   senderId: string;
+  video_url: string;
+  @ViewChild("me", { static: false }) me: any;
+  @ViewChild("remote", { static: false }) remote: any;
 
-  @ViewChild("me", {static: false}) me: any;
-  @ViewChild("remote", {static: false}) remote: any;
-
-  constructor(
-
-  ) { }
+  constructor() {
+    this.video_url = "./assets/videos/movie2.mp4";
+  }
 
   ngOnInit() {
     this.setupWebRtc();
@@ -41,20 +45,26 @@ export class VideoSourceComponent implements OnInit {
     this.senderId = this.guid();
     var channelName = "/webrtc";
     try {
-      this.pc = new RTCPeerConnection({
-        iceServers: [
-          { urls: "stun:stun.services.mozilla.com" },
-          { urls: "stun:stun.l.google.com:19302" }
-        ]
-      }, { optional: [] });
+      this.pc = new RTCPeerConnection(
+        {
+          iceServers: [
+            { urls: "stun:stun.services.mozilla.com" },
+            { urls: "stun:stun.l.google.com:19302" }
+          ]
+        },
+        { optional: [] }
+      );
     } catch (error) {
       console.log(error);
-      this.pc = new RTCPeerConnection({
-        iceServers: [
-          { urls: "stun:stun.services.mozilla.com" },
-          { urls: "stun:stun.l.google.com:19302" }
-        ]
-      }, { optional: [] });
+      this.pc = new RTCPeerConnection(
+        {
+          iceServers: [
+            { urls: "stun:stun.services.mozilla.com" },
+            { urls: "stun:stun.l.google.com:19302" }
+          ]
+        },
+        { optional: [] }
+      );
     }
 
     this.pc.ontrack = event =>
@@ -63,7 +73,8 @@ export class VideoSourceComponent implements OnInit {
   }
 
   showMe() {
-    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: true })
       .then(stream => (this.me.nativeElement.srcObject = stream))
       .then(stream => {
         this.pc.addStream(stream);
@@ -72,11 +83,24 @@ export class VideoSourceComponent implements OnInit {
   }
 
   guid() {
-    return (this.s4() + this.s4() + "-" + this.s4() + "-" + this.s4() + "-" + this.s4() + "-" + this.s4() + this.s4() + this.s4());
+    return (
+      this.s4() +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      this.s4() +
+      this.s4()
+    );
   }
   s4() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
   }
-
-
 }

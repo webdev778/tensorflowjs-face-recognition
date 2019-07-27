@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
+import { Component, OnInit } from "@angular/core";
+import { first } from "rxjs/operators";
 
-import * as cocoSSD from '@tensorflow-models/coco-ssd';
-import { User } from '../_models';
-import { UserService } from '../_services';
+import * as cocoSSD from "@tensorflow-models/coco-ssd";
+import { User } from "../_models";
+import { UserService } from "../_services";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
-  title = 'TF-ObjectDetection';
+  title = "TF-ObjectDetection";
   private video: HTMLVideoElement;
+  public video_url: string;
   currentUser: User;
   users: User[] = [];
 
   constructor(private userService: UserService) {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    this.video_url = "";
   }
   ngOnInit() {
     this.webcam_init();
@@ -26,21 +28,27 @@ export class DashboardComponent implements OnInit {
   }
 
   public async predictWithCocoModel() {
-    const model = await cocoSSD.load('lite_mobilenet_v2');
+    const model = await cocoSSD.load("lite_mobilenet_v2");
     this.detectFrame(this.video, model);
-    console.log('model loaded');
+    console.log("model loaded");
   }
 
   deleteUser(id: number) {
-    this.userService.delete(id).pipe(first()).subscribe(() => {
-      this.loadAllUsers()
-    });
+    this.userService
+      .delete(id)
+      .pipe(first())
+      .subscribe(() => {
+        this.loadAllUsers();
+      });
   }
 
   private loadAllUsers() {
-    this.userService.getAll().pipe(first()).subscribe(users => {
-      this.users = users;
-    });
+    this.userService
+      .getAll()
+      .pipe(first())
+      .subscribe(users => {
+        this.users = users;
+      });
   }
 
   webcam_init() {
@@ -50,7 +58,7 @@ export class DashboardComponent implements OnInit {
       .getUserMedia({
         audio: false,
         video: {
-          facingMode: "user",
+          facingMode: "user"
         }
       })
       .then(stream => {
@@ -68,6 +76,23 @@ export class DashboardComponent implements OnInit {
         this.detectFrame(video, model);
       });
     });
+  };
+  onDoubleClick(vID) {
+    var vTag = document.getElementById("vid");
+    var movieName = "./assets/videos/" + vID;
+    var sourceTag = null;
+    console.log(vTag.childNodes);
+    if (vTag.childNodes.length != 0) {
+      vTag.removeChild(vTag.childNodes[0]);
+    }
+    sourceTag = document.createElement("source");
+    sourceTag.setAttribute("src", movieName);
+    sourceTag.setAttribute("type", "video/mp4");
+    vTag.appendChild(sourceTag);
+    vTag.setAttribute("autoplay", "true");
+    vTag.setAttribute("loop", "true");
+    sourceTag = null;
+    vTag = null;
   }
 
   renderPredictions = predictions => {
@@ -109,6 +134,4 @@ export class DashboardComponent implements OnInit {
       ctx.fillText(prediction.class, x, y);
     });
   };
-
-
 }
