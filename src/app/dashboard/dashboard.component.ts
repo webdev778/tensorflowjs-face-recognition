@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.webcam_init();
-    this.predictWithCocoModel();
+    // this.predictWithCocoModel();
     this.loadAllUsers();
     this.initModel();
   }
@@ -61,8 +61,26 @@ export class DashboardComponent implements OnInit {
 
       results.forEach((result, i) => {
         const box = resizedDetections[i].detection.box
-        const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
-        drawBox.draw(canvas)
+        //const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
+        console.log(box);
+        // drawBox.draw(canvas)
+        const ctx = canvas.getContext("2d");
+        // Font options.
+        const font = "16px sans-serif";
+        ctx.font = font;
+        ctx.textBaseline = "top";
+        // Draw the rectangle of rect
+        ctx.strokeStyle = "#00FFFF";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(box.x, box.y, box.width, box.height);
+        // Draw the label background.
+        ctx.fillStyle = "#00FFFF";
+        const textWidth = ctx.measureText(result.toString()).width;
+        const textHeight = parseInt(font, 10); // base 10
+        const { x, y } = box
+        ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+        ctx.fillStyle = "#000000";
+        ctx.fillText(result.toString(), x, y);
       })
 
       // faceapi.draw.drawDetections(canvas, resizedDetections)
