@@ -1,84 +1,336 @@
-<app-header></app-header>
+<!-- <app-header></app-header> -->
+
+<header>
+    <nav class="navbar navbar-expand-sm">
+        <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
+        <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a href="" class="nav-link p-0">
+                    <a href="/profile">
+                        <div class="nav-box nav-box--user hover">
+                            <div class="user-img">
+                                <img class="oval img" src="./assets/img/user.png" alt="user-img">
+                            </div>
+                            <div class="username">
+                                {{currentUser.firstName}}
+                            </div>
+                        </div>
+                    </a>
+
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link p-0">
+                    <div class="nav-box nav-box--b hover">
+
+                        <p><a [routerLink]="['/login']">Logout</a></p>
+
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
 
 <body>
     <div class="main-wrapper">
         <div class="container-fluid">
             <div class="content row main-row">
-                <div class="col-lg-4 col-md-4 mt-4 pl-0">
+                <div class="col-lg-3 col-md-3 mt-3 pl-0">
                     <div class="left-sidebar scroll-sidebar pr-3">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
+                        <div class="rectangle rectangle--camera" (click)="onDoubleClick('movie1.mp4')">
+                            <div class="camera-box" >
+                                <!-- <iframe width="100%" height="100%" src="./assets/videos/movie1.mp4"></iframe> -->
+                                <video width ="100%" height = "100%" autoplay loop>
+                                    <source type="video/mp4" src="./assets/videos/movie1.mp4" >
+                                    <!-- <source type="video/mp4" src="{{test_url}}" > -->
+                                </video>
                             </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+                                <div class="camera-box-title">
+                                    Camera 01
+                                </div>
+                                <!-- /.camera-box-title-->
                             </div>
+                            <!-- /.camera-box-footer-->
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
-                            </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
-                            </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
-                            </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0">
-                                <app-video-source></app-video-source>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <!-- /.rectangle camera-->
 
-                <div class="col-lg-5 col-md-5 px-lg-3 px-sm-0 mt-3">
+                        <div class="rectangle rectangle--camera" (click)="onDoubleClick('movie2.mp4')">
+                            <div class="camera-box" >
+                                    <!-- <iframe width="100%" height="100%" src="./assets/videos/movie2.mp4"></iframe> -->
+                                    <video width ="100%" height = "100%" autoplay loop>
+                                            <source type="video/mp4" src="./assets/videos/movie2.mp4" >
+                                            <!-- <source type="video/mp4" src="{{test_url}}" > -->
+                                        </video>
+                                        </div>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+                                <div class="camera-box-title">
+                                    Camera 02
+                                </div>
+                                <!-- /.camera-box-title-->
+                            </div>
+                            <!-- /.camera-box-footer-->
+                        </div>
+                        <!-- /.rectangle camera-->
+
+                        <div class="rectangle rectangle--camera" (click)="onDoubleClick('movie3.mp4')">
+                            <div class="camera-box" >
+                                    <!-- <iframe width="100%" height="100%" src="./assets/videos/movie3.mp4"></iframe> -->
+                                    <video width ="100%" height = "100%" autoplay loop>
+                                            <source type="video/mp4" src="./assets/videos/movie3.mp4" >
+                                            <!-- <source type="video/mp4" src="{{test_url}}" > -->
+                                        </video>
+                                        </div>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+                                <div class="camera-box-title">
+                                    Camera 03
+                                </div>
+                                <!-- /.camera-box-title-->
+                            </div>
+                            <!-- /.camera-box-footer-->
+                        </div>
+                        <!-- /.rectangle camera-->
+
+                        <div class="rectangle rectangle--camera">
+                            <div class="camera-box">
+
+                            </div>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+                                <div class="camera-box-title">
+                                    Camera 04
+                                </div>
+                                <!-- /.camera-box-title-->
+                            </div>
+                            <!-- /.camera-box-footer-->
+                        </div>
+                        <!-- /.rectangle camera-->
+                        <div class="rectangle rectangle--camera">
+                            <div class="camera-box">
+
+                            </div>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+                                <div class="camera-box-title">
+                                    Camera 05
+                                </div>
+                                <!-- /.camera-box-title-->
+                            </div>
+                            <!-- /.camera-box-footer-->
+                        </div>
+                        <!-- /.rectangle camera-->
+
+                        <div class="rectangle rectangle--camera">
+                            <div class="camera-box">
+
+                            </div>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+
+                                <div class="camera-box-title">
+                                    Camera 06
+                                </div>
+                                <!-- /.camera-box-title-->
+                            </div>
+                            <!-- /.camera-box-footer-->
+                        </div>
+                        <!-- /.rectangle camera-->
+                        <div class="rectangle rectangle--camera">
+                            <div class="camera-box">
+
+                            </div>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+                                <div class="camera-box-title">
+                                    Camera 07
+                                </div>
+                                <!-- /.camera-box-title-->
+                            </div>
+                            <!-- /.camera-box-footer-->
+                        </div>
+                        <!-- /.rectangle camera-->
+
+                        <div class="rectangle rectangle--camera">
+                            <div class="camera-box">
+
+                            </div>
+                            <!-- /.camera-box-->
+                            <div class="camera-box-footer">
+                                <div class="camera-box-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <!-- /.camera-box-icon-->
+                                <div class="camera-box-title">
+                                    Camera 08
+                                </div>
+                                <!-- /.camera-box-title-->
+                            </div>
+                            <!-- /.camera-box-footer-->
+                        </div>
+                        <!-- /.rectangle camera-->
+
+
+                    </div>
+                    <!-- /.left sidebar-->
+                </div>
+                <!-- /.col -->
+                <div class="col-lg-6 col-md-6 px-lg-3 px-sm-0 mt-3">
                     <div class="">
                         <div class="rectangle rectangle--middle">
+                            <div class="tab-header">
+                                <div class="tab-header-item tab-br active">
+                                    Target Detections
+                                </div>
+                                <div class="tab-header-item">
+                                    Analytics
+                                </div>
+                            </div>
+                            <!-- /.tab-header -->
                             <div class="thumb thumb--middle">
                                 <div id="def-video" style='width: 640px; height: 485px; margin-left: auto; margin-right: auto'>
-                                    <video hidden id="vid" width="640" height="480"></video>
+                                    <video hidden id="vid" width="640" height="480" autoplay loop>
+                                        <source src = {{this.video_url}} type="video/mp4">
+                                    </video>
                                     <canvas id="canvas"></canvas>
                                 </div>
 
                             </div>
-                            <div class="nav-box--middle">
-                                <ul class="nav">
-                                    <li id="mode3" class=" nav-icon mode_select" data-mode=3>
-                                        <span class="icon-people"></span>
-                                        <span class="label">Face</span>
-                                    </li>
+                            <div class="option-box">
+                                <div class="option-list row">
+                                    <div class="option-item">
+                                        <label class="switch-light switch-material" onclick="">
+                    <input type="checkbox">
+                    <span>
+                      <span>Off</span>
+                      <span>On</span>
+                      <a>
+                        <i class="fas fa-check"></i>
+                      </a>
+                    </span>
+                    <strong>
+                      Option 1
+                    </strong>
+                  </label>
+                                    </div>
+                                    <!-- /.option-item-->
+                                    <div class="option-item">
+                                        <label class="switch-light switch-material" onclick="">
+                    <input type="checkbox">
 
-                                    <li id="mode4" class=" nav-icon mode_select" data-mode=4>
-                                        <span class="icon-cars"></span>
-                                        <span class="label">Vehicle</span>
-                                    </li>
 
-                                    <li id="mode5" class=" nav-icon mode_select" data-mode=5>
-                                        <span class="icon-objects"></span>
-                                        <span class="label">Objects</span>
-                                    </li>
 
-                                    <li id="emotion-icon" class="nav-icon" onclick=" onStart(); location.href='/emotions'">
-                                        <i class="fas fa-smile-beam"></i>
-                                        <span class="label">Emotions</span>
-                                    </li>
+                    <span>
+                      <span>Off</span>
+                      <span>On</span>
+                      <a>
+                        <i class="fas fa-check"></i>
+                      </a>
+                    </span>
+                    <strong>
+                      Option 2
+                    </strong>
+                  </label>
+                                    </div>
+                                    <!-- /.option-item-->
+                                    <div class="option-item">
+                                        <label class="switch-light switch-material" onclick="">
+                    <input type="checkbox">
 
-                                </ul>
+
+
+                    <span>
+                      <span>Off</span>
+                      <span>On</span>
+                      <a>
+                        <i class="fas fa-check"></i>
+                      </a>
+                    </span>
+                    <strong>
+                      Option 3
+                    </strong>
+                  </label>
+                                    </div>
+                                    <!-- /.option-item-->
+                                    <div class="option-item">
+                                        <label class="switch-light switch-material" onclick="">
+                    <input type="checkbox">
+
+
+
+                    <span>
+                      <span>Off</span>
+                      <span>On</span>
+                      <a>
+                        <i class="fas fa-check"></i>
+                      </a>
+                    </span>
+                    <strong>
+                      Option 4
+                    </strong>
+                  </label>
+                                    </div>
+                                    <!-- /.option-item-->
+                                    <div class="option-item">
+                                        <label class="switch-light switch-material" onclick="">
+                    <input type="checkbox">
+
+
+
+                    <span>
+                      <span>Off</span>
+                      <span>On</span>
+                      <a>
+                        <i class="fas fa-check"></i>
+                      </a>
+                    </span>
+                    <strong>
+                      Option 5
+                    </strong>
+                  </label>
+                                    </div>
+                                    <!-- /.option-item-->
+
+
+                                </div>
+                                <!-- /.option-list-->
                             </div>
-
-
+                            <!-- /.option-box-->
                         </div>
                     </div>
+                    <!-- /.rectangle with nav -->
                     <div class="rectangle rectangle--camera">
                         <div class="row mx-0 w-100">
                             <div class="col-lg-8 p-0 thumb thumb--map">
@@ -223,7 +475,48 @@
                 <!-- /.col -->
                 <div class="col-lg-3 col-md-3 mt-3">
                     <div class="right">
-                        <app-face-alert></app-face-alert>
+                        <div class="rectangle rectangle--right">
+                            <div class="padding--right">
+                                <div class="person-info">
+                                    <div class="person-id">
+                                        <div class="thumb thumb-pic">
+                                            <img class="thumb-img thumb-img--pic" src="img/woman.jpg" alt="Picture">
+                                        </div>
+                                        <button class="id">
+                    <span class="icon-id"></span>
+                  </button>
+                                    </div>
+                                    <div class="person-details">
+                                        <div class="label label--person">Name:</div>
+                                        <div class="detail">Elisabet Gray Gibsons</div>
+                                        <div class="label label--person">Country:</div>
+                                        <div class="detail">United States</div>
+                                        <div class="label label--person">Expiry Date:</div>
+                                        <div class="detail">7 June 2020</div>
+                                    </div>
+                                    <!-- /.person-details-->
+                                </div>
+                                <!-- /.person-info-->
+                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
+                                <div class="person-info">
+                                    <div class="person-id">
+                                        <div class="thumb thumb-pic">
+                                            <img class="thumb-img" src="img/driving.jpg" alt="Picture">
+                                        </div>
+                                    </div>
+                                    <!-- /.person-id -->
+                                    <div class="person-details">
+                                        <div class="label label--person">Coordinates:</div>
+                                        <div class="detail">25.2048° N, 55.2708° E</div>
+                                        <div class="label label--person">Location:</div>
+                                        <div class="detail detail--upper">ZAABIL 2 STREET BURDUBAI, DUBAI, U.A.E.</div>
+                                    </div>
+                                    <!-- /.person-details -->
+                                </div>
+                                <!-- /.person-info -->
+                            </div>
+                            <!-- /.padding-box-->
+                        </div>
                         <!-- /.rectangle right -->
 
                         <div class="rectangle rectangle--camera">
@@ -270,11 +563,39 @@
             </div>
             <!-- /.main-row -->
 
+            <div class=" footer row">
 
+                <div class="popup-btn aqua" data-toggle="modal" data-target="#addCamera">
+                    <div class="popup-btn-icon aqua">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="popup-btn-title">Add Camera</div>
+                </div>
+                <!-- /.popup-btn-->
+
+
+                <div class="popup-btn" data-toggle="modal" data-target="#addUser">
+                    <div class="popup-btn-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="popup-btn-title">Face Registration</div>
+                </div>
+                <!-- /.popup-btn-->
+
+
+                <div class="popup-btn" data-toggle="modal" data-target="#addCar">
+                    <div class="popup-btn-icon">
+                        <span class="icon-cars"></span>
+                    </div>
+                    <div class="popup-btn-title">Car Registration</div>
+                </div>
+                <!-- /.popup-btn-->
+
+            </div>
             <!-- /.footer-row -->
         </div>
 
     </div>
-    <app-footer></app-footer>
+    <!-- /.main-wrapper -->
 
 </body>
