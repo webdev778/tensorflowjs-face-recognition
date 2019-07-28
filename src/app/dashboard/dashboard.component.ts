@@ -4,7 +4,6 @@ import { first } from "rxjs/operators";
 import * as cocoSSD from "@tensorflow-models/coco-ssd";
 import { User } from "../_models";
 import { UserService } from "../_services";
-import { model } from "@tensorflow/tfjs";
 
 declare var faceapi: any;
 
@@ -19,9 +18,8 @@ export class DashboardComponent implements OnInit {
   public video_url: string;
   currentUser: User;
   users: User[] = [];
-  public loadingState: number = 0;
+  detectionMode: number = 1;  // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
 
-  public clickNumber: number = 0;
   constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.video_url = "";
@@ -35,34 +33,33 @@ export class DashboardComponent implements OnInit {
 
   public async initModel() {
     await Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri("/assets/models"),
-      faceapi.nets.faceLandmark68Net.loadFromUri("/assets/models"),
-      faceapi.nets.faceRecognitionNet.loadFromUri("/assets/models"),
-      faceapi.nets.faceExpressionNet.loadFromUri("/assets/models"),
-      faceapi.nets.ssdMobilenetv1.loadFromUri("/assets/models")
+      faceapi.nets.tinyFaceDetector.loadFromUri('/assets/models'),
+      faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models'),
+      faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models'),
+      faceapi.nets.faceExpressionNet.loadFromUri('/assets/models'),
+      faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
     ]);
-    console.log("faceapi all model loaded");
+    console.log('faceapi all model loaded');
     this.detectFace(this.video);
   }
 
-  detectFace = video => {
+  detectFace = async (video) => {
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
-    const displaySize = { width: 640, height: 480 };
-    faceapi.matchDimensions(canvas, displaySize);
+    const displaySize = { width: 640, height: 480 }
+    faceapi.matchDimensions(canvas, displaySize)
+    const labeledFaceDescriptors = await this.loadLabeledImages()
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
+
     setInterval(async () => {
-      const labeledFaceDescriptors = await this.loadLabeledImages();
-      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
-      const detections = await faceapi
-        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-        .withFaceLandmarks()
-        .withFaceDescriptors();
-      const resizedDetections = faceapi.resizeResults(detections, displaySize);
-      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-      const results = resizedDetections.map(d =>
-        faceMatcher.findBestMatch(d.descriptor)
-      );
+      if (this.detectionMode !== 1) return;
+      // const labeledFaceDescriptors = await this.loadLabeledImages()
+      // const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
+      const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors()
+      const resizedDetections = faceapi.resizeResults(detections, displaySize)
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+      const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
       results.forEach((result, i) => {
-        const box = resizedDetections[i].detection.box;
+        const box = resizedDetections[i].detection.box
         //const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
         // drawBox.draw(canvas)
         const ctx = canvas.getContext("2d");
@@ -78,30 +75,28 @@ export class DashboardComponent implements OnInit {
         ctx.fillStyle = "#00FFFF";
         const textWidth = ctx.measureText(result.toString()).width;
         const textHeight = parseInt(font, 10); // base 10
-        const { x, y } = box;
+        const { x, y } = box
         ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
         ctx.fillStyle = "#000000";
         ctx.fillText(result.toString(), x, y);
-      }, 100);
-    });
-  };
+      }, 100)
+    })
+  }
 
   loadLabeledImages() {
-    const labels = ["haris"];
+    const labels = ['alejandro', 'alexis', 'bhadreshkumar', 'haris', 'rafael', 'robert', 'santiago', 'yaser']
     return Promise.all(
       labels.map(async label => {
-        const descriptions = [];
-        for (let i = 1; i <= 2; i++) {
-          const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`);
-          const detections = await faceapi
-            .detectSingleFace(img)
-            .withFaceLandmarks()
-            .withFaceDescriptor();
-          descriptions.push(detections.descriptor);
+        const descriptions = []
+        for (let i = 1; i <= 2; i++){
+          const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`)
+          const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+          if (detections)
+            descriptions.push(detections.descriptor)
         }
-        return new faceapi.LabeledFaceDescriptors(label, descriptions);
+        return new faceapi.LabeledFaceDescriptors(label, descriptions)
       })
-    );
+    )
   }
 
   public async predictWithCocoModel() {
@@ -146,17 +141,7 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  loadDetectFrame = (video, model) => {
-    model.detect(video).then(predictions => {
-      this.renderPredictions(predictions);
-      requestAnimationFrame(() => {
-        this.detectFrame(video, model);
-      });
-    });
-  };
   detectFrame = (video, model) => {
-    console.log("detect image");
-    if (this.video == null || this.loadingState == 1) return;
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
 
@@ -165,53 +150,26 @@ export class DashboardComponent implements OnInit {
       });
     });
   };
-  async onDoubleClick(vID) {
-    var pvTag = document.getElementById("def-video");
-    var videTag = document.createElement("video");
-    var sourceTag = document.createElement("source");
-    var movieName = vID;
-    var canvasTag = document.createElement("canvas");
-    // source tag attribute
+  onDoubleClick(vID) {
+    var vTag = document.getElementById("vid");
+    var movieName = "./assets/videos/" + vID;
+    var sourceTag = null;
+    console.log(vTag.childNodes);
+    if (vTag.childNodes.length != 0) {
+      vTag.removeChild(vTag.childNodes[0]);
+    }
+    sourceTag = document.createElement("source");
     sourceTag.setAttribute("src", movieName);
     sourceTag.setAttribute("type", "video/mp4");
-
-    // canvas tag attribute
-    canvasTag.setAttribute("_ngcontent-lfq-c1", "");
-    canvasTag.setAttribute("id", "canvas");
-    canvasTag.setAttribute("width", "640");
-    canvasTag.setAttribute("height", "480");
-    canvasTag.setAttribute("style", "position: relative; top:-480px");
-
-    // video tag attribute
-    videTag.setAttribute("_ngcontent-lfq-c1", "");
-    videTag.setAttribute("autoplay", "true");
-    videTag.setAttribute("loop", "true");
-    videTag.setAttribute("width", "640");
-    videTag.setAttribute("height", "480");
-    videTag.setAttribute("id", "vid");
-    videTag.appendChild(sourceTag);
-    this.loadingState = 1;
-    if (pvTag.childNodes.length != 0) {
-      await pvTag.removeChild(pvTag.childNodes[1]);
-      await pvTag.removeChild(pvTag.childNodes[0]);
-    }
-    await pvTag.appendChild(videTag);
-    await pvTag.appendChild(canvasTag);
-    await this.getVideoTag();
-    const model = await cocoSSD.load("lite_mobilenet_v2");
-    await this.loadDetectFrame(this.video, model);
-  }
-
-  getVideoTag() {
-    this.video = <HTMLVideoElement>document.getElementById("vid");
-  }
-
-  detectSwitchState() {
-    this.loadingState ^= 1;
+    vTag.appendChild(sourceTag);
+    vTag.setAttribute("autoplay", "true");
+    vTag.setAttribute("loop", "true");
+    sourceTag = null;
+    vTag = null;
   }
 
   renderPredictions = predictions => {
-    console.log("renderpreditions: ");
+    if (this.detectionMode !== 3) return;
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 
     const ctx = canvas.getContext("2d");
@@ -224,7 +182,6 @@ export class DashboardComponent implements OnInit {
     const font = "16px sans-serif";
     ctx.font = font;
     ctx.textBaseline = "top";
-    if (this.video == null) return;
     ctx.drawImage(this.video, 0, 0, 640, 480);
 
     predictions.forEach(prediction => {
@@ -251,4 +208,14 @@ export class DashboardComponent implements OnInit {
       ctx.fillText(prediction.class, x, y);
     });
   };
+
+  public onFaceButton() {
+    console.log('model button clicked');
+    this.detectionMode = 1;
+  }
+
+  public onObjectButton() {
+    console.log('model button clicked');
+    this.detectionMode = 3;
+  }
 }
