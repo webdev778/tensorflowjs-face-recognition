@@ -4,6 +4,7 @@ import { first } from "rxjs/operators";
 import * as cocoSSD from "@tensorflow-models/coco-ssd";
 import { User } from "../_models";
 import { UserService } from "../_services";
+import { model } from "@tensorflow/tfjs";
 
 declare var faceapi: any;
 
@@ -18,6 +19,7 @@ export class DashboardComponent implements OnInit {
   public video_url: string;
   currentUser: User;
   users: User[] = [];
+  public loadingState: number = 0;
 
   public clickNumber: number = 0;
   constructor(private userService: UserService) {
@@ -144,7 +146,17 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  loadDetectFrame = (video, model) => {
+    model.detect(video).then(predictions => {
+      this.renderPredictions(predictions);
+      requestAnimationFrame(() => {
+        this.detectFrame(video, model);
+      });
+    });
+  };
   detectFrame = (video, model) => {
+    console.log("detect image");
+    if (this.video == null || this.loadingState == 1) return;
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
 
@@ -153,7 +165,7 @@ export class DashboardComponent implements OnInit {
       });
     });
   };
-  onDoubleClick(vID) {
+  async onDoubleClick(vID) {
     var pvTag = document.getElementById("def-video");
     var videTag = document.createElement("video");
     var sourceTag = document.createElement("source");
@@ -164,24 +176,42 @@ export class DashboardComponent implements OnInit {
     sourceTag.setAttribute("type", "video/mp4");
 
     // canvas tag attribute
+    canvasTag.setAttribute("_ngcontent-lfq-c1", "");
     canvasTag.setAttribute("id", "canvas");
+    canvasTag.setAttribute("width", "640");
+    canvasTag.setAttribute("height", "480");
+    canvasTag.setAttribute("style", "position: relative; top:-480px");
+
     // video tag attribute
+    videTag.setAttribute("_ngcontent-lfq-c1", "");
     videTag.setAttribute("autoplay", "true");
     videTag.setAttribute("loop", "true");
-    videTag.setAttribute("width", "100%");
-    videTag.setAttribute("height", "100%");
+    videTag.setAttribute("width", "640");
+    videTag.setAttribute("height", "480");
+    videTag.setAttribute("id", "vid");
     videTag.appendChild(sourceTag);
-
+    this.loadingState = 1;
     if (pvTag.childNodes.length != 0) {
-      pvTag.removeChild(pvTag.childNodes[1]);
-      pvTag.removeChild(pvTag.childNodes[0]);
+      await pvTag.removeChild(pvTag.childNodes[1]);
+      await pvTag.removeChild(pvTag.childNodes[0]);
     }
+    await pvTag.appendChild(videTag);
+    await pvTag.appendChild(canvasTag);
+    await this.getVideoTag();
+    const model = await cocoSSD.load("lite_mobilenet_v2");
+    await this.loadDetectFrame(this.video, model);
+  }
 
-    pvTag.appendChild(videTag);
-    pvTag.appendChild(canvasTag);
+  getVideoTag() {
+    this.video = <HTMLVideoElement>document.getElementById("vid");
+  }
+
+  detectSwitchState() {
+    this.loadingState ^= 1;
   }
 
   renderPredictions = predictions => {
+    console.log("renderpreditions: ");
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 
     const ctx = canvas.getContext("2d");
@@ -194,6 +224,7 @@ export class DashboardComponent implements OnInit {
     const font = "16px sans-serif";
     ctx.font = font;
     ctx.textBaseline = "top";
+    if (this.video == null) return;
     ctx.drawImage(this.video, 0, 0, 640, 480);
 
     predictions.forEach(prediction => {
