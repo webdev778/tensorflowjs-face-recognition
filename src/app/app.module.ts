@@ -26,6 +26,10 @@ import { CameraPanelComponent } from './camera-panel/camera-panel.component';
 import { AffectivaEmotionsComponent } from './affectiva-emotions/affectiva-emotions.component';
 import { FooterComponent } from './footer/footer.component';
 import { VideoSourceComponent } from './video-source/video-source.component';
+import { FaceRegistryComponent } from './face-registry/face-registry.component';
+import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.component';
+import { CameraArrayComponent } from './camera-array/camera-array.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,11 @@ import { VideoSourceComponent } from './video-source/video-source.component';
     CameraPanelComponent,
     AffectivaEmotionsComponent,
     FooterComponent,
-    VideoSourceComponent
+    VideoSourceComponent,
+    FaceRegistryComponent,
+    VehicleRegistryComponent,
+    CameraArrayComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
