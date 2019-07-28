@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   public video_url: string;
   currentUser: User;
   users: User[] = [];
+  detectionMode: number = 1;  // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
 
   constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -42,13 +43,17 @@ export class DashboardComponent implements OnInit {
     this.detectFace(this.video);
   }
 
-  detectFace = (video) => {
+  detectFace = async (video) => {
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
     const displaySize = { width: 640, height: 480 }
     faceapi.matchDimensions(canvas, displaySize)
+    const labeledFaceDescriptors = await this.loadLabeledImages()
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
+
     setInterval(async () => {
-      const labeledFaceDescriptors = await this.loadLabeledImages()
-      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
+      if (this.detectionMode !== 1) return;
+      // const labeledFaceDescriptors = await this.loadLabeledImages()
+      // const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
       const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors()
       const resizedDetections = faceapi.resizeResults(detections, displaySize)
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
@@ -79,14 +84,15 @@ export class DashboardComponent implements OnInit {
   }
 
   loadLabeledImages() {
-    const labels = ['haris']
+    const labels = ['alejandro', 'alexis', 'bhadreshkumar', 'haris', 'rafael', 'robert', 'santiago', 'yaser']
     return Promise.all(
       labels.map(async label => {
         const descriptions = []
         for (let i = 1; i <= 2; i++){
           const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`)
           const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-          descriptions.push(detections.descriptor)
+          if (detections)
+            descriptions.push(detections.descriptor)
         }
         return new faceapi.LabeledFaceDescriptors(label, descriptions)
       })
@@ -163,6 +169,7 @@ export class DashboardComponent implements OnInit {
   }
 
   renderPredictions = predictions => {
+    if (this.detectionMode !== 3) return;
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 
     const ctx = canvas.getContext("2d");
@@ -201,4 +208,14 @@ export class DashboardComponent implements OnInit {
       ctx.fillText(prediction.class, x, y);
     });
   };
+
+  public onFaceButton() {
+    console.log('model button clicked');
+    this.detectionMode = 1;
+  }
+
+  public onObjectButton() {
+    console.log('model button clicked');
+    this.detectionMode = 3;
+  }
 }
