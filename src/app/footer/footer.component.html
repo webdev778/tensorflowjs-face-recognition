@@ -1,20 +1,24 @@
 <div class=" footer row">
-    <div class="popup-btn aqua" data-toggle="modal" data-target="#addCamera">
-        <div class="popup-btn-icon aqua">
-            <i class="fas fa-video"></i>
-        </div>
-        <div class="popup-btn-title">Add Camera</div>
+  <div class="popup-btn aqua" data-toggle="modal" data-target="#addCamera">
+    <div class="popup-btn-icon aqua">
+      <i class="fas fa-video"></i>
     </div>
-    <div class="popup-btn" data-toggle="modal" data-target="#addUser">
-        <div class="popup-btn-icon">
-            <i class="fas fa-user"></i>
-        </div>
-        <div class="popup-btn-title">Face Registry</div>
+    <div class="popup-btn-title">
+      <a [routerLink]="['/add_camera']">
+        Add Camera
+      </a>
     </div>
-    <div class="popup-btn" data-toggle="modal" data-target="#addCar">
-        <div class="popup-btn-icon">
-            <span class="icon-cars"></span>
-        </div>
-        <div class="popup-btn-title">Car Registry</div>
+  </div>
+  <div class="popup-btn" data-toggle="modal" data-target="#addUser">
+    <div class="popup-btn-icon">
+      <i class="fas fa-user"></i>
     </div>
+    <div class="popup-btn-title">Face Registry</div>
+  </div>
+  <div class="popup-btn" data-toggle="modal" data-target="#addCar">
+    <div class="popup-btn-icon">
+      <span class="icon-cars"></span>
+    </div>
+    <div class="popup-btn-title">Car Registry</div>
+  </div>
 </div>

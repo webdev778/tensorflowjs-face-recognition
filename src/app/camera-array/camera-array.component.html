@@ -1,0 +1,40 @@
+  <nav class="navbar navbar-expand-sm">
+    <a class="navbar-brand" href="#"><span class="white">Ai</span><span class="blue">POD</span></a>
+  </nav>
+
+  <body>
+    <div class="main-wrapper">
+      <div class="container-fluid">
+        <div class="row justify-content-center align-items-center login-padding">
+          <div class="col-lg-4">
+            <div class="form-box">
+              <div class="rectangle rectangle--form">
+                <div class="rectangle-header rectangle-header--form">
+                  <h2 class="login"><span class="text-white">Add Camera</span></h2>
+                </div>
+                <div class="rectangle-body--form-b ">
+                  <div class="col">
+                    <br>
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                      <div class="form-group">
+                        <label for="username">Camera Indentifier</label>
+                        <input type="text" formControlName="username" class="form-control" />
+                      </div>
+                      <div class="form-group">
+                        <label for="username">Camera IP / URL </label>
+                        <input type="text" formControlName="username" class="form-control" />
+                      </div>
+                      <div class="form-group">
+                        <label for="username">Camera Location</label>
+                        <input type="text" formControlName="username" class="form-control" />
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
