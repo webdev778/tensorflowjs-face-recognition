@@ -4,6 +4,7 @@ import {
   Component,
   OnInit,
   ViewChild,
+  Input,
   ElementRef,
   NgZone
 } from "@angular/core";
@@ -12,6 +13,7 @@ declare let RTCPeerConnection: any;
 
 @Component({
   selector: "app-video-source",
+  inputs: ["videoName"],
   templateUrl: "./video-source.component.html",
   styleUrls: ["./video-source.component.css"]
 })
@@ -23,9 +25,11 @@ export class VideoSourceComponent implements OnInit {
   video_url: string;
   @ViewChild("me", { static: false }) me: any;
   @ViewChild("remote", { static: false }) remote: any;
+  @Input() videoName: string;
 
   constructor() {
-    this.video_url = "./assets/videos/movie2.mp4";
+    this.video_url = this.videoName;
+    console.log("video URL: ", this.video_url);
   }
 
   ngOnInit() {
