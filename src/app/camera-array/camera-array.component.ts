@@ -10,6 +10,7 @@ export class CameraArrayComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }
