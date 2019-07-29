@@ -307,7 +307,7 @@ export class DashboardComponent implements OnInit {
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
 
-    // if (this.detectionMode !== 3) return;
+    if (this.detectionMode !== 3) return;
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 
     const ctx = canvas.getContext("2d");
