@@ -167,14 +167,14 @@ export class DashboardComponent implements OnInit {
 
   loadLabeledImages() {
     const labels = [
-      "alejandro",
-      "alexis",
-      "bhadreshkumar",
-      "haris",
-      "rafael",
-      "robert",
-      "santiago",
-      "yaser",
+      // "alejandro",
+      // "alexis",
+      // "bhadreshkumar",
+      // "haris",
+      // "rafael",
+      // "robert",
+      // "santiago",
+      // "yaser",
       // iraqi wanted list,
       "geibi",
       "ramadan",
