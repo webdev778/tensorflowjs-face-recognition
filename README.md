@@ -103,3 +103,6 @@ demo.component.html
     <button (click)="callFunction1()">Call Function 1</button>
     <button (click)="callFunction2()">Call Function 2</button>
 </div>
+
+
+gsutil rsync -r gs://aipod-web-bucket ./aipod-web
