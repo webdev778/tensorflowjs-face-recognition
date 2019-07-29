@@ -20,7 +20,16 @@ export class DashboardComponent implements OnInit {
   users: User[] = [];
   public convertState: number = 0;
   detectionMode: number = 1; // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
-  detail: Object = {};
+  detail: Object = {
+    "first_name": "",
+    "last_name": "",
+    "gender": "",
+    "dob": "",
+    "pob": "",
+    "nationality": "",
+    "wanted_by": "",
+    "charge": ""
+  };
 
 
   constructor(private userService: UserService) {
