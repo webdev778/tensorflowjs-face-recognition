@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
     "wanted_by": "",
     "charge": ""
   };
+  photo: string = "./assets/img/placeholder.jpg";
 
 
   constructor(private userService: UserService) {
@@ -157,6 +158,7 @@ export class DashboardComponent implements OnInit {
       if(detail){
         console.log('detail', detail);
         this.detail = detail;
+        this.photo = `/assets/img/${param}/1.jpg`;
       }else{
         //this.detail = {};
       }
