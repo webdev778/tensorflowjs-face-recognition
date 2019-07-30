@@ -20,6 +20,18 @@ export class DashboardComponent implements OnInit {
   users: User[] = [];
   public convertState: number = 0;
   detectionMode: number = 1; // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
+  detail: any = {
+    "first_name": "",
+    "last_name": "",
+    "gender": "",
+    "dob": "",
+    "pob": "",
+    "nationality": "",
+    "wanted_by": "",
+    "charge": ""
+  };
+  photo: string = "./assets/img/placeholder.jpg";
+
 
   constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -49,6 +61,7 @@ export class DashboardComponent implements OnInit {
     const displaySize = { width: 640, height: 480 };
     faceapi.matchDimensions(canvas, displaySize);
     const labeledFaceDescriptors = await this.loadLabeledImages();
+    console.log('all pattern loaded');
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
 
     setInterval(async () => {
@@ -85,31 +98,104 @@ export class DashboardComponent implements OnInit {
         ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
         ctx.fillStyle = "#000000";
         ctx.fillText(result.toString(), x, y);
+
+        //find details from database
+        this.findDetail(result.toString())
       }, 100);
     });
   };
 
+  findDetail(firstName: string) {
+    const wantedList = [
+      {
+        "key": "geibi",
+        "first_name": "GEIBI",
+        "last_name": "KASSIM",
+        "gender": "male",
+        "dob": "1966-07-01",
+        "pob": "Nagaf, Iraq",
+        "nationality": "Iraq",
+        "wanted_by": "Belgium",
+        "charge": ""
+      },
+      {
+        "key": "ramadan",
+        "first_name": "RAMADAN",
+        "last_name": "RAMADAN TAHER",
+        "gender": "male",
+        "dob": "1987-08-26",
+        "pob": "Shikhan, Iraq",
+        "nationality": "Iraq",
+        "wanted_by": "Sweden",
+        "charge": ""
+      },
+      {
+        "key": "qader",
+        "first_name": "QADER",
+        "last_name": "GARMIAN",
+        "gender": "male",
+        "dob": "1997-08-27",
+        "pob": "Nagaf, Iraq",
+        "nationality": "Iraq",
+        "wanted_by": "Sweden",
+        "charge": ""
+      },
+      {
+        "key": "alaswadi",
+        "first_name": "ALASWADI",
+        "last_name": "AHMAD",
+        "gender": "male",
+        "dob": "1985",
+        "pob": "Iraq",
+        "nationality": "Iraq",
+        "wanted_by": "Iraq",
+        "charge": ""
+      }]
+      let param = firstName.split(" ")[0];
+      let detail = wantedList.find(item => (item.key === param))
+      console.log('param:', param);
+      console.log('detail:', detail);
+      if(detail){
+        console.log('detail', detail);
+        this.detail = detail;
+        this.photo = `/assets/img/${param}/1.jpg`;
+      }else{
+        //this.detail = {};
+      }
+      console.log('find detail executed')
+  }
+
   loadLabeledImages() {
     const labels = [
-      "alejandro",
-      "alexis",
-      "bhadreshkumar",
-      "haris",
-      "rafael",
-      "robert",
-      "santiago",
-      "yaser"
+      // "alejandro",
+      // "alexis",
+      // "bhadreshkumar",
+      // "haris",
+      // "rafael",
+      // "robert",
+      // "santiago",
+      // "yaser",
+      // iraqi wanted list,
+      "geibi",
+      "ramadan",
+      "qader",
+      "alaswadi"
     ];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
         for (let i = 1; i <= 2; i++) {
-          const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`);
-          const detections = await faceapi
-            .detectSingleFace(img)
-            .withFaceLandmarks()
-            .withFaceDescriptor();
-          if (detections) descriptions.push(detections.descriptor);
+          try{
+            const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`);
+            const detections = await faceapi
+              .detectSingleFace(img)
+              .withFaceLandmarks()
+              .withFaceDescriptor();
+            if (detections) descriptions.push(detections.descriptor);
+          }catch(e){
+            //console.log(e);
+            continue;
+          }
         }
         return new faceapi.LabeledFaceDescriptors(label, descriptions);
       })
@@ -141,25 +227,25 @@ export class DashboardComponent implements OnInit {
   }
 
   webcam_init() {
-    this.video = <HTMLVideoElement>document.getElementById("vid");
+    this.video = <HTMLVideoElement>document.getElementById("remotevideo");
 
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: false,
-        video: {
-          facingMode: "user"
-        }
-      })
-      .then(stream => {
-        this.video.srcObject = stream;
-        this.video.onloadedmetadata = () => {
-          this.video.play();
-        };
-      });
+    // navigator.mediaDevices
+    //   .getUserMedia({
+    //     audio: false,
+    //     video: {
+    //       facingMode: "user"
+    //     }
+    //   })
+    //   .then(stream => {
+    //     this.video.srcObject = stream;
+    //     this.video.onloadedmetadata = () => {
+    //       this.video.play();
+    //     };
+    //   });
   }
 
   loadDetectFrame = (video, model) => {
-    console.log("loadDetectFrame");
+    //console.log("loadDetectFrame");
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
       requestAnimationFrame(() => {
@@ -170,7 +256,7 @@ export class DashboardComponent implements OnInit {
 
   detectFrame = (video, model) => {
     if (this.video == null || this.convertState == 1) return;
-    console.log("detectFrame :");
+    //console.log("detectFrame :");
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
 
@@ -219,9 +305,9 @@ export class DashboardComponent implements OnInit {
   }
 
   renderPredictions = predictions => {
-    console.log("renderpredictions : ");
+    //console.log("renderpredictions : ");
 
-    // if (this.detectionMode !== 3) return;
+    if (this.detectionMode !== 3) return;
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 
     const ctx = canvas.getContext("2d");
