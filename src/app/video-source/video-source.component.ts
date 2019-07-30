@@ -77,16 +77,16 @@ export class VideoSourceComponent implements OnInit {
   }
 
   showMe() {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true, video: true })
-      .then(stream => {
-        if(this && this.me)
-          this.me.nativeElement.srcObject = stream
-      })
-      .then(stream => {
-        this.pc.addStream(stream);
-        this.localStream = stream;
-      });
+    // navigator.mediaDevices
+    //   .getUserMedia({ audio: true, video: true })
+    //   .then(stream => {
+    //     if(this && this.me)
+    //       this.me.nativeElement.srcObject = stream
+    //   })
+    //   .then(stream => {
+    //     this.pc.addStream(stream);
+    //     this.localStream = stream;
+    //   });
   }
 
   guid() {

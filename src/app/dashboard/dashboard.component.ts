@@ -227,21 +227,21 @@ export class DashboardComponent implements OnInit {
   }
 
   webcam_init() {
-    this.video = <HTMLVideoElement>document.getElementById("vid");
+    this.video = <HTMLVideoElement>document.getElementById("remotevideo");
 
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: false,
-        video: {
-          facingMode: "user"
-        }
-      })
-      .then(stream => {
-        this.video.srcObject = stream;
-        this.video.onloadedmetadata = () => {
-          this.video.play();
-        };
-      });
+    // navigator.mediaDevices
+    //   .getUserMedia({
+    //     audio: false,
+    //     video: {
+    //       facingMode: "user"
+    //     }
+    //   })
+    //   .then(stream => {
+    //     this.video.srcObject = stream;
+    //     this.video.onloadedmetadata = () => {
+    //       this.video.play();
+    //     };
+    //   });
   }
 
   loadDetectFrame = (video, model) => {

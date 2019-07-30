@@ -16,3 +16,7 @@ canvas {
     position: relative;
     top: -480px;
 }
+
+#remotevideo{
+    background: white;
+}

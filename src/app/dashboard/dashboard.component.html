@@ -48,7 +48,9 @@
             <div class="rectangle rectangle--middle">
               <div class="thumb thumb--middle">
                 <div id="def-video" style='width: 640px; height: 485px; margin-left: auto; margin-right: auto'>
-                  <video id="vid" width="640" height="480"></video>
+                  <div id="stream">
+                    <video class="rounded centered hide" id="remotevideo" autoplay muted width="640" height="480" codedo="1"></video>
+                  </div>
                   <canvas id="canvas"></canvas>
                 </div>
 
