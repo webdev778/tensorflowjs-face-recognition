@@ -8,7 +8,7 @@ body {
 }
 
 .main-wrapper {
-    width: 90% !important;
+    width: 95% !important;
     margin: 0 auto;
 }
 
@@ -17,6 +17,6 @@ canvas {
     top: -480px;
 }
 
-#remotevideo{
+#remotevideo {
     background: white;
 }
