@@ -1,43 +1,45 @@
 <header>
-    <nav class="navbar navbar-expand-sm">
-        <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item hover">
-                <a href="#" class="nav-link p-0">
-                    <div class="nav-box hover">
-                        <span class="icon icon--b icon-group-signal nav-box--b"></span>
-                    </div>
+  <nav class="navbar navbar-expand-sm">
+    <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item hover">
+        <a href="" class="nav-link p-0">
+          <div class="nav-box nav-box--user hover">
+            <div class="username">
+              <a [routerLink]="['/webcam']">
+                Webcam Mode
+              </a>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="" class="nav-link p-0">
+          <a href="/profile">
+            <div class="nav-box nav-box--user hover">
+              <div class="user-img">
+                <img class="oval img" src="./assets/img/user.png" alt="user-img">
+              </div>
+              <div class="username">
+                <a [routerLink]="['/profile']">
+                  Admin
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link p-0">
-                    <a href="/profile">
-                        <div class="nav-box nav-box--user hover">
-                            <div class="user-img">
-                                <img class="oval img" src="./assets/img/user.png" alt="user-img">
-                            </div>
-                            <div class="username">
-                                    <a [routerLink]="['/profile']">
-                                        Admin
-                                    </a>
-                            </div>
-                        </div>
-                    </a>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link p-0">
-                    <a href="/profile">
-                        <div class="nav-box nav-box--user hover">
-                            <div class="username">
-                                <a [routerLink]="['/login']">
-                                  Logout
-                              </a>
-                            </div>
-                        </div>
-                    </a>
-                </a>
-            </li>
-        </ul>
-    </nav>
+              </div>
+            </div>
+          </a>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="" class="nav-link p-0">
+          <div class="nav-box nav-box--user hover">
+            <div class="username">
+              <a [routerLink]="['/login']">
+                Logout
+              </a>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </header>

@@ -31,6 +31,7 @@ import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.co
 import { CameraArrayComponent } from './camera-array/camera-array.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CameraListComponent } from './camera-list/camera-list.component';
+import { WebcamDashboardComponent } from './webcam-dashboard/webcam-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { CameraListComponent } from './camera-list/camera-list.component';
     VehicleRegistryComponent,
     CameraArrayComponent,
     UserProfileComponent,
-    CameraListComponent
+    CameraListComponent,
+    WebcamDashboardComponent
   ],
   imports: [
     BrowserModule,
