@@ -44,3 +44,34 @@ canvas {
 .wanted-padding {
   padding: 5px 8px 5px 8px;
 }
+
+.hidden-scrolled {
+  overflow: hidden;
+}
+
+.center-margin {
+  margin: 0 auto;
+}
+
+.personal-button {
+  font-size: 14px;
+}
+
+.person-overview {
+  font-size: 14px;
+  color: white;
+}
+
+.person-id img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.nav-list {
+  max-height: calc(100vh - 730px);
+}
+
+.dot-4 {
+  top: 7px;
+}
