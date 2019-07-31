@@ -4,15 +4,14 @@
     <div class="main-wrapper">
         <div class="container-fluid">
             <div class="content row main-row">
-                <div class="col-lg-3 col-md-3 mt-2 pl-0">
+                <div class="col-lg-3 col-md-3 mt-4 pl-0">
                     <app-camera-list></app-camera-list>
                 </div>
-
-                <div class="col-lg-5 col-md-5 mt-2">
+                <div class="col-lg-5 col-md-5 px-lg-3 px-sm-0 mt-3">
                     <div class="">
                         <div class="rectangle rectangle--middle">
                             <div class="thumb thumb--middle">
-                                <div id="def-video" style='width: 640px; height: 485px; margin-left: auto; margin-right: auto'>
+                                <div id="def-video" class="def-video">
                                     <div id="stream">
                                         <video class="rounded centered hide" id="remotevideo" autoplay muted width="640" height="480" codedo="1"></video>
                                     </div>
@@ -44,7 +43,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="rectangle rectangle--camera">
+                    <div class="rectangle rectangle--camera" style="margin-bottom: 70px;">
                         <div class="row mx-0 w-100">
                             <div class="col-lg-8 p-0 thumb thumb--map">
                                 <div class="tab-header">
@@ -186,19 +185,13 @@
                     <!-- /.regtangle cameras -->
                 </div>
                 <!-- /.col -->
-                <div class="col-lg-4 col-md-4 mt-2">
+                <div class="col-lg-4 col-md-4 mt-3">
                     <div class="right">
                         <!-- <app-face-alert></app-face-alert> -->
-                        <div class="rectangle rectangle--right">
+                        <div class="rectangle rectangle--right margin-bottom-5">
                             <div class="padding--right">
                                 <div class="person-info">
-                                    <div class="person-id">
-                                        <div class="thumb thumb-pic">
-                                            <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
-                                        </div>
-                                        <button class="id"><span class="icon-id"></span></button>
-                                    </div>
-                                    <div class="person-details">
+                                    <div class="col-md-4 person-details">
                                         <div class="label label--person">Name:</div>
                                         <div class="detail">{{detail.first_name}}</div>
                                         <div class="label label--person">Family Name:</div>
@@ -206,35 +199,17 @@
                                         <div class="label label--person">Gender:</div>
                                         <div class="detail">{{detail.gender}}</div>
                                         <div class="label label--person">Date Of Birth:</div>
-                                        <div class="detail">{{detail.dob}}</div>
-                                        <div class="label label--person">Nationality:</div>
-                                        <div class="detail">{{detail.nationality}}</div>
-                                        <div class="label label--person">Distinguishing Marks:</div>
-                                        <div class="detail"></div>
-                                        <div class="label label--person">Expiry Date:</div>
-                                        <div class="detail"></div>
+
                                     </div>
-                                </div>
-                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
-                            </div>
-                        </div>
-                        <div class="rectangle rectangle--right">
-                            <div class="padding--right">
-                                <div class="person-info">
-                                    <div class="person-id">
-                                        <div class="thumb thumb-pic">
-                                            <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
+                                    <div class="col-md-4">
+                                        <div class="person-id">
+                                            <div class="thumb thumb-pic">
+                                                <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
+                                            </div>
+                                            <button class="id"><span class="icon-id"></span></button>
                                         </div>
-                                        <button class="id"><span class="icon-id"></span></button>
                                     </div>
-                                    <div class="person-details">
-                                        <div class="label label--person">Name:</div>
-                                        <div class="detail">{{detail.first_name}}</div>
-                                        <div class="label label--person">Family Name:</div>
-                                        <div class="detail">{{detail.last_name}}</div>
-                                        <div class="label label--person">Gender:</div>
-                                        <div class="detail">{{detail.gender}}</div>
-                                        <div class="label label--person">Date Of Birth:</div>
+                                    <div class="col-md-4">
                                         <div class="detail">{{detail.dob}}</div>
                                         <div class="label label--person">Nationality:</div>
                                         <div class="detail">{{detail.nationality}}</div>
@@ -242,71 +217,126 @@
                                         <div class="detail"></div>
                                         <div class="label label--person">Expiry Date:</div>
                                         <div class="detail"></div>
+
                                     </div>
                                 </div>
                                 <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
-                            </div>
-                        </div>
-                        <div class="rectangle rectangle--right">
-                            <div class="padding--right">
                                 <div class="person-info">
-                                    <div class="person-id">
-                                        <div class="thumb thumb-pic">
-                                            <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
-                                        </div>
-                                        <button class="id"><span class="icon-id"></span></button>
-                                    </div>
-                                    <div class="person-details">
-                                        <div class="label label--person">Name:</div>
-                                        <div class="detail">{{detail.first_name}}</div>
-                                        <div class="label label--person">Family Name:</div>
-                                        <div class="detail">{{detail.last_name}}</div>
-                                        <div class="label label--person">Gender:</div>
-                                        <div class="detail">{{detail.gender}}</div>
-                                        <div class="label label--person">Date Of Birth:</div>
-                                        <div class="detail">{{detail.dob}}</div>
-                                        <div class="label label--person">Nationality:</div>
-                                        <div class="detail">{{detail.nationality}}</div>
-                                        <div class="label label--person">Distinguishing Marks:</div>
-                                        <div class="detail"></div>
-                                        <div class="label label--person">Expiry Date:</div>
-                                        <div class="detail"></div>
-                                    </div>
                                 </div>
-                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
-                            </div>
-                        </div>
-                        <div class="rectangle rectangle--right">
-                            <div class="padding--right">
-                                <div class="person-info">
-                                    <div class="person-id">
-                                        <div class="thumb thumb-pic">
-                                            <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
-                                        </div>
-                                        <button class="id"><span class="icon-id"></span></button>
-                                    </div>
-                                    <div class="person-details">
-                                        <div class="label label--person">Name:</div>
-                                        <div class="detail">{{detail.first_name}}</div>
-                                        <div class="label label--person">Family Name:</div>
-                                        <div class="detail">{{detail.last_name}}</div>
-                                        <div class="label label--person">Gender:</div>
-                                        <div class="detail">{{detail.gender}}</div>
-                                        <div class="label label--person">Date Of Birth:</div>
-                                        <div class="detail">{{detail.dob}}</div>
-                                        <div class="label label--person">Nationality:</div>
-                                        <div class="detail">{{detail.nationality}}</div>
-                                        <div class="label label--person">Distinguishing Marks:</div>
-                                        <div class="detail"></div>
-                                        <div class="label label--person">Expiry Date:</div>
-                                        <div class="detail"></div>
-                                    </div>
-                                </div>
-                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
                             </div>
                         </div>
 
+                        <div class="rectangle rectangle--right margin-bottom-5">
+                            <div class="padding--right">
+                                <div class="person-info">
+                                    <div class="col-md-4 person-details">
+                                        <div class="label label--person">Name:</div>
+                                        <div class="detail">{{detail.first_name}}</div>
+                                        <div class="label label--person">Family Name:</div>
+                                        <div class="detail">{{detail.last_name}}</div>
+                                        <div class="label label--person">Gender:</div>
+                                        <div class="detail">{{detail.gender}}</div>
+                                        <div class="label label--person">Date Of Birth:</div>
 
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="person-id">
+                                            <div class="thumb thumb-pic">
+                                                <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
+                                            </div>
+                                            <button class="id"><span class="icon-id"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="detail">{{detail.dob}}</div>
+                                        <div class="label label--person">Nationality:</div>
+                                        <div class="detail">{{detail.nationality}}</div>
+                                        <div class="label label--person">Distinguishing Marks:</div>
+                                        <div class="detail"></div>
+                                        <div class="label label--person">Expiry Date:</div>
+                                        <div class="detail"></div>
+
+                                    </div>
+                                </div>
+                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
+                                <div class="person-info">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rectangle rectangle--right margin-bottom-5">
+                            <div class="padding--right">
+                                <div class="person-info">
+                                    <div class="col-md-4 person-details">
+                                        <div class="label label--person">Name:</div>
+                                        <div class="detail">{{detail.first_name}}</div>
+                                        <div class="label label--person">Family Name:</div>
+                                        <div class="detail">{{detail.last_name}}</div>
+                                        <div class="label label--person">Gender:</div>
+                                        <div class="detail">{{detail.gender}}</div>
+                                        <div class="label label--person">Date Of Birth:</div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="person-id">
+                                            <div class="thumb thumb-pic">
+                                                <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
+                                            </div>
+                                            <button class="id"><span class="icon-id"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="detail">{{detail.dob}}</div>
+                                        <div class="label label--person">Nationality:</div>
+                                        <div class="detail">{{detail.nationality}}</div>
+                                        <div class="label label--person">Distinguishing Marks:</div>
+                                        <div class="detail"></div>
+                                        <div class="label label--person">Expiry Date:</div>
+                                        <div class="detail"></div>
+
+                                    </div>
+                                </div>
+                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
+                                <div class="person-info">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rectangle rectangle--right margin-bottom-5">
+                            <div class="padding--right">
+                                <div class="person-info">
+                                    <div class="col-md-4 person-details">
+                                        <div class="label label--person">Name:</div>
+                                        <div class="detail">{{detail.first_name}}</div>
+                                        <div class="label label--person">Family Name:</div>
+                                        <div class="detail">{{detail.last_name}}</div>
+                                        <div class="label label--person">Gender:</div>
+                                        <div class="detail">{{detail.gender}}</div>
+                                        <div class="label label--person">Date Of Birth:</div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="person-id">
+                                            <div class="thumb thumb-pic">
+                                                <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
+                                            </div>
+                                            <button class="id"><span class="icon-id"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="detail">{{detail.dob}}</div>
+                                        <div class="label label--person">Nationality:</div>
+                                        <div class="detail">{{detail.nationality}}</div>
+                                        <div class="label label--person">Distinguishing Marks:</div>
+                                        <div class="detail"></div>
+                                        <div class="label label--person">Expiry Date:</div>
+                                        <div class="detail"></div>
+
+                                    </div>
+                                </div>
+                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
+                                <div class="person-info">
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 

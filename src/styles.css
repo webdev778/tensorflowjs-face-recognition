@@ -98,6 +98,10 @@ video {
     vertical-align: baseline;
 }
 
+body {
+    height: 100%;
+}
+
 
 /* HTML5 display-role reset for older browsers */
 
@@ -133,7 +137,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: '';
+    content: "";
     content: none;
 }
 
@@ -142,11 +146,16 @@ table {
     border-spacing: 0;
 }
 
+body {
+    overflow: hidden;
+    position: relative;
+}
+
 
 /* Custom Icons */
 
 @font-face {
-    font-family: 'icomoon';
+    font-family: "icomoon";
     src: url("./assets/fonts/icomoon.eot?yz00ds");
     src: url("./assets/fonts/icomoon.eot?yz00ds#iefix") format("embedded-opentype"), url("./assets/fonts/icomoon.ttf?yz00ds") format("truetype"), url("./assets/fonts/icomoon.woff?yz00ds") format("woff"), url("./assets/fonts/icomoon.svg?yz00ds#icomoon") format("svg");
     font-weight: normal;
@@ -156,7 +165,7 @@ table {
 [class^="icon-"],
 [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'icomoon' !important;
+    font-family: "icomoon" !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -336,7 +345,7 @@ table {
     -ms-flex-align: center;
     align-items: center;
     color: #fff;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 18px;
 }
 
@@ -436,7 +445,7 @@ table {
     font-size: 13px;
     color: #fff;
     font-weight: normal;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     padding-bottom: 15px;
 }
 
@@ -526,7 +535,7 @@ option:hover {
 body {
     line-height: 1.2;
     background: #353b49;
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     font-size: 16px;
 }
 
@@ -548,13 +557,108 @@ blockquote:after,
 blockquote:before,
 q:after,
 q:before {
-    content: '';
+    content: "";
     content: none;
 }
 
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+
+/* navigation styles =========== */
+
+.navbar {
+    border-bottom: 0.125rem solid #1a1e27;
+    padding-left: 40px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    background-color: #2a2e3a !important;
+}
+
+.navbar .navbar-nav {
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.navbar .navbar-brand {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 2.25rem;
+    color: white;
+}
+
+.navbar .navbar-brand .blue {
+    color: #4e93cf;
+}
+
+.navbar .nav-link,
+.navbar .nav-item {
+    color: #8d96a9 !important;
+    font-size: 0.75rem;
+    letter-spacing: 0.025rem;
+}
+
+.nav-box {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.nav-box--user {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    padding-right: 50px;
+    padding-left: 20px;
+}
+
+.nav-box--b {
+    border-left: 1px solid #1a1e27;
+    border-right: 1px solid #1a1e27;
+}
+
+.icon {
+    font-size: 1.25rem;
+    color: #62697d;
+}
+
+.icon--b {
+    padding: 22px 30px;
+}
+
+.user-img {
+    width: 42px;
+    height: 42px;
+    border: solid 2px #43495a;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.oval {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    border: solid 1px #1a1e27;
+}
+
+.username {
+    font-size: 14px;
+    color: #8d96a9;
+}
+
+.hover:hover {
+    background: #2d313e;
 }
 
 
@@ -602,7 +706,7 @@ table {
 .warning {
     font-size: 40px;
     color: #8d96aa;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .status {
@@ -749,7 +853,7 @@ table {
     cursor: pointer;
     height: 50px;
     width: 50px;
-    transition: background .2s ease-in-out;
+    transition: background 0.2s ease-in-out;
 }
 
 .nav-icon--active {
@@ -781,9 +885,10 @@ table {
     font-size: 0.75rem;
 }
 
-.rectangle--camera {
+
+/* .rectangle--camera {
     margin-bottom: 0;
-}
+} */
 
 .thumb--map {
     margin-bottom: 0;
@@ -1036,7 +1141,7 @@ table {
 }
 
 .person-details {
-    margin-left: 16.5px;
+    margin-left: 0px;
 }
 
 .label--person {
@@ -1082,7 +1187,7 @@ table {
     -ms-flex-align: center;
     align-items: center;
     padding: 15px 25px;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     cursor: pointer;
     width: 100%;
     font-weight: 500;
@@ -1236,7 +1341,7 @@ table {
     color: #939aab;
     border-top: 1px solid #33394c;
     cursor: pointer;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .about:hover {
@@ -1614,7 +1719,7 @@ table {
     font-size: 20px;
     text-align: center;
     margin: 0 auto;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .icon-blue {
@@ -1682,7 +1787,7 @@ table {
     margin-top: 20px;
     margin-bottom: 146px;
     color: #8d96a9;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 13px;
     line-height: 1.33;
     text-align: center;
@@ -1800,7 +1905,7 @@ table {
     -ms-flex-pack: justify;
     justify-content: space-between;
     color: #7d87a2;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 18px;
     width: 100%;
     border-bottom: 1px solid #33394c;
@@ -1968,7 +2073,7 @@ table tbody tr {
 }
 
 .table-desc {
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     color: #9aa0ac;
     font-weight: 500;
 }
@@ -1976,7 +2081,7 @@ table tbody tr {
 .thead-dark th {
     background: #343a50 !important;
     color: #7d87a2 !important;
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     font-size: 14px;
     letter-spacing: 0.5px;
     border: none;
@@ -1987,7 +2092,7 @@ table tbody tr {
 .table-two .thead-dark th {
     background: #343a50 !important;
     color: #7d87a2 !important;
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     font-size: 14px;
     letter-spacing: 0.5px;
     border: none;
@@ -2070,7 +2175,7 @@ table td {
 }
 
 .camera-card {
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
 }
 
 .camera-card:hover {
@@ -2188,7 +2293,6 @@ table td {
 
 .camera-box-title {
     font-size: 0.8125rem;
-    color: #4e93cf
 }
 
 .tab-header {
@@ -2216,7 +2320,7 @@ table td {
     justify-content: center;
     -ms-flex-align: center;
     align-items: center;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     cursor: pointer;
     width: 100%;
     padding: 20px;
@@ -2331,6 +2435,7 @@ table td {
 .scroll-camera {
     overflow: scroll;
     overflow-x: hidden;
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -2354,6 +2459,7 @@ table td {
 .scroll-sidebar {
     overflow: scroll;
     overflow-x: hidden;
+    overflow-y: hidden;
     position: relative;
     right: -14px;
 }
@@ -2399,7 +2505,7 @@ table td {
     cursor: pointer;
     margin-right: 15px;
     background: #5a52ff;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .popup-btn:hover {
@@ -2436,4 +2542,37 @@ table td {
 
 .content {
     border-bottom: 1px solid #1a1e27;
+}
+
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.margin-5 {
+    margin: 5%;
+}
+
+.margin-left-5 {
+    margin-left: 5%;
+}
+
+.margin-top-5 {
+    margin-top: 5%;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5%;
+}
+
+.margin-right-5 {
+    margin-right: 5%;
+}
+
+.def-video {
+    width: 640px;
+    height: 480px;
+    margin-left: auto;
+    margin-right: auto;
 }
