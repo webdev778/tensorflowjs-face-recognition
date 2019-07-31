@@ -1,240 +1,122 @@
 <app-header></app-header>
 
 <body>
-  <div class="main-wrapper">
-    <div class="container-fluid">
-      <div class="row main-row">
-        <div class="col-lg-3 col-md-3 mt-3 pl-0 full-screen-auto hidden-scrolled">
-          <app-camera-list></app-camera-list>
-        </div>
-        <div class="col-lg-5 col-md-5 px-lg-3 px-sm-0 mt-3 full-screen-auto hidden-scrolled">
-          <div class="">
-            <div class="rectangle rectangle--middle">
-              <div class="thumb thumb--middle">
-                <div id="def-video" class="def-video">
-                  <div id="stream">
-                    <video class="rounded centered hide" id="remotevideo" autoplay muted width="640" height="480"
-                      codedo="1"></video>
-                  </div>
-                  <canvas id="canvas"></canvas>
+    <div class="main-wrapper">
+        <div class="container-fluid">
+            <div class="row main-row">
+                <div class="col-lg-3 col-md-3 mt-3 pl-0 full-screen-auto hidden-scrolled">
+                    <app-camera-list></app-camera-list>
                 </div>
-              </div>
-              <div class="nav-box--middle">
-                <ul class="nav">
-                  <li id="mode5" class=" nav-icon mode_select" data-mode=5 (click)="onObjectButton()">
-                    <span class="icon-objects"></span>
-                    <span class="label">Objects</span>
-                  </li>
+                <div class="col-lg-5 col-md-5 px-lg-3 px-sm-0 mt-3 full-screen-auto hidden-scrolled">
+                    <div class="">
+                        <div class="rectangle rectangle--middle">
+                            <div class="thumb thumb--middle">
+                                <div id="def-video" class="def-video">
+                                    <div id="stream">
+                                        <video class="rounded centered hide" id="remotevideo" autoplay muted width="640" height="480" codedo="1"></video>
+                                    </div>
+                                    <canvas id="canvas"></canvas>
+                                </div>
+                            </div>
+                            <div class="nav-box--middle">
+                                <ul class="nav">
+                                    <li id="mode5" class=" nav-icon mode_select" data-mode=5 (click)="onObjectButton()">
+                                        <span class="icon-objects"></span>
+                                        <span class="label">Objects</span>
+                                    </li>
 
-                  <li id="mode3" class=" nav-icon mode_select" data-mode=3 (click)="onFaceButton()">
-                    <span class="icon-people"></span>
-                    <span class="label">Face</span>
-                  </li>
+                                    <li id="mode3" class=" nav-icon mode_select" data-mode=3 (click)="onFaceButton()">
+                                        <span class="icon-people"></span>
+                                        <span class="label">Face</span>
+                                    </li>
 
-                  <li id="mode4" class=" nav-icon mode_select" data-mode=4>
-                    <span class="icon-cars"></span>
-                    <span class="label">Vehicle</span>
-                  </li>
+                                    <li id="mode4" class=" nav-icon mode_select" data-mode=4>
+                                        <span class="icon-cars"></span>
+                                        <span class="label">Vehicle</span>
+                                    </li>
 
-                  <li id="emotion-icon" class="nav-icon" onclick=" onStart(); location.href='/emotions'">
-                    <i class="fas fa-smile-beam"></i>
-                    <span class="label">Emotions</span>
-                  </li>
-                </ul>
-              </div>
+                                    <li id="emotion-icon" class="nav-icon" onclick=" onStart(); location.href='/emotions'">
+                                        <i class="fas fa-smile-beam"></i>
+                                        <span class="label">Emotions</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rectangle rectangle--camera">
+                        <div class="row mx-0 w-100">
+                            <div class="col-lg-8 p-0 thumb thumb--map">
+                                <div class="tab-header" hidden>
+                                    <div class="tab-header-item tab-br active pd">
+                                        Map
+                                    </div>
+                                    <div class="tab-header-item pd">
+                                        Analytics
+                                    </div>
+                                </div>
+                                <!-- /.tab-header -->
+                                <!-- <img class="thumb-img thumb-img--map" src="img/map2.png" alt=""> -->
+                                <app-map></app-map>
+
+                            </div>
+                            <!-- /.col map-->
+
+                            <!-- /.col cameras -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.regtangle cameras -->
+                </div>
+                <!-- /.col -->
+                <div class="col-lg-4 col-md-4 mt-3 full-screen-auto">
+                    <div class="right">
+                        <!-- <app-face-alert></app-face-alert> -->
+                        <div class="row">
+                            <div class="col-12 col-md-6 pr-0 pl-2" *ngFor="let item of [1,2,3,4,5,6,7,8]">
+                                <div class="rectangle rectangle--right mb-2">
+                                    <div class="wanted-padding person-overview">
+                                        <div class="row">
+                                            <div class="col-4 pr-0 mx-auto pb-2">
+                                                <div class="person-id">
+                                                    <div class="thumb thumb-pic mx-auto w-100 h-100">
+                                                        <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="form-group">
+                                                    <span>Name: {{detail.first_name ? detail.first_name : '#'}}</span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span>Gender: {{detail.gender ? detail.gender : '#'}}</span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span>Date Of Birth: {{detail.dob ? detail.dob : '#'}}</span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span>Nationality: {{detail.nationality ? detail.nationality : '#'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: -5px;">
+                                            <div class="col-6">
+                                                <div class="btn btn-success mt-2 mb-2 w-100 personal-button">More details</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="btn btn-danger mt-2 mb-2 w-100 personal-button">Wanted</div>
+                                            </div>
+                                        </div>
+                                        <div class="person-info">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="rectangle rectangle--camera">
-            <div class="row mx-0 w-100">
-              <div class="col-lg-8 p-0 thumb thumb--map">
-                <div class="tab-header" hidden>
-                  <div class="tab-header-item tab-br active pd">
-                    Map
-                  </div>
-                  <div class="tab-header-item pd">
-                    Analytics
-                  </div>
-                </div>
-                <!-- /.tab-header -->
-                <img class="thumb-img thumb-img--map" src="img/map2.png" alt="">
-                <div class="zoom">
-                  <div class="control">
-                    <div class="icon-plus"></div>
-                  </div>
-                  <div class="control">
-                    <div class="icon-minus"></div>
-                  </div>
-                </div>
-                <!-- /.zoom buttons -->
-                <div class="dot dot-1">
-                  <div class="outer">
-                    <div class="inner">
-                      <div class="core"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="dot dot-2">
-                  <div class="outer">
-                    <div class="inner">
-                      <div class="core"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="dot dot-3">
-                  <div class="outer">
-                    <div class="inner">
-                      <div class="core"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="dot dot-4">
-                  <div class="outer">
-                    <div class="inner">
-                      <div class="core"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="dot dot-5">
-                  <div class="outer outer--red">
-                    <div class="inner inner--red">
-                      <div class="core core--red"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /.col map-->
-              <div class="col-lg-4 p-0 nav--camera">
-                <ul class="nav-list scroll-camera">
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Vehicle
-                    </div>
-                    <div class="percentage">96%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Person
-                    </div>
-                    <div class="percentage">70%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Laptop
-                    </div>
-                    <div class="percentage percentage--red">12%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Gun
-                    </div>
-                    <div class="percentage">74%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Pistol
-                    </div>
-                    <div class="percentage">99%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Car
-                    </div>
-                    <div class="percentage">10%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Vehicle
-                    </div>
-                    <div class="percentage percentage--red">96%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Vehicle
-                    </div>
-                    <div class="percentage percentage--red">96%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Vehicle
-                    </div>
-                    <div class="percentage percentage--red">96%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
-                  <li class="nav-list-item">
-                    <div class="detail">
-                      Vehicle
-                    </div>
-                    <div class="percentage percentage--red">96%</div>
-                  </li>
-                  <!-- /.nav list-iem -->
+        </div>
 
-                </ul>
-                <!-- /.nav list -->
-              </div>
-              <!-- /.col cameras -->
-            </div>
-            <!-- /.row -->
-          </div>
-          <!-- /.regtangle cameras -->
-        </div>
-        <!-- /.col -->
-        <div class="col-lg-4 col-md-4 mt-3 full-screen-auto">
-          <div class="right">
-            <!-- <app-face-alert></app-face-alert> -->
-            <div class="row">
-              <div class="col-12 col-md-6 pr-0 pl-2" *ngFor="let item of [1,2,3,4,5,6,7,8]">
-                <div class="rectangle rectangle--right mb-2">
-                  <div class="wanted-padding person-overview">
-                    <div class="row">
-                      <div class="col-4 pr-0 mx-auto pb-2">
-                        <div class="person-id">
-                          <div class="thumb thumb-pic mx-auto w-100 h-100">
-                            <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-8">
-                        <div class="form-group">
-                          <span>Name: {{detail.first_name ? detail.first_name : '#'}}</span>
-                        </div>
-                        <div class="form-group">
-                          <span>Gender: {{detail.gender ? detail.gender : '#'}}</span>
-                        </div>
-                        <div class="form-group">
-                          <span>Date Of Birth: {{detail.dob ? detail.dob : '#'}}</span>
-                        </div>
-                        <div class="form-group">
-                          <span>Nationality: {{detail.nationality ? detail.nationality : '#'}}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row" style="margin-top: -5px;">
-                      <div class="col-6">
-                        <div class="btn btn-success mt-2 mb-2 w-100 personal-button">More details</div>
-                      </div>
-                      <div class="col-6">
-                        <div class="btn btn-danger mt-2 mb-2 w-100 personal-button">Wanted</div>
-                      </div>
-                    </div>
-                    <div class="person-info">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-
-  </div>
-  <app-footer></app-footer>
+    <app-footer></app-footer>
 </body>

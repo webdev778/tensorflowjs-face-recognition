@@ -32,6 +32,7 @@ import { CameraArrayComponent } from './camera-array/camera-array.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CameraListComponent } from './camera-list/camera-list.component';
 import { WebcamDashboardComponent } from './webcam-dashboard/webcam-dashboard.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { WebcamDashboardComponent } from './webcam-dashboard/webcam-dashboard.co
     CameraArrayComponent,
     UserProfileComponent,
     CameraListComponent,
-    WebcamDashboardComponent
+    WebcamDashboardComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

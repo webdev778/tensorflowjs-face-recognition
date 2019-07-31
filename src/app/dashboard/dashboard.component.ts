@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { first } from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { first } from 'rxjs/operators';
 
 import * as cocoSSD from "@tensorflow-models/coco-ssd";
 import { User } from "../_models";
@@ -13,7 +13,7 @@ declare var faceapi: any;
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
-  title = "TF-ObjectDetection";
+  // title = "TF-ObjectDetection";
   private video: HTMLVideoElement;
   public video_url: string;
   currentUser: User;
