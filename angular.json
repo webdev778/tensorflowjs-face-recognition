@@ -23,7 +23,8 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.css"
+                            "src/styles.css",
+                            "styles-app-loading.scss"
                         ],
                         "scripts": [],
                         "es5BrowserSupport": true
