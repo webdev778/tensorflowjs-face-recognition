@@ -1,0 +1,4 @@
+.camera-box video {
+  height: calc(20vh - 89px);
+  object-fit: cover;
+}
