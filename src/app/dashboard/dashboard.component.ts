@@ -5,6 +5,8 @@ import * as cocoSSD from "@tensorflow-models/coco-ssd";
 import { User } from "../_models";
 import { UserService } from "../_services";
 
+import * as tf from '@tensorflow/tfjs';
+
 declare var faceapi: any;
 
 @Component({
@@ -203,7 +205,9 @@ export class DashboardComponent implements OnInit {
   }
 
   public async predictWithCocoModel() {
-    const model = await cocoSSD.load("lite_mobilenet_v2");
+    // For COCO SDD Models
+    // const model = await cocoSSD.load("lite_mobilenet_v2");
+    const model = await tf.loadModel('/assets/model.json');
     this.detectFrame(this.video, model);
     console.log("model loaded");
   }
