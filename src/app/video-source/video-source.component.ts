@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { Observable } from "rxjs";
 declare let RTCPeerConnection: any;
+// declare var changeStream:any;
 
 @Component({
   selector: "app-video-source",
@@ -21,6 +22,7 @@ export class VideoSourceComponent implements OnInit {
   callActive: boolean = false;
   pc: any;
   localStream: any;
+
   senderId: string;
   video_url: string;
   @ViewChild("me", { static: false }) me: any;
