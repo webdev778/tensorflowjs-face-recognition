@@ -30,6 +30,7 @@ export class VideoSourceComponent implements OnInit {
     @ViewChild("me", { static: false }) me: any;
     @ViewChild("remote", { static: false }) remote: any;
     @Input() videoName: string;
+    @Input() streamId;
 
     constructor() {
         this.video_url = this.videoName;
