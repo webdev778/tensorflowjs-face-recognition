@@ -39,71 +39,105 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.webcam_init();
-    this.predictWithCocoModel();
-    this.loadAllUsers();
-    this.initModel();
+    // this.predictWithCocoModel();
+    // this.loadAllUsers();
+    this.trackFaceAndRecognize();
   }
 
-  public async initModel() {
+  public async trackFaceAndRecognize() {
     await Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri("/assets/models"),
-      faceapi.nets.faceLandmark68Net.loadFromUri("/assets/models"),
-      faceapi.nets.faceRecognitionNet.loadFromUri("/assets/models"),
-      faceapi.nets.faceExpressionNet.loadFromUri("/assets/models"),
-      faceapi.nets.ssdMobilenetv1.loadFromUri("/assets/models")
+      faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models'),
+      faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models'),
+      faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models'),
+      // faceapi.nets.mtcnn.loadFromUri('/assets/models')
+      faceapi.nets.tinyFaceDetector.loadFromUri('/assets/models')
     ]);
     console.log("faceapi all model loaded");
-    this.detectFace(this.video);
-  }
 
-  detectFace = async video => {
+    const labeledFaceDescriptors = await this.loadLabeledImages();
+    console.log('all pattern loaded');
+
+
     const canvas = <HTMLCanvasElement>document.getElementById("canvas");
     const displaySize = { width: 640, height: 480 };
     faceapi.matchDimensions(canvas, displaySize);
-    const labeledFaceDescriptors = await this.loadLabeledImages();
-    console.log('all pattern loaded');
-    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+    const maxDescriptorDistance = 0.6
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
 
-    setInterval(async () => {
-      if (this.detectionMode !== 1) return;
-      // const labeledFaceDescriptors = await this.loadLabeledImages()
-      // const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
-      const detections = await faceapi
-        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-        .withFaceLandmarks()
-        .withFaceDescriptors();
-      const resizedDetections = faceapi.resizeResults(detections, displaySize);
-      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-      const results = resizedDetections.map(d =>
-        faceMatcher.findBestMatch(d.descriptor)
-      );
-      results.forEach((result, i) => {
-        const box = resizedDetections[i].detection.box;
-        //const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
-        // drawBox.draw(canvas)
-        const ctx = canvas.getContext("2d");
-        // Font options.
-        const font = "16px sans-serif";
-        ctx.font = font;
-        ctx.textBaseline = "top";
-        // Draw the rectangle of rect
-        ctx.strokeStyle = "#00FFFF";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(box.x, box.y, box.width, box.height);
-        // Draw the label background.
-        ctx.fillStyle = "#00FFFF";
-        const textWidth = ctx.measureText(result.toString()).width;
-        const textHeight = parseInt(font, 10); // base 10
-        const { x, y } = box;
-        ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-        ctx.fillStyle = "#000000";
-        ctx.fillText(result.toString(), x, y);
+    this.detectFace(this.video, labeledFaceDescriptors, faceMatcher)
+  }
 
-        //find details from database
-        this.findDetail(result.toString())
-      }, 100);
-    });
-  };
+  detectFace = (video, labeledFaceDescriptors, faceMatcher) => {
+
+    if (this.video == null) return;
+
+    const displaySize = { width: 640, height: 480 };
+
+    console.log('detecting Face...')
+
+    // const mtcnnForwardParams = {
+    //   maxNumScales: 3,
+    //   scaleFactor: 0.709,
+    //   scoreThresholds: [0.6, 0.7, 0.7],
+    //   minFaceSize: 100
+    // }
+    faceapi
+      // .detectAllFaces(video, new faceapi.MtcnnOptions(mtcnnForwardParams))
+      .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks()
+      .withFaceDescriptors().then(detections => {
+        console.log(detections);
+        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        const results = resizedDetections.map(d =>
+          faceMatcher.findBestMatch(d.descriptor)
+        );
+        const canvas = <HTMLCanvasElement>document.getElementById("canvas");
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        // const results = resizedDetections;
+
+        this.renderFaces(canvas, resizedDetections, results);
+
+        requestAnimationFrame(() => {
+          this.detectFace(video, labeledFaceDescriptors, faceMatcher);
+        });
+      })
+  }
+
+
+  renderFaces = (canvas, resizedDetections, results) => {
+    if (this.detectionMode !== 1) return;
+    console.log('canvas', canvas);
+    console.log('rendering faces...')
+    console.log(results.length)
+    results.forEach((result, i) => {
+      const box = resizedDetections[i].detection.box;
+      const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
+      drawBox.draw(canvas)
+      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
+      console.log(result);
+      /*
+      const ctx = canvas.getContext("2d");
+      // Font options.
+      const font = "16px sans-serif";
+      ctx.font = font;
+      ctx.textBaseline = "top";
+      // Draw the rectangle of rect
+      ctx.strokeStyle = "#00FFFF";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(box.x, box.y, box.width, box.height);
+      // Draw the label background.
+      ctx.fillStyle = "#00FFFF";
+      const textWidth = ctx.measureText(result.toString()).width;
+      const textHeight = parseInt(font, 10); // base 10
+      const { x, y } = box;
+      ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+      ctx.fillStyle = "#000000";
+      ctx.fillText(result.toString(), x, y);
+      */
+      //find details from database
+      this.findDetail(result.toString())
+    })
+  }
 
   findDetail(firstName: string) {
     const wantedList = [
@@ -151,48 +185,35 @@ export class DashboardComponent implements OnInit {
         "wanted_by": "Iraq",
         "charge": ""
       }]
-      let param = firstName.split(" ")[0];
-      let detail = wantedList.find(item => (item.key === param))
-      console.log('param:', param);
-      console.log('detail:', detail);
-      if(detail){
-        console.log('detail', detail);
-        this.detail = detail;
-        this.photo = `/assets/img/${param}/1.jpg`;
-      }else{
-        //this.detail = {};
-      }
-      console.log('find detail executed')
+    let param = firstName.split(" ")[0];
+    console.log(param);
+    let detail = wantedList.find(item => (item.key === param))
+    console.log('param:', param);
+    console.log('detail:', detail);
+    if (detail) {
+      console.log('detail', detail);
+      this.detail = detail;
+      this.photo = `/assets/img/${param}/1.jpg`;
+    } else {
+      //this.detail = {};
+    }
+    console.log('find detail executed')
   }
 
-  loadLabeledImages() {
-    const labels = [
-      // "alejandro",
-      // "alexis",
-      // "bhadreshkumar",
-      // "haris",
-      // "rafael",
-      // "robert",
-      // "santiago",
-      // "yaser",
-      // iraqi wanted list,
-      "geibi",
-      "ramadan",
-      "qader",
-      "alaswadi"
-    ];
+  loadLabeledImages = () => {
+    const labels = ['geibi', 'ramadan', 'qader', 'alaswadi'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
         for (let i = 1; i <= 2; i++) {
-          try{
+          try {
             const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`);
             const detections = await faceapi
               .detectSingleFace(img)
               .withFaceLandmarks()
               .withFaceDescriptor();
             if (detections) descriptions.push(detections.descriptor);
-          }catch(e){
+          } catch (e) {
             //console.log(e);
             continue;
           }
@@ -229,19 +250,19 @@ export class DashboardComponent implements OnInit {
   webcam_init() {
     this.video = <HTMLVideoElement>document.getElementById("remotevideo");
 
-    // navigator.mediaDevices
-    //   .getUserMedia({
-    //     audio: false,
-    //     video: {
-    //       facingMode: "user"
-    //     }
-    //   })
-    //   .then(stream => {
-    //     this.video.srcObject = stream;
-    //     this.video.onloadedmetadata = () => {
-    //       this.video.play();
-    //     };
-    //   });
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "user"
+        }
+      })
+      .then(stream => {
+        this.video.srcObject = stream;
+        this.video.onloadedmetadata = () => {
+          this.video.play();
+        };
+      });
   }
 
   loadDetectFrame = (video, model) => {
