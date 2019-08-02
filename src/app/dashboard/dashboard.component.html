@@ -76,12 +76,11 @@
                                 <div class="messages-block block">
                                     <!-- <div class="title"><strong>New Messages</strong></div> -->
                                     <div class="messages">
-                                        <a href="#" class="message d-flex align-items-center" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]">
+                                        <a href="#" class="message d-flex align-items-center" *ngFor="let detection of detected_objects">
                                             <div class="profile">
                                                 <img src="/assets/img/drone.jpg" alt="..." class="img-fluid" width="50px" height="50px">
-                                                <!-- <div class=" status online "></div> -->
                                             </div>
-                                            <div class="content "> <strong class="d-block ">Nadia Halsey</strong><span class="d-block ">lorem ipsum dolor sit amit</span><small class="date d-block ">9:30am</small></div>
+                                            <div class="content "> <strong class="d-block ">{{detection.objectDetected}}</strong><span class="d-block ">{{detection.confidence}} %</span><small class="date d-block ">{{detection.timeFrame}}</small></div>
                                         </a>
                                     </div>
                                 </div>
