@@ -2540,9 +2540,10 @@ table td {
     background: #129582;
 }
 
-.content {
+
+/* .content {
     border-bottom: 1px solid #1a1e27;
-}
+} */
 
 .sticky-footer {
     position: fixed;
