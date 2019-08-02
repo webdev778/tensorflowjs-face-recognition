@@ -31,6 +31,8 @@ export class DashboardComponent implements OnInit {
     "charge": ""
   };
   photo: string = "./assets/img/placeholder.jpg";
+  private canvas: HTMLCanvasElement;
+  interval: number = 0;
 
 
   constructor(private userService: UserService) {
@@ -39,103 +41,86 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.webcam_init();
-    // this.predictWithCocoModel();
+    this.predictWithCocoModel();
     // this.loadAllUsers();
     this.trackFaceAndRecognize();
   }
 
   public async trackFaceAndRecognize() {
     await Promise.all([
-      faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models'),
+      faceapi.nets.tinyFaceDetector.loadFromUri('/assets/models'),
       faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models'),
+      faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models'),
       faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models'),
       // faceapi.nets.mtcnn.loadFromUri('/assets/models')
-      faceapi.nets.tinyFaceDetector.loadFromUri('/assets/models')
+      faceapi.nets.faceExpressionNet.loadFromUri('/assets/models')
     ]);
     console.log("faceapi all model loaded");
 
     const labeledFaceDescriptors = await this.loadLabeledImages();
     console.log('all pattern loaded');
 
-
-    const canvas = <HTMLCanvasElement>document.getElementById("canvas");
-    const displaySize = { width: 640, height: 480 };
-    faceapi.matchDimensions(canvas, displaySize);
     const maxDescriptorDistance = 0.6
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
 
-    this.detectFace(this.video, labeledFaceDescriptors, faceMatcher)
+    setInterval(() => {
+      if (this.detectionMode === 1)
+        this.detectFace(this.video, labeledFaceDescriptors, faceMatcher)
+    }, 100);
   }
 
-  detectFace = (video, labeledFaceDescriptors, faceMatcher) => {
-
-    if (this.video == null) return;
-
-    const displaySize = { width: 640, height: 480 };
-
+  detectFace = async (video, labeledFaceDescriptors, faceMatcher) => {
     console.log('detecting Face...')
 
-    // const mtcnnForwardParams = {
-    //   maxNumScales: 3,
-    //   scaleFactor: 0.709,
-    //   scoreThresholds: [0.6, 0.7, 0.7],
-    //   minFaceSize: 100
-    // }
-    faceapi
-      // .detectAllFaces(video, new faceapi.MtcnnOptions(mtcnnForwardParams))
-      .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-      .withFaceLandmarks()
-      .withFaceDescriptors().then(detections => {
-        console.log(detections);
-        const resizedDetections = faceapi.resizeResults(detections, displaySize);
-        const results = resizedDetections.map(d =>
-          faceMatcher.findBestMatch(d.descriptor)
-        );
-        const canvas = <HTMLCanvasElement>document.getElementById("canvas");
-        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-        // const results = resizedDetections;
+    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors()
+    const displaySize = { width: 640, height: 480 };
 
-        this.renderFaces(canvas, resizedDetections, results);
+    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+    this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
+    faceapi.draw.drawDetections(this.canvas, resizedDetections)
+    faceapi.draw.drawFaceLandmarks(this.canvas, resizedDetections)
+    // faceapi.draw.drawFaceExpressions(this.canvas, resizedDetections)
 
-        requestAnimationFrame(() => {
-          this.detectFace(video, labeledFaceDescriptors, faceMatcher);
-        });
-      })
+    // find
+    if (this.interval % 5 == 4) {
+      const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
+      this.renderFaces(this.canvas, resizedDetections, results);
+      this.interval = 0;
+
+      //find details from database
+      results.forEach((result, i) => {
+        this.findDetail(result.toString())
+      });
+    }
+    this.interval ++;
   }
 
-
   renderFaces = (canvas, resizedDetections, results) => {
-    if (this.detectionMode !== 1) return;
-    console.log('canvas', canvas);
-    console.log('rendering faces...')
-    console.log(results.length)
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box;
-      const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
-      drawBox.draw(canvas)
-      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-      console.log(result);
-      /*
+      // const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
+      // drawBox.draw(canvas)
+      // console.log(result);
+      // console.log(result.distance);
+      // if (result.distance < 0.5) return;
+
       const ctx = canvas.getContext("2d");
       // Font options.
       const font = "16px sans-serif";
       ctx.font = font;
       ctx.textBaseline = "top";
       // Draw the rectangle of rect
-      ctx.strokeStyle = "#00FFFF";
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#FF0000";
+      ctx.lineWidth = 5;
       ctx.strokeRect(box.x, box.y, box.width, box.height);
       // Draw the label background.
-      ctx.fillStyle = "#00FFFF";
+      ctx.fillStyle = "#FF0000";
       const textWidth = ctx.measureText(result.toString()).width;
       const textHeight = parseInt(font, 10); // base 10
       const { x, y } = box;
       ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
       ctx.fillStyle = "#000000";
       ctx.fillText(result.toString(), x, y);
-      */
-      //find details from database
-      this.findDetail(result.toString())
     })
   }
 
@@ -186,12 +171,8 @@ export class DashboardComponent implements OnInit {
         "charge": ""
       }]
     let param = firstName.split(" ")[0];
-    console.log(param);
     let detail = wantedList.find(item => (item.key === param))
-    console.log('param:', param);
-    console.log('detail:', detail);
     if (detail) {
-      console.log('detail', detail);
       this.detail = detail;
       this.photo = `/assets/img/${param}/1.jpg`;
     } else {
@@ -209,6 +190,7 @@ export class DashboardComponent implements OnInit {
           try {
             const img = await faceapi.fetchImage(`/assets/img/${label}/${i}.jpg`);
             const detections = await faceapi
+              // .detectSingleFace(img, new faceapi.TinyFaceDetectorOptions())
               .detectSingleFace(img)
               .withFaceLandmarks()
               .withFaceDescriptor();
@@ -225,7 +207,9 @@ export class DashboardComponent implements OnInit {
 
   public async predictWithCocoModel() {
     const model = await cocoSSD.load("lite_mobilenet_v2");
-    this.detectFrame(this.video, model);
+    setInterval(() => {
+      if (this.detectionMode !== 3) return;
+      this.detectFrame(this.video, model)}, 200);
     console.log("model loaded");
   }
 
@@ -249,6 +233,9 @@ export class DashboardComponent implements OnInit {
 
   webcam_init() {
     this.video = <HTMLVideoElement>document.getElementById("remotevideo");
+    this.canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    const displaySize = { width: 640, height: 480 };
+    faceapi.matchDimensions(this.canvas, displaySize);
 
     navigator.mediaDevices
       .getUserMedia({
@@ -277,13 +264,14 @@ export class DashboardComponent implements OnInit {
 
   detectFrame = (video, model) => {
     if (this.video == null || this.convertState == 1) return;
-    //console.log("detectFrame :");
+    console.log("detectFrame :");
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
 
-      requestAnimationFrame(() => {
-        this.detectFrame(video, model);
-      });
+      // requestAnimationFrame(() => {
+      //   if (this.detectionMode !== 3) return;
+      //   setTimeout(function(){console.log(this); this.detectFrame(video, model)}, 150);
+      // });
     });
   };
   async onDoubleClick(vID) {
@@ -328,20 +316,14 @@ export class DashboardComponent implements OnInit {
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
 
-    if (this.detectionMode !== 3) return;
-    const canvas = <HTMLCanvasElement>document.getElementById("canvas");
-
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = 640;
-    canvas.height = 480;
+    const ctx = this.canvas.getContext("2d");
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     // Font options.
     const font = "16px sans-serif";
     ctx.font = font;
     ctx.textBaseline = "top";
-    ctx.drawImage(this.video, 0, 0, 640, 480);
+    // ctx.drawImage(this.video, 0, 0, 640, 480);
 
     predictions.forEach(prediction => {
       const x = prediction.bbox[0];
