@@ -102,9 +102,8 @@ export class DashboardComponent implements OnInit {
       const box = resizedDetections[i].detection.box;
       // const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
       // drawBox.draw(canvas)
-      // console.log(result);
       // console.log(result.distance);
-      // if (result.distance < 0.5) return;
+      if (result.label === "unknown") return;
 
       const ctx = canvas.getContext("2d");
       // Font options.
@@ -209,10 +208,14 @@ export class DashboardComponent implements OnInit {
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
-    // const model = await cocoSSD.load("lite_mobilenet_v2");
-    const model = await tf.loadModel('/assets/model.json');
-    this.detectFrame(this.video, model);
+    const model = await cocoSSD.load("lite_mobilenet_v2");
     console.log("model loaded");
+
+    setInterval(() => {
+      if(this.detectionMode === 3)
+        this.detectFrame(this.video, model);
+    }, 200);
+
   }
 
   deleteUser(id: number) {
