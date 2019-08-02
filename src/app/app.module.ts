@@ -33,6 +33,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CameraListComponent } from './camera-list/camera-list.component';
 import { WebcamDashboardComponent } from './webcam-dashboard/webcam-dashboard.component';
 import { MapComponent } from './map/map.component';
+import { Header2Component } from './header2/header2.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { MapComponent } from './map/map.component';
     UserProfileComponent,
     CameraListComponent,
     WebcamDashboardComponent,
-    MapComponent
+    MapComponent,
+    Header2Component
   ],
   imports: [
     BrowserModule,
