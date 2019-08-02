@@ -3,312 +3,94 @@
 <body>
     <div class="main-wrapper">
         <div class="container-fluid">
-            <div class="content row main-row">
-                <div class="col-lg-4 col-md-4 mt-4 pl-0">
-                    <div class="left-sidebar scroll-sidebar pr-3">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source>
-
-                                </app-video-source>
-                            </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source></app-video-source>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source></app-video-source>
-                            </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source></app-video-source>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source></app-video-source>
-                            </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source></app-video-source>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source></app-video-source>
-                            </div>
-                            <div class="col-lg-6 col-md-6 mt-3 pl-0" (dblclick)="onDoubleClick('./assets/videos/movie2.mp4')">
-                                <app-video-source></app-video-source>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row main-row">
+                <div class="col-lg-3 col-md-3 mt-3 pl-0 full-screen-auto">
+                    <app-camera-list></app-camera-list>
                 </div>
-
-                <div class="col-lg-5 col-md-5 px-lg-3 px-sm-0 mt-3">
-                    <div class="">
+                <div class="col-lg-5 col-md-5 px-lg-3 px-sm-0 mt-3 full-screen-auto hidden-scrolled">
+                    <div class="user-block block text-center">
+                        <div class="right-menu list-inline no-margin-bottom align-items-center justify-content-between">
+                            <div class="list-inline-item">
+                                <a (click)="onObjectButton()" class="nav-link">
+                                    <span class="d-none d-sm-inline"><b>Objects</b> </span></a>
+                            </div>
+                            <div class="list-inline-item">
+                                <a (click)="onFaceButton()" class="nav-link">
+                                    <span class="d-none d-sm-inline"><b>Face</b> </span></a>
+                            </div>
+                            <div class="list-inline-item">
+                                <a id="logout" href="login.html" class="nav-link">
+                                    <span class="d-none d-sm-inline"><b>Vehicles</b> </span></a>
+                            </div>
+                            <div class="list-inline-item">
+                                <a id="webcam" [routerLink]="['/webcam']" class="nav-link">
+                                    <span class="d-none d-sm-inline"><b>Emotions</b> </span></a>
+                            </div>
+                            <div class="progress progress-template progress-small">
+                                <div role="progressbar" style="width: 100%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template progress-bar-small dashbg-3"></div>
+                            </div>
+                        </div>
                         <div class="rectangle rectangle--middle">
                             <div class="thumb thumb--middle">
-                                <div id="def-video" style='width: 640px; height: 485px; margin-left: auto; margin-right: auto'>
-                                    <video id="vid" width="640" height="480"></video>
+                                <div id="def-video" class="def-video">
+                                    <div id="stream">
+                                        <video class="rounded centered hide" id="remotevideo" autoplay muted width="640" height="475" codedo="1"></video>
+                                    </div>
                                     <canvas id="canvas"></canvas>
                                 </div>
-
-                            </div>
-                            <div class="nav-box--middle">
-                                <ul class="nav">
-                                    <li id="mode5" class=" nav-icon mode_select" data-mode=5 (click)="onObjectButton()">
-                                        <span class="icon-objects"></span>
-                                        <span class="label">Objects</span>
-                                    </li>
-
-                                    <li id="mode3" class=" nav-icon mode_select" data-mode=3 (click)="onFaceButton()">
-                                        <span class="icon-people"></span>
-                                        <span class="label">Face</span>
-                                    </li>
-
-                                    <li id="mode4" class=" nav-icon mode_select" data-mode=4>
-                                        <span class="icon-cars"></span>
-                                        <span class="label">Vehicle</span>
-                                    </li>
-
-                                    <li id="emotion-icon" class="nav-icon" onclick=" onStart(); location.href='/emotions'">
-                                        <i class="fas fa-smile-beam"></i>
-                                        <span class="label">Emotions</span>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="rectangle rectangle--camera">
-                        <div class="row mx-0 w-100">
-                            <div class="col-lg-8 p-0 thumb thumb--map">
-                                <div class="tab-header">
-                                    <div class="tab-header-item tab-br active pd">
-                                        Map
-                                    </div>
-                                    <div class="tab-header-item pd">
-                                        Analytics
-                                    </div>
-                                </div>
-                                <!-- /.tab-header -->
-                                <img class="thumb-img thumb-img--map" src="img/map2.png" alt="">
-                                <div class="zoom">
-                                    <div class="control">
-                                        <div class="icon-plus"></div>
-                                    </div>
-                                    <div class="control">
-                                        <div class="icon-minus"></div>
-                                    </div>
-                                </div>
-                                <!-- /.zoom buttons -->
-                                <div class="dot dot-1">
-                                    <div class="outer">
-                                        <div class="inner">
-                                            <div class="core"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dot dot-2">
-                                    <div class="outer">
-                                        <div class="inner">
-                                            <div class="core"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dot dot-3">
-                                    <div class="outer">
-                                        <div class="inner">
-                                            <div class="core"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dot dot-4">
-                                    <div class="outer">
-                                        <div class="inner">
-                                            <div class="core"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dot dot-5">
-                                    <div class="outer outer--red">
-                                        <div class="inner inner--red">
-                                            <div class="core core--red"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.col map-->
-                            <div class="col-lg-4 p-0 nav--camera">
-                                <ul class="nav-list scroll-camera">
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Vehicle
-                                        </div>
-                                        <div class="percentage">96%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Person
-                                        </div>
-                                        <div class="percentage">70%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Laptop
-                                        </div>
-                                        <div class="percentage percentage--red">12%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Gun
-                                        </div>
-                                        <div class="percentage">74%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Pistol
-                                        </div>
-                                        <div class="percentage">99%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Car
-                                        </div>
-                                        <div class="percentage">10%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Vehicle
-                                        </div>
-                                        <div class="percentage percentage--red">96%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Vehicle
-                                        </div>
-                                        <div class="percentage percentage--red">96%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Vehicle
-                                        </div>
-                                        <div class="percentage percentage--red">96%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-                                    <li class="nav-list-item">
-                                        <div class="detail">
-                                            Vehicle
-                                        </div>
-                                        <div class="percentage percentage--red">96%</div>
-                                    </li>
-                                    <!-- /.nav list-iem -->
-
-                                </ul>
-                                <!-- /.nav list -->
-                            </div>
-                            <!-- /.col cameras -->
-                        </div>
-                        <!-- /.row -->
+                    <div class="user-block block text-center">
+                        <app-map></app-map>
                     </div>
-                    <!-- /.regtangle cameras -->
                 </div>
-                <!-- /.col -->
-                <div class="col-lg-3 col-md-3 mt-3">
+
+                <div class="col-lg-2 col-md-4 mt-3 full-screen-auto">
                     <div class="right">
                         <!-- <app-face-alert></app-face-alert> -->
-                        <div class="rectangle rectangle--right">
-                            <div class="padding--right">
-                                <div class="person-info">
-                                    <div class="person-id">
-                                        <div class="thumb thumb-pic">
-                                            <img class="thumb-img thumb-img--pic" src="{{photo}}" alt="Picture">
+                        <div class="row">
+                            <div class="col-12 col-md-12 pr-0 pl-2" *ngFor="let item of [1,2,3,4,5,6,7,8]">
+
+                                <div class="public-user-block block">
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-lg-12 d-flex align-items-center mt-4">
+                                            <div class="ml-2 mr-2"> <img src="{{photo}}" alt="..." class="img-fluid" width="80px"></div><a href="#" class="name"><strong class="d-block">{{detail.first_name}} {{detail.last_name}}</strong><span class="d-block">{{detail.nationality}}</span></a>
                                         </div>
-                                        <button class="id"><span class="icon-id"></span></button>
-                                    </div>
-                                    <div class="person-details">
-                                        <div class="label label--person">Name:</div>
-                                        <div class="detail">{{detail.first_name}}</div>
-                                        <div class="label label--person">Family Name:</div>
-                                        <div class="detail">{{detail.last_name}}</div>
-                                        <div class="label label--person">Gender:</div>
-                                        <div class="detail">{{detail.gender}}</div>
-                                        <div class="label label--person">Date Of Birth:</div>
-                                        <div class="detail">{{detail.dob}}</div>
-                                        <div class="label label--person">Nationality:</div>
-                                        <div class="detail">{{detail.nationality}}</div>
-                                        <div class="label label--person">Distinguishing Marks:</div>
-                                        <div class="detail"></div>
-                                        <div class="label label--person">Expiry Date:</div>
-                                        <div class="detail"></div>
-                                    </div>
-                                </div>
-                                <div class="btn btn-danger mt-2 mb-4 w-100">Wanted</div>
-                                <div class="person-info">
-                                    <!-- <div class="person-id">
-                          <div class="thumb thumb-pic">
-                              <img class="thumb-img" src="./assets/img/haris.JPG" alt="Picture">
-                          </div>
-                      </div> -->
-                                    <div class="person-details">
-                                        <div class="label label--person">Height</div>
-                                        <div class="detail">Detecting..</div>
-                                        <div class="label label--person">Height</div>
-                                        <div class="detail">Detecting..</div>
-                                        <div class="label label--person">Colour of hair</div>
-                                        <div class="detail">Detecting..</div>
-                                        <div class="label label--person">Colour of eyes</div>
-                                        <div class="detail">Detecting..</div>
-                                        <div class="label label--person">Languages Spoken</div>
-                                        <div class="detail">Detecting..</div>
-                                        <div class="label label--person">Charges</div>
-                                        <div class="detail">On Request</div>
+                                        <br>
+                                        <div class="col-lg-12 d-flex align-items-center">
+                                            <a href="#" class="name ml-4 mt-4"><strong class="d-block">Wanted</strong><span class="d-block">DOB : {{detail.dob}}</span></a>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="rectangle rectangle--camera">
-              <div class="camera-box">
-              </div>
-              <div class="camera-box-footer">
-                <div class="camera-box-icon">
-                  <span class="icon-people"></span>
-                </div>
-                <div class="camera-box-title">
-                  Face: Video
-                </div>
-              </div>
-            </div>
-            <div class="rectangle rectangle--camera">
-              <div class="camera-box">
-              </div>
-              <div class="camera-box-footer">
-                <div class="camera-box-icon">
-                  <span class="icon-cars"></span>
-                </div>
-                <div class="camera-box-title">
-                  Vehicle: Video
-                </div>
-              </div>
-            </div> -->
-
-
                     </div>
-
                 </div>
-
+                <div class="col-lg-2 col-md-4 mt-3 full-screen-auto">
+                    <div class="right">
+                        <!-- <app-face-alert></app-face-alert> -->
+                        <div class="row">
+                            <div class="col-12 col-md-12 pr-0 pl-2">
+                                <div class="messages-block block">
+                                    <!-- <div class="title"><strong>New Messages</strong></div> -->
+                                    <div class="messages">
+                                        <a href="#" class="message d-flex align-items-center" *ngFor="let detection of detected_objects">
+                                            <div class="profile">
+                                                <img src="/assets/img/drone.jpg" alt="..." class="img-fluid" width="50px" height="50px">
+                                            </div>
+                                            <div class="content "> <strong class="d-block ">{{detection.objectDetected}}</strong><span class="d-block ">{{detection.confidence}} %</span><small class="date d-block ">{{detection.timeFrame}}</small></div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
         </div>
 
     </div>
-    <app-footer></app-footer>
-
+    <app-header2></app-header2>
 </body>
