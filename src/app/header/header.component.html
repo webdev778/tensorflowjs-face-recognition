@@ -1,43 +1,88 @@
-<header>
-    <nav class="navbar navbar-expand-sm">
-        <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item hover">
-                <a href="#" class="nav-link p-0">
-                    <div class="nav-box hover">
-                        <span class="icon icon--b icon-group-signal nav-box--b"></span>
-                    </div>
+<!-- <header>
+  <nav class="navbar navbar-expand-sm">
+    <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item hover">
+        <a href="" class="nav-link p-0">
+          <div class="nav-box nav-box--user hover">
+            <div class="username">
+              <a [routerLink]="['/webcam']">
+                Webcam Mode
+              </a>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="" class="nav-link p-0">
+          <a href="/profile">
+            <div class="nav-box nav-box--user hover">
+              <div class="user-img">
+                <img class="oval img" src="./assets/img/user.png" alt="user-img">
+              </div>
+              <div class="username">
+                <a [routerLink]="['/profile']">
+                  Admin
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link p-0">
-                    <a href="/profile">
-                        <div class="nav-box nav-box--user hover">
-                            <div class="user-img">
-                                <img class="oval img" src="./assets/img/user.png" alt="user-img">
-                            </div>
-                            <div class="username">
-                                    <a [routerLink]="['/profile']">
-                                        Admin
-                                    </a>
-                            </div>
-                        </div>
-                    </a>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link p-0">
-                    <a href="/profile">
-                        <div class="nav-box nav-box--user hover">
-                            <div class="username">
-                                <a [routerLink]="['/login']">
-                                  Logout
-                              </a>
-                            </div>
-                        </div>
-                    </a>
-                </a>
-            </li>
-        </ul>
+              </div>
+            </div>
+          </a>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="" class="nav-link p-0">
+          <div class="nav-box nav-box--user hover">
+            <div class="username">
+              <a [routerLink]="['/login']">
+                Logout
+              </a>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header> -->
+
+<header class="header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/dashboard"><span class="white">Ai</span><span class="blue">POD</span></a>
+            </div>
+            <div class="right-menu list-inline no-margin-bottom">
+                <div class="list-inline-item logout">
+                    <a id="logout" href="login.html" class="nav-link">
+                        <span class="d-none d-sm-inline"><b>GPR Mode</b> </span></a>
+                </div>
+                <div class="list-inline-item logout">
+                    <a id="logout" href="login.html" class="nav-link">
+                        <span class="d-none d-sm-inline"><b>Recorded Source</b> </span></a>
+                </div>
+                <div class="list-inline-item logout">
+                    <a id="logout" href="login.html" class="nav-link">
+                        <span class="d-none d-sm-inline"><b>Drone Feed Mode</b> </span></a>
+                </div>
+                <div class="list-inline-item logout">
+                    <a id="webcam" [routerLink]="['/webcam']" class="nav-link">
+                        <span class="d-none d-sm-inline"><b>Webcam Mode</b> </span></a>
+                </div>
+                <div class="list-inline-item logout">
+
+                    <span class="d-none d-sm-inline"><div class="user-img">
+                            <img class="oval img" src="./assets/img/user.png" alt="user-img">
+                          </div> </span>
+
+                </div>
+                <div class="list-inline-item logout">
+                    <a id="webcam" [routerLink]="['/webcam']" class="nav-link">
+                        <span class="d-none d-sm-inline"><b>Admin</b> </span></a>
+                </div>
+                <div class="list-inline-item logout">
+                    <a id="logout" [routerLink]="['/login']" class="nav-link">
+                        <span class="d-none d-sm-inline"><b>Logout</b> </span></a>
+                </div>
+            </div>
+        </div>
     </nav>
 </header>

@@ -1,0 +1,20 @@
+.camera-box video {
+  height: calc(20vh - 89px);
+  object-fit: cover;
+}
+
+.camera-item {
+  cursor: pointer;
+}
+
+.camera-item:hover .camera-box-footer {
+  color: white;
+}
+
+.camera-item img {
+  opacity: 0.9;
+}
+
+.camera-item:hover img {
+  opacity: 1;
+}

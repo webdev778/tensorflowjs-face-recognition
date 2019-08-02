@@ -30,6 +30,9 @@ import { FaceRegistryComponent } from './face-registry/face-registry.component';
 import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.component';
 import { CameraArrayComponent } from './camera-array/camera-array.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { CameraListComponent } from './camera-list/camera-list.component';
+import { WebcamDashboardComponent } from './webcam-dashboard/webcam-dashboard.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     FaceRegistryComponent,
     VehicleRegistryComponent,
     CameraArrayComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    CameraListComponent,
+    WebcamDashboardComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

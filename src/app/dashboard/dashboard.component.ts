@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { first } from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { first } from 'rxjs/operators';
 
 import * as cocoSSD from "@tensorflow-models/coco-ssd";
 import { User } from "../_models";
 import { UserService } from "../_services";
+
+import * as tf from '@tensorflow/tfjs';
 
 declare var faceapi: any;
 
@@ -13,7 +15,7 @@ declare var faceapi: any;
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
-  title = "TF-ObjectDetection";
+  // title = "TF-ObjectDetection";
   private video: HTMLVideoElement;
   public video_url: string;
   currentUser: User;
@@ -206,10 +208,10 @@ export class DashboardComponent implements OnInit {
   }
 
   public async predictWithCocoModel() {
-    const model = await cocoSSD.load("lite_mobilenet_v2");
-    setInterval(() => {
-      if (this.detectionMode !== 3) return;
-      this.detectFrame(this.video, model)}, 200);
+    // For COCO SDD Models
+    // const model = await cocoSSD.load("lite_mobilenet_v2");
+    const model = await tf.loadModel('/assets/model.json');
+    this.detectFrame(this.video, model);
     console.log("model loaded");
   }
 
