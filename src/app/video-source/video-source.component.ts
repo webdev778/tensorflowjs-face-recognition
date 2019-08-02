@@ -15,12 +15,14 @@ import { changeStreamById } from '@customjs/index.js';
 export class VideoSourceComponent implements OnInit {
 
     @Input() streamId;
+    @Input() feedName;
+    @Input() streamingStatus;
 
     constructor() {
     }
 
     ngOnInit() {
-        // this.setupWebRtc();
+
     }
     changeStream(streamId) {
         changeStreamById(streamId);

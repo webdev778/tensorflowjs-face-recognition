@@ -8,9 +8,9 @@ body {
 }
 
 .main-wrapper {
-    width: 97% !important;
+    width: 95% !important;
     margin: 0 auto;
-    height: calc(100vh - 135px);
+    height: calc(100vh - 120px);
 }
 
 canvas {
@@ -19,7 +19,7 @@ canvas {
 }
 
 #remotevideo {
-    background: #454b61;
+    background: #2d3035;
 }
 
 .full-screen-auto {

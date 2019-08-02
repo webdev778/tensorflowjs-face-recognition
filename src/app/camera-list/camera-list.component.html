@@ -1,10 +1,60 @@
 <div class="left-sidebar pr-3">
     <div class="row">
+
+        <div class="col-xl-12">
+            <div class="stats-2-block block d-flex">
+                <div class="stats-2 d-flex">
+                    <!-- <div class="stats-2-arrow low"><i class="fa fa-caret-down"></i></div> -->
+                    <div class="stats-2-content"><strong class="d-block">1</strong><span class="d-block">In-built Source</span>
+                        <div class="progress progress-template progress-small">
+                            <div role="progressbar" style="width: 3%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template progress-bar-small dashbg-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-2 d-flex">
+                    <!-- <div class="stats-2-arrow low"><i class="fa fa-caret-down"></i></div> -->
+                    <div class="stats-2-content"><strong class="d-block">6</strong><span class="d-block">Remote Sources</span>
+                        <div class="progress progress-template progress-small">
+                            <div role="progressbar" style="width: 3%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template progress-bar-small dashbg-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-2 d-flex">
+                    <!-- <div class="stats-2-arrow height"><i class="fa fa-caret-up"></i></div> -->
+                    <div class="stats-2-content"><strong class="d-block">184</strong><span class="d-block">Recorded Sources</span>
+                        <div class="progress progress-template progress-small">
+                            <div role="progressbar" style="width: 87%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template progress-bar-small dashbg-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-xl-6">
-            <app-video-source [streamId]="1"></app-video-source>
+            <app-video-source [feedName]="feedName[0]" [streamId]="1" [streamingStatus]="streamingStatus[0]"></app-video-source>
         </div>
         <div class="col-xl-6">
-            <app-video-source [streamId]="2"></app-video-source>
+            <app-video-source [feedName]="feedName[1]" [streamId]="2" [streamingStatus]="streamingStatus[1]"></app-video-source>
         </div>
+        <div class="col-xl-6">
+            <app-video-source [feedName]="feedName[2]" [streamId]="2" [streamingStatus]="streamingStatus[1]"></app-video-source>
+        </div>
+        <div class="col-xl-6">
+            <app-video-source [feedName]="feedName[3]" [streamId]="2" [streamingStatus]="streamingStatus[0]"></app-video-source>
+        </div>
+
+        <div class="col-xl-6">
+            <app-video-source [feedName]="feedName[4]" [streamId]="2" [streamingStatus]="streamingStatus[1]"></app-video-source>
+        </div>
+        <div class="col-xl-6">
+            <app-video-source [feedName]="feedName[5]" [streamId]="2" [streamingStatus]="streamingStatus[0]"></app-video-source>
+        </div>
+        <div class="col-xl-6">
+            <app-video-source [feedName]="feedName[6]" [streamId]="2" [streamingStatus]="streamingStatus[1]"></app-video-source>
+        </div>
+        <div class="col-xl-6">
+            <app-video-source [feedName]="feedName[7]" [streamId]="2" [streamingStatus]="streamingStatus[0]"></app-video-source>
+        </div>
+
     </div>
 </div>

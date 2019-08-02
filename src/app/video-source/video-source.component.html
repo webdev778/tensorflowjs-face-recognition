@@ -1,13 +1,23 @@
-<div class=" rectangle rectangle--camera camera-item" (click)="changeStream(streamId)">
-  <div class="camera-box ">
-    <img src="/assets/img/drone.jpg " width="100% ">
-  </div>
-  <div class="camera-box-footer ">
-    <div class="camera-box-icon ">
-      <i class="fas fa-video "></i>
+<!-- <div class=" rectangle rectangle--camera camera-item" (click)="changeStream(streamId)">
+    <div class="camera-box ">
+        <img src="/assets/img/drone.jpg" width="100% ">
     </div>
-    <div class="camera-box-title ">
-      Camera 02
+    <div class="camera-box-footer ">
+        <div class="camera-box-icon ">
+            <i class="fas fa-video "></i>
+        </div>
+        <div class="camera-box-title ">
+            Camera 02
+        </div>
     </div>
-  </div>
+</div> -->
+
+
+<div class="user-block block text-center" (click)="changeStream(streamId)">
+    <img src="/assets/img/drone.jpg" alt="..." class="img-fluid">
+
+    <a href="#" class="user-title">
+        <h3 class="h5">{{feedName}}</h3>
+    </a>
+    <div class="contributions">Streaming {{streamingStatus}}</div>
 </div>
