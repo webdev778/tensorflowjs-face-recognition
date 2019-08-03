@@ -1,0 +1,14 @@
+<div *ngIf="customer">
+    <div class="public-user-block block">
+        <div class="row d-flex align-items-center">
+            <div class="col-lg-12 d-flex align-items-center mt-4">
+                <div class="ml-2 mr-2"> <img src="/assets/img/{{customer.firstName.toLowerCase()}}/1.jpg" alt="..." class="img-fluid" width="80px"></div><a href="#" class="name"><strong class="d-block">{{customer.firstName}} {{customer.lastName}}</strong><span class="d-block">{{customer.nationality}}</span></a>
+            </div>
+            <br>
+            <div class="col-lg-12 d-flex align-items-center">
+                <a href="#" class="name ml-4 mt-4"><strong class="d-block">Wanted</strong><span class="d-block">DOB : {{customer.dob}}</span></a>
+            </div>
+
+        </div>
+    </div>
+</div>

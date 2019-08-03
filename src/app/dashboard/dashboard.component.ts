@@ -7,6 +7,8 @@ import { UserService } from "../_services";
 
 import * as tf from '@tensorflow/tfjs';
 import { DetectedObject } from '../object_detections';
+import { CustomerService } from '../customers/customer.service';
+import { map } from 'rxjs/operators';
 
 declare var faceapi: any;
 
@@ -16,6 +18,8 @@ declare var faceapi: any;
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
+
+  customers: any;
 
   // objectDetected1: DetectedObject = {
   //   objectDetected: "Person",
@@ -58,7 +62,7 @@ export class DashboardComponent implements OnInit {
   objectModel: any;
 
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private customerService: CustomerService) {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.video_url = "";
   }
@@ -67,6 +71,7 @@ export class DashboardComponent implements OnInit {
     this.predictWithCocoModel();
     // this.loadAllUsers();
     this.trackFaceAndRecognize();
+    // this.getCustomersList();
   }
 
   public async trackFaceAndRecognize() {
@@ -111,11 +116,26 @@ export class DashboardComponent implements OnInit {
       this.interval = 0;
 
       //find details from database
-      results.forEach((result, i) => {
-        this.findDetail(result.toString())
-      });
+      // results.forEach((result, i) => {
+      //   this.findDetail(result.toString())
+      // });
+      console.log(results.length);
+      if(results.length > 0)
+        this.getCustomersList(results[0].label)
     }
     this.interval ++;
+  }
+
+  getCustomersList(query: string) {
+    this.customerService.getQueryList(query).snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+          ({ key: c.payload.key, ...c.payload.val() })
+        )
+      )
+    ).subscribe(customers => {
+      this.customers = customers;
+    });
   }
 
   renderFaces = (canvas, resizedDetections, results) => {

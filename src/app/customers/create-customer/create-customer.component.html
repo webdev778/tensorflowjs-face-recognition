@@ -1,0 +1,60 @@
+<h3>Create Customer</h3>
+<div [hidden]="submitted" style="width: 300px;">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="first_name">First Name</label>
+      <input type="text" class="form-control" id="first_name" required [(ngModel)]="customer.firstName" name="first_name">
+    </div>
+
+    <div class="form-group">
+      <label for="last_name">Last Name</label>
+      <input type="text" class="form-control" id="last" required [(ngModel)]="customer.lastName" name="last_name">
+    </div>
+
+    <!-- Gender:
+    <div class="form-group">
+      <label for="male">Male</label>
+      <input type="radio" class="form-control" id="male" [(ngModel)]="customer.gender" name="gender">
+    </div>
+    <div class="form-group">
+      <label for="female">Female</label>
+      <input type="radio" class="form-control" id="female" [(ngModel)]="customer.gender" name="gender">
+    </div> -->
+
+    <div class="form-group">
+      <label for="dob">Date of Birth</label>
+      <input type="date" class="form-control" id="dob" required [(ngModel)]="customer.dob" name="dob">
+    </div>
+
+    <div class="form-group">
+      <label for="pob">Place of Birth</label>
+      <input type="text" class="form-control" id="pob" required [(ngModel)]="customer.pob" name="pob">
+    </div>
+
+    <div class="form-group">
+      <label for="nationality">Nationality</label>
+      <input type="text" class="form-control" id="nationality" required [(ngModel)]="customer.nationality" name="nationality">
+    </div>
+
+    <div class="form-group">
+      <label for="wanted_by">Wanted By</label>
+      <input type="text" class="form-control" id="wanted_by" required [(ngModel)]="customer.wanted_by" name="wanted_by">
+    </div>
+
+    <div class="form-group">
+      <label for="charge">Charge</label>
+      <input type="text" class="form-control" id="charge" required [(ngModel)]="customer.charge" name="charge">
+    </div>
+
+    <div class="form-group">
+      <label for="wanted_flag">Wanted</label>
+      <input type="checkbox" class="form-control" id="wanted_flag" required [(ngModel)]="customer.wanted_flag" name="wanted_flag">
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
+
+<div [hidden]="!submitted">
+  <h4>You submitted successfully!</h4>
+  <button class="btn btn-success" (click)="newCustomer()">Add</button>

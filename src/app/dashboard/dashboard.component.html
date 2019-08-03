@@ -49,8 +49,8 @@
                 <div class="col-lg-2 col-md-4 mt-3 full-screen-auto">
                     <div class="right">
                         <!-- <app-face-alert></app-face-alert> -->
-                        <div class="row">
-                            <div class="col-12 col-md-12 pr-0 pl-2" *ngFor="let item of [1,2,3,4,5,6,7,8]">
+                        <div class="row" *ngIf="!customers">
+                            <div class="col-12 col-md-12 pr-0 pl-2" *ngFor="let item of [1]">
 
                                 <div class="public-user-block block">
                                     <div class="row d-flex align-items-center">
@@ -64,6 +64,11 @@
 
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="customers">
+                            <div class="col-12 col-md-12 pr-0 pl-2" *ngFor="let customer of customers" >
+                                <app-customer-details [customer]='customer'></app-customer-details>
                             </div>
                         </div>
                     </div>

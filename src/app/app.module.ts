@@ -4,6 +4,10 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
@@ -34,6 +38,9 @@ import { CameraListComponent } from './camera-list/camera-list.component';
 import { WebcamDashboardComponent } from './webcam-dashboard/webcam-dashboard.component';
 import { MapComponent } from './map/map.component';
 import { Header2Component } from './header2/header2.component';
+import { CustomerDetailsComponent } from './customers/customer-details/customer-details.component';
+import { CustomersListComponent } from './customers/customers-list/customers-list.component';
+import { CreateCustomerComponent } from './customers/create-customer/create-customer.component';
 
 @NgModule({
   declarations: [
@@ -57,13 +64,19 @@ import { Header2Component } from './header2/header2.component';
     CameraListComponent,
     WebcamDashboardComponent,
     MapComponent,
-    Header2Component
+    Header2Component,
+    CustomerDetailsComponent,
+    CustomersListComponent,
+    CreateCustomerComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule, // for database
+    FormsModule,
   ],
   providers: [
     AuthGuard,
