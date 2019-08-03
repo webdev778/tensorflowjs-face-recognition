@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   currentUser: User;
   users: User[] = [];
   public convertState: number = 0;
-  detectionMode: number = 1; // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
+  detectionMode: number = 3; // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
   detail: any = {
     "first_name": "",
     "last_name": "",
@@ -35,6 +35,9 @@ export class DashboardComponent implements OnInit {
   photo: string = "./assets/img/placeholder.jpg";
   private canvas: HTMLCanvasElement;
   interval: number = 0;
+  labeledFaceDescriptors: any;
+  faceMatcher: any;
+  objectModel: any;
 
 
   constructor(private userService: UserService) {
@@ -59,19 +62,19 @@ export class DashboardComponent implements OnInit {
     ]);
     console.log("faceapi all model loaded");
 
-    const labeledFaceDescriptors = await this.loadLabeledImages();
+    this.labeledFaceDescriptors = await this.loadLabeledImages();
     console.log('all pattern loaded');
 
     const maxDescriptorDistance = 0.6
-    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
+    this.faceMatcher = new faceapi.FaceMatcher(this.labeledFaceDescriptors, maxDescriptorDistance);
 
     setInterval(() => {
       if (this.detectionMode === 1)
-        this.detectFace(this.video, labeledFaceDescriptors, faceMatcher)
+        this.detectFace(this.video)
     }, 100);
   }
 
-  detectFace = async (video, labeledFaceDescriptors, faceMatcher) => {
+  detectFace = async (video) => {
     console.log('detecting Face...')
 
     const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors()
@@ -85,7 +88,7 @@ export class DashboardComponent implements OnInit {
 
     // find
     if (this.interval % 5 == 4) {
-      const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
+      const results = resizedDetections.map(d => this.faceMatcher.findBestMatch(d.descriptor));
       this.renderFaces(this.canvas, resizedDetections, results);
       this.interval = 0;
 
@@ -208,14 +211,13 @@ export class DashboardComponent implements OnInit {
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
-    const model = await cocoSSD.load("lite_mobilenet_v2");
+    this.objectModel = await cocoSSD.load("lite_mobilenet_v2");
     console.log("model loaded");
-
-    setInterval(() => {
-      if(this.detectionMode === 3)
-        this.detectFrame(this.video, model);
-    }, 200);
-
+    this.detectFrame(this.video, this.objectModel);
+    // setInterval(() => {
+    //   if(this.detectionMode === 3)
+    //     this.detectFrame(this.video, model);
+    // }, 200);
   }
 
   deleteUser(id: number) {
@@ -273,10 +275,10 @@ export class DashboardComponent implements OnInit {
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
 
-      // requestAnimationFrame(() => {
-      //   if (this.detectionMode !== 3) return;
-      //   setTimeout(function(){console.log(this); this.detectFrame(video, model)}, 150);
-      // });
+      requestAnimationFrame(() => {
+        if (this.detectionMode !== 3) return;
+        this.detectFrame(video, model);
+      });
     });
   };
   async onDoubleClick(vID) {
@@ -358,10 +360,12 @@ export class DashboardComponent implements OnInit {
   public onFaceButton() {
     console.log("model button clicked");
     this.detectionMode = 1;
+    this.detectFace(this.video)
   }
 
   public onObjectButton() {
     console.log("model button clicked");
     this.detectionMode = 3;
+    this.detectFrame(this.video, this.objectModel);
   }
 }

@@ -18,11 +18,11 @@
 //   }, 2000);
 // });
 
-// function changeStream(id) {
-//   startJanusStream(getParameterByName('streamId', id), 'stream');
-// }
+// // function changeStream(id) {
+// //   startJanusStream(getParameterByName('streamId', id), 'stream');
+// // }
 
-// export function changeStreamById(id) {
-//   console.log(`starting stream: ${id}`);
-//   startJanusStream(getParameterByName('streamId', id), 'stream');
-// }
+// // export function changeStreamById(id) {
+// //   console.log(`starting stream: ${id}`);
+// //   startJanusStream(getParameterByName('streamId', id), 'stream');
+// // }
