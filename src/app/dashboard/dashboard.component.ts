@@ -116,12 +116,15 @@ export class DashboardComponent implements OnInit {
       this.interval = 0;
 
       //find details from database
-      // results.forEach((result, i) => {
-      //   this.findDetail(result.toString())
-      // });
+      results.forEach((result, i) => {
+        this.findDetail(result.toString())
+      });
+
+      /*
       console.log(results.length);
       if(results.length > 0)
         this.getCustomersList(results[0].label)
+        */
     }
     this.interval ++;
   }
