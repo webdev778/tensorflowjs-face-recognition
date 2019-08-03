@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
 
   detected_faces:DetectedFace[]=[{firstName: 'Target',
     lastName:'',
-    photo:'./assets/img/placeholder.jpg',
+    photo:'./assets/img/placeholder1.jpg',
     gender:'Gender',
     dateOfBirth:'Date Of Birth',
     placeOfBirth:'Place of Birth',
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
     charge:'Detecting..',
     timeStamp:'Time'},{firstName: 'Target',
     lastName:'',
-    photo:'./assets/img/placeholder.jpg',
+    photo:'./assets/img/placeholder1.jpg',
     gender:'Gender',
     dateOfBirth:'Date Of Birth',
     placeOfBirth:'Place of Birth',
@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
     charge:'Detecting..',
     timeStamp:'Time'},{firstName: 'Target',
     lastName:'',
-    photo:'./assets/img/placeholder.jpg',
+    photo:'./assets/img/placeholder1.jpg',
     gender:'Gender',
     dateOfBirth:'Date Of Birth',
     placeOfBirth:'Place of Birth',
@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
     charge:'Detecting..',
     timeStamp:'Time'},{firstName: 'Target',
     lastName:'',
-    photo:'./assets/img/placeholder.jpg',
+    photo:'./assets/img/placeholder1.jpg',
     gender:'Gender',
     dateOfBirth:'Date Of Birth',
     placeOfBirth:'Place of Birth',
@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
   detected_objects: DetectedObject[] = [{
     objectDetected: "Target",
     confidence:0,
-    timeFrame: this.time
+    timeFrame: "TimeStamp"
   },{
     objectDetected: "Target",
     confidence:0,
@@ -149,7 +149,7 @@ export class DashboardComponent implements OnInit {
     "wanted_by": "",
     "charge": ""
   };
-  photo: string = "./assets/img/placeholder.jpg";
+  photo: string = "./assets/img/placeholder1.jpg";
   private canvas: HTMLCanvasElement;
   interval: number = 0;
   labeledFaceDescriptors: any;
@@ -291,11 +291,23 @@ export class DashboardComponent implements OnInit {
       {
         this.detected_faces.splice(0, 3);
       }
+
+      this.detected_faces = this.detected_faces.reduce((acc, current) => {
+        const x = acc.find(item => item.firstName === current.firstName);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+
+      // this.detected_faces.reverse();
+
     console.log('find detail executed')
   }
 
   loadLabeledImages = () => {
-    const labels = ['geibi', 'ramadan', 'qader', 'alaswadi'];
+    const labels = ['geibi', 'ramadan', 'qader', 'alaswadi','carl','jorge','alex'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
@@ -395,6 +407,17 @@ export class DashboardComponent implements OnInit {
           timeFrame: time
         });
       });
+
+      this.detected_objects = this.detected_objects.reduce((acc, current) => {
+        const x = acc.find(item => item.objectDetected === current.objectDetected);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+
+
       if (this.detected_objects.length >20)
       {
         this.detected_objects.splice(0, this.detected_objects.length-20);
@@ -406,6 +429,7 @@ export class DashboardComponent implements OnInit {
       });
       console.log(predictions);
     });
+    // this.detected_objects.reverse();
   };
   // async onDoubleClick(vID) {
   //   var pvTag = document.getElementById("def-video");

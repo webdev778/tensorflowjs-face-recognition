@@ -6,10 +6,10 @@ export const faceRegister = [
     "gender": "male",
     "dob": "1966-07-01",
     "pob": "Nagaf, Iraq",
-    "nationality": "Iraq",
+    "nationality": "Iraqi",
     "wanted_by": "Belgium",
     "wanted_status":1,
-    "charge": ""
+    "charge": "Theft with violence and with aggravating circumstances (murder)"
   },
   {
     "key": "ramadan",
@@ -18,10 +18,10 @@ export const faceRegister = [
     "gender": "male",
     "dob": "1987-08-26",
     "pob": "Shikhan, Iraq",
-    "nationality": "Iraq",
+    "nationality": "Iraqi",
     "wanted_by": "Sweden",
     "wanted_status":1,
-    "charge": ""
+    "charge": "Murder"
   },
   {
     "key": "qader",
@@ -30,10 +30,10 @@ export const faceRegister = [
     "gender": "male",
     "dob": "1997-08-27",
     "pob": "Nagaf, Iraq",
-    "nationality": "Iraq",
+    "nationality": "Iraqi",
     "wanted_by": "Sweden",
     "wanted_status":1,
-    "charge": ""
+    "charge": "Kidnapping and murder."
   },
   {
     "key": "alaswadi",
@@ -42,8 +42,44 @@ export const faceRegister = [
     "gender": "male",
     "dob": "1985",
     "pob": "Iraq",
-    "nationality": "Iraq",
+    "nationality": "Iraqi",
     "wanted_by": "Iraq",
     "wanted_status":1,
-    "charge": ""
+    "charge": "Terrorist / Kidnapping and murder in furtherance of a terrorist purpose"
+  },
+  {
+    "key": "carl",
+    "first_name": "CARL",
+    "last_name": "FREER",
+    "gender": "Male",
+    "dob": "1970",
+    "pob": "Sweden",
+    "nationality": "Swedish",
+    "wanted_by": "None",
+    "wanted_status":0,
+    "charge": "None"
+  },
+  {
+    "key": "jorge",
+    "first_name": "JORGE",
+    "last_name": "SEBASTIAO",
+    "gender": "Male",
+    "dob": "1965",
+    "pob": "Portugal",
+    "nationality": "Portugese",
+    "wanted_by": "None",
+    "wanted_status":0,
+    "charge": "None"
+  },
+  {
+    "key": "alex",
+    "first_name": "ALEX",
+    "last_name": "GADOTTI",
+    "gender": "Male",
+    "dob": "1969",
+    "pob": "Italy",
+    "nationality": "Italian",
+    "wanted_by": "None",
+    "wanted_status":0,
+    "charge": "None"
   }]
