@@ -11,6 +11,9 @@ export class CameraListComponent implements OnInit {
   feedName = ["Drone 1",'Recorded 1',"Drone 2",'Connected 1',"Drone GPR 1",'Drone 6',"Drone 7",'Drone 8']
 
   camera_list = ['Camera 01','Camera 02','Camera 03','Camera 04','Camera 05','Camera 01','Camera 02','Camera 03','Camera 04','Camera 05'];
+
+  SourceImage = ['drone2','server','drone','server','drone','drone2','drone','server'];
+
   constructor() { }
 
   ngOnInit() {

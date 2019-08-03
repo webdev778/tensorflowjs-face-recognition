@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'webcam', component: WebcamDashboardComponent },
+  { path: 'drone', component: DashboardComponent },
   { path: 'profile', component: UserProfileComponent },
   { path: 'emotions', component: AffectivaEmotionsComponent },
   { path: 'add_camera', component: CameraArrayComponent },

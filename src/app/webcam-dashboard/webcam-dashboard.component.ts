@@ -26,6 +26,8 @@ export class WebcamDashboardComponent implements OnInit {
     timeFrame: 'Test'
   }]
 
+  // detected_objects:DetectedObject[] = []
+
   // title = "TF-ObjectDetection";
   private video: HTMLVideoElement;
   public video_url: string;
@@ -96,7 +98,7 @@ export class WebcamDashboardComponent implements OnInit {
     // faceapi.draw.drawFaceExpressions(this.canvas, resizedDetections)
 
     // find
-    if (this.interval % 5 == 4) {
+    if (this.interval % 5 == 2) {
       const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
       this.renderFaces(this.canvas, resizedDetections, results);
       this.interval = 0;
@@ -220,8 +222,10 @@ export class WebcamDashboardComponent implements OnInit {
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
-    const model = await cocoSSD.load("lite_mobilenet_v2");
-    console.log("model loaded");
+
+    const model = await tf.loadModel('./assets/models/tfjs_weapons/model.json')
+    // const model = await cocoSSD.load("lite_mobilenet_v2");
+    console.log("weapons model loaded");
 
     setInterval(() => {
       if(this.detectionMode === 3)
@@ -249,7 +253,7 @@ export class WebcamDashboardComponent implements OnInit {
   }
 
   webcam_init() {
-    this.video = <HTMLVideoElement>document.getElementById("remotevideo");
+    this.video = <HTMLVideoElement>document.getElementById("vid");
     this.canvas = <HTMLCanvasElement>document.getElementById("canvas");
     const displaySize = { width: 640, height: 480 };
     faceapi.matchDimensions(this.canvas, displaySize);

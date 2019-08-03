@@ -1,0 +1,77 @@
+body {
+    line-height: 1.2;
+    background: #353b49;
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.main-wrapper {
+    width: 95% !important;
+    margin: 0 auto;
+    height: calc(100vh - 120px);
+}
+
+canvas {
+    position: relative;
+    top: -480px;
+}
+
+#remotevideo {
+    background: #2d3035;
+}
+
+.full-screen-auto {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 160px);
+}
+
+.full-screen-auto::-webkit-scrollbar {
+    width: 0px;
+}
+
+.full-screen-auto::-webkit-scrollbar-thumb {
+    background: #545a71;
+    border-radius: 2px;
+}
+
+.full-screen-auto::-webkit-scrollbar-track {
+    background: #303643;
+}
+
+.wanted-padding {
+    padding: 5px 8px 5px 8px;
+}
+
+.hidden-scrolled {
+    overflow: hidden;
+}
+
+.center-margin {
+    margin: 0 auto;
+}
+
+.personal-button {
+    font-size: 14px;
+}
+
+.person-overview {
+    font-size: 14px;
+    color: white;
+}
+
+.person-id img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.nav-list {
+    max-height: calc(100vh - 730px);
+}
+
+.dot-4 {
+    top: 7px;
+}

@@ -17,6 +17,7 @@ export class VideoSourceComponent implements OnInit {
     @Input() streamId;
     @Input() feedName;
     @Input() streamingStatus;
+    @Input() sourceImage;
 
     constructor() {
     }

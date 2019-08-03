@@ -20,21 +20,71 @@ declare var faceapi: any;
 export class DashboardComponent implements OnInit {
 
   customers: any;
+  timeNow: any;
+  todayDate: any= new Date();
+  // todayDate = new Date();
+  time = this.todayDate.getHours() + ":" + this.todayDate.getMinutes() + ":" + this.todayDate.getSeconds();
 
   // objectDetected1: DetectedObject = {
   //   objectDetected: "Person",
   //   timeFrame: 'Test'
   // };
 
-  detected_objects:DetectedObject[] = [{
-    objectDetected: "Person",
-    confidence:50,
-    timeFrame: 'Test'
+  detected_objects: DetectedObject[] = [{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
   },{
-    objectDetected: "Person",
-    confidence:50,
-    timeFrame: 'Test'
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
   }]
+
+  // detected_objects:DetectedObject[] = []
 
   // title = "TF-ObjectDetection";
   private video: HTMLVideoElement;
@@ -110,7 +160,7 @@ export class DashboardComponent implements OnInit {
     // faceapi.draw.drawFaceExpressions(this.canvas, resizedDetections)
 
     // find
-    if (this.interval % 5 == 4) {
+    if (this.interval % 5 == 2) {
       const results = resizedDetections.map(d => this.faceMatcher.findBestMatch(d.descriptor));
       this.renderFaces(this.canvas, resizedDetections, results);
       this.interval = 0;
@@ -253,7 +303,9 @@ export class DashboardComponent implements OnInit {
   public async predictWithCocoModel() {
     // For COCO SDD Models
     this.objectModel = await cocoSSD.load("lite_mobilenet_v2");
-    console.log("model loaded");
+    // Weapons model
+    // this.objectModel = await tf.loadModel('./assets/models/tfjs_weapons/model.json');
+    console.log("weapons model loaded");
     this.detectFrame(this.video, this.objectModel);
     // setInterval(() => {
     //   if(this.detectionMode === 3)
@@ -337,44 +389,44 @@ export class DashboardComponent implements OnInit {
       console.log(predictions);
     });
   };
-  async onDoubleClick(vID) {
-    var pvTag = document.getElementById("def-video");
-    var videTag = document.createElement("video");
-    var sourceTag = document.createElement("source");
-    var movieName = vID;
-    var canvasTag = document.createElement("canvas");
-    // source tag attribute
-    sourceTag.setAttribute("src", movieName);
-    sourceTag.setAttribute("type", "video/mp4");
+  // async onDoubleClick(vID) {
+  //   var pvTag = document.getElementById("def-video");
+  //   var videTag = document.createElement("video");
+  //   var sourceTag = document.createElement("source");
+  //   var movieName = vID;
+  //   var canvasTag = document.createElement("canvas");
+  //   // source tag attribute
+  //   sourceTag.setAttribute("src", movieName);
+  //   sourceTag.setAttribute("type", "video/mp4");
 
-    // canvas tag attribute
-    canvasTag.setAttribute("_ngcontent-lfq-c1", "");
-    canvasTag.setAttribute("id", "canvas");
-    canvasTag.setAttribute("width", "640");
-    canvasTag.setAttribute("height", "480");
-    canvasTag.setAttribute("style", "position: relative; top:-480px");
-    // video tag attribute
-    videTag.setAttribute("autoplay", "true");
-    videTag.setAttribute("loop", "true");
-    videTag.setAttribute("width", "640");
-    videTag.setAttribute("height", "480");
-    videTag.setAttribute("id", "vid");
-    videTag.appendChild(sourceTag);
-    this.convertState = 1;
-    if (pvTag.childNodes.length != 0) {
-      await pvTag.removeChild(pvTag.childNodes[1]);
-      await pvTag.removeChild(pvTag.childNodes[0]);
-    }
+  //   // canvas tag attribute
+  //   canvasTag.setAttribute("_ngcontent-lfq-c1", "");
+  //   canvasTag.setAttribute("id", "canvas");
+  //   canvasTag.setAttribute("width", "640");
+  //   canvasTag.setAttribute("height", "480");
+  //   canvasTag.setAttribute("style", "position: relative; top:-480px");
+  //   // video tag attribute
+  //   videTag.setAttribute("autoplay", "true");
+  //   videTag.setAttribute("loop", "true");
+  //   videTag.setAttribute("width", "640");
+  //   videTag.setAttribute("height", "480");
+  //   videTag.setAttribute("id", "vid");
+  //   videTag.appendChild(sourceTag);
+  //   this.convertState = 1;
+  //   if (pvTag.childNodes.length != 0) {
+  //     await pvTag.removeChild(pvTag.childNodes[1]);
+  //     await pvTag.removeChild(pvTag.childNodes[0]);
+  //   }
 
-    await pvTag.appendChild(videTag);
-    await pvTag.appendChild(canvasTag);
-    await this.getVideoTag();
-    const model = await cocoSSD.load("lite_mobilenet_v2");
-    await this.loadDetectFrame(this.video, model);
-  }
-  getVideoTag() {
-    this.video = <HTMLVideoElement>document.getElementById("vid");
-  }
+  //   await pvTag.appendChild(videTag);
+  //   await pvTag.appendChild(canvasTag);
+  //   await this.getVideoTag();
+  //   const model = await cocoSSD.load("lite_mobilenet_v2");
+  //   await this.loadDetectFrame(this.video, model);
+  // }
+  // getVideoTag() {
+  //   this.video = <HTMLVideoElement>document.getElementById("vid");
+  // }
 
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
