@@ -7,6 +7,8 @@ import { UserService } from "../_services";
 
 import * as tf from '@tensorflow/tfjs';
 import { DetectedObject } from '../object_detections';
+import { DetectedFace } from '../face_detections';
+import { faceRegister } from '../face_registry';
 import { CustomerService } from '../customers/customer.service';
 import { map } from 'rxjs/operators';
 
@@ -22,6 +24,7 @@ export class DashboardComponent implements OnInit {
   customers: any;
   timeNow: any;
   todayDate: any= new Date();
+  face_counter:number = 0;
   // todayDate = new Date();
   time = this.todayDate.getHours() + ":" + this.todayDate.getMinutes() + ":" + this.todayDate.getSeconds();
 
@@ -29,6 +32,48 @@ export class DashboardComponent implements OnInit {
   //   objectDetected: "Person",
   //   timeFrame: 'Test'
   // };
+
+  detected_faces:DetectedFace[]=[{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'},{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'},{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'},{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'}];
 
   detected_objects: DetectedObject[] = [{
     objectDetected: "Target",
@@ -220,59 +265,32 @@ export class DashboardComponent implements OnInit {
   }
 
   findDetail(firstName: string) {
-    const wantedList = [
-      {
-        "key": "geibi",
-        "first_name": "GEIBI",
-        "last_name": "KASSIM",
-        "gender": "male",
-        "dob": "1966-07-01",
-        "pob": "Nagaf, Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Belgium",
-        "charge": ""
-      },
-      {
-        "key": "ramadan",
-        "first_name": "RAMADAN",
-        "last_name": "RAMADAN TAHER",
-        "gender": "male",
-        "dob": "1987-08-26",
-        "pob": "Shikhan, Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Sweden",
-        "charge": ""
-      },
-      {
-        "key": "qader",
-        "first_name": "QADER",
-        "last_name": "GARMIAN",
-        "gender": "male",
-        "dob": "1997-08-27",
-        "pob": "Nagaf, Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Sweden",
-        "charge": ""
-      },
-      {
-        "key": "alaswadi",
-        "first_name": "ALASWADI",
-        "last_name": "AHMAD",
-        "gender": "male",
-        "dob": "1985",
-        "pob": "Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Iraq",
-        "charge": ""
-      }]
+
     let param = firstName.split(" ")[0];
-    let detail = wantedList.find(item => (item.key === param))
+    let detail = faceRegister.find(item => (item.key === param));
+    // this.detected_faces.splice(0, 3);
     if (detail) {
       this.detail = detail;
       this.photo = `/assets/img/${param}/1.jpg`;
+      this.detected_faces.push({firstName: this.detail.first_name,
+      lastName:this.detail.last_name,
+      photo:this.photo,
+      gender:this.detail.gender,
+      dateOfBirth:this.detail.dob,
+      placeOfBirth:this.detail.pob,
+      nationality:this.detail.nationality,
+      wantedStatus:this.detail.wanted_status,
+      wantedBy:this.detail.wanted_by,
+      charge:this.detail.charge,
+      timeStamp:this.time});
+      this.face_counter ++;
     } else {
       //this.detail = {};
     }
+    if ( this.face_counter == 0)
+      {
+        this.detected_faces.splice(0, 3);
+      }
     console.log('find detail executed')
   }
 

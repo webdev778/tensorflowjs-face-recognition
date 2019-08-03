@@ -7,6 +7,7 @@ import { UserService } from "../_services";
 
 import * as tf from '@tensorflow/tfjs';
 import { DetectedObject } from '../object_detections';
+import { faceRegister } from '../face_registry';
 
 declare var faceapi: any;
 
@@ -140,53 +141,53 @@ export class WebcamDashboardComponent implements OnInit {
   }
 
   findDetail(firstName: string) {
-    const wantedList = [
-      {
-        "key": "geibi",
-        "first_name": "GEIBI",
-        "last_name": "KASSIM",
-        "gender": "male",
-        "dob": "1966-07-01",
-        "pob": "Nagaf, Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Belgium",
-        "charge": ""
-      },
-      {
-        "key": "ramadan",
-        "first_name": "RAMADAN",
-        "last_name": "RAMADAN TAHER",
-        "gender": "male",
-        "dob": "1987-08-26",
-        "pob": "Shikhan, Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Sweden",
-        "charge": ""
-      },
-      {
-        "key": "qader",
-        "first_name": "QADER",
-        "last_name": "GARMIAN",
-        "gender": "male",
-        "dob": "1997-08-27",
-        "pob": "Nagaf, Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Sweden",
-        "charge": ""
-      },
-      {
-        "key": "alaswadi",
-        "first_name": "ALASWADI",
-        "last_name": "AHMAD",
-        "gender": "male",
-        "dob": "1985",
-        "pob": "Iraq",
-        "nationality": "Iraq",
-        "wanted_by": "Iraq",
-        "charge": ""
-      }]
+    // const wantedList = [
+    //   {
+    //     "key": "geibi",
+    //     "first_name": "GEIBI",
+    //     "last_name": "KASSIM",
+    //     "gender": "male",
+    //     "dob": "1966-07-01",
+    //     "pob": "Nagaf, Iraq",
+    //     "nationality": "Iraq",
+    //     "wanted_by": "Belgium",
+    //     "charge": ""
+    //   },
+    //   {
+    //     "key": "ramadan",
+    //     "first_name": "RAMADAN",
+    //     "last_name": "RAMADAN TAHER",
+    //     "gender": "male",
+    //     "dob": "1987-08-26",
+    //     "pob": "Shikhan, Iraq",
+    //     "nationality": "Iraq",
+    //     "wanted_by": "Sweden",
+    //     "charge": ""
+    //   },
+    //   {
+    //     "key": "qader",
+    //     "first_name": "QADER",
+    //     "last_name": "GARMIAN",
+    //     "gender": "male",
+    //     "dob": "1997-08-27",
+    //     "pob": "Nagaf, Iraq",
+    //     "nationality": "Iraq",
+    //     "wanted_by": "Sweden",
+    //     "charge": ""
+    //   },
+    //   {
+    //     "key": "alaswadi",
+    //     "first_name": "ALASWADI",
+    //     "last_name": "AHMAD",
+    //     "gender": "male",
+    //     "dob": "1985",
+    //     "pob": "Iraq",
+    //     "nationality": "Iraq",
+    //     "wanted_by": "Iraq",
+    //     "charge": ""
+    //   }]
     let param = firstName.split(" ")[0];
-    let detail = wantedList.find(item => (item.key === param))
+    let detail = faceRegister.find(item => (item.key === param))
     if (detail) {
       this.detail = detail;
       this.photo = `/assets/img/${param}/1.jpg`;
@@ -222,7 +223,6 @@ export class WebcamDashboardComponent implements OnInit {
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
-
     const model = await tf.loadModel('./assets/models/tfjs_weapons/model.json')
     // const model = await cocoSSD.load("lite_mobilenet_v2");
     console.log("weapons model loaded");
@@ -231,7 +231,6 @@ export class WebcamDashboardComponent implements OnInit {
       if(this.detectionMode === 3)
         this.detectFrame(this.video, model);
     }, 200);
-
   }
 
   deleteUser(id: number) {
