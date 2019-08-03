@@ -6,6 +6,7 @@ import { User } from "../_models";
 import { UserService } from "../_services";
 
 import * as tf from '@tensorflow/tfjs';
+import { DetectedObject } from '../object_detections';
 
 declare var faceapi: any;
 
@@ -15,11 +16,28 @@ declare var faceapi: any;
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
+
+  // objectDetected1: DetectedObject = {
+  //   objectDetected: "Person",
+  //   timeFrame: 'Test'
+  // };
+
+  detected_objects:DetectedObject[] = [{
+    objectDetected: "Person",
+    confidence:50,
+    timeFrame: 'Test'
+  },{
+    objectDetected: "Person",
+    confidence:50,
+    timeFrame: 'Test'
+  }]
+
   // title = "TF-ObjectDetection";
   private video: HTMLVideoElement;
   public video_url: string;
   currentUser: User;
   users: User[] = [];
+  object_detections = [];
   public convertState: number = 0;
   detectionMode: number = 3; // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
   detail: any = {
@@ -275,10 +293,25 @@ export class DashboardComponent implements OnInit {
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
 
+      predictions.forEach(prediction => {
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        this.detected_objects.push({
+          objectDetected: prediction.class,
+          confidence:Math.round(prediction.score*100),
+          timeFrame: time
+        });
+      });
+      if (this.detected_objects.length >20)
+      {
+        this.detected_objects.splice(0, this.detected_objects.length-20);
+      }
+
       requestAnimationFrame(() => {
         if (this.detectionMode !== 3) return;
         this.detectFrame(video, model);
       });
+      console.log(predictions);
     });
   };
   async onDoubleClick(vID) {
