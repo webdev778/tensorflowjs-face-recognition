@@ -7,7 +7,10 @@ import { UserService } from "../_services";
 
 import * as tf from '@tensorflow/tfjs';
 import { DetectedObject } from '../object_detections';
+import { DetectedFace } from '../face_detections';
 import { faceRegister } from '../face_registry';
+import { CustomerService } from '../customers/customer.service';
+import { map } from 'rxjs/operators';
 
 declare var faceapi: any;
 
@@ -17,14 +20,112 @@ declare var faceapi: any;
   styleUrls: ['./webcam-dashboard.component.css']
 })
 export class WebcamDashboardComponent implements OnInit {
-  detected_objects:DetectedObject[] = [{
-    objectDetected: "Person",
-    confidence:50,
-    timeFrame: 'Test'
+  customers: any;
+  timeNow: any;
+  todayDate: any= new Date();
+  face_counter:number = 0;
+  // todayDate = new Date();
+  time = this.todayDate.getHours() + ":" + this.todayDate.getMinutes() + ":" + this.todayDate.getSeconds();
+
+  // objectDetected1: DetectedObject = {
+  //   objectDetected: "Person",
+  //   timeFrame: 'Test'
+  // };
+
+  detected_faces:DetectedFace[]=[{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder1.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'},{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder1.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'},{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder1.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'},{firstName: 'Target',
+    lastName:'',
+    photo:'./assets/img/placeholder1.jpg',
+    gender:'Gender',
+    dateOfBirth:'Date Of Birth',
+    placeOfBirth:'Place of Birth',
+    nationality:'Nationality',
+    wantedStatus:0,
+    wantedBy:'Wanted by',
+    charge:'Detecting..',
+    timeStamp:'Time'}];
+
+  detected_objects: DetectedObject[] = [{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: "TimeStamp"
   },{
-    objectDetected: "Person",
-    confidence:50,
-    timeFrame: 'Test'
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
+  },{
+    objectDetected: "Target",
+    confidence:0,
+    timeFrame: this.time
   }]
 
   // detected_objects:DetectedObject[] = []
@@ -36,7 +137,7 @@ export class WebcamDashboardComponent implements OnInit {
   users: User[] = [];
   object_detections = [];
   public convertState: number = 0;
-  detectionMode: number = 1; // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
+  detectionMode: number = 3; // 1: Face, 2: Vehicle, 3: Object, 4: Emotions
   detail: any = {
     "first_name": "",
     "last_name": "",
@@ -47,12 +148,15 @@ export class WebcamDashboardComponent implements OnInit {
     "wanted_by": "",
     "charge": ""
   };
-  photo: string = "./assets/img/placeholder.jpg";
+  photo: string = "./assets/img/placeholder1.jpg";
   private canvas: HTMLCanvasElement;
   interval: number = 0;
+  labeledFaceDescriptors: any;
+  faceMatcher: any;
+  objectModel: any;
 
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private customerService: CustomerService) {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.video_url = "";
   }
@@ -61,6 +165,7 @@ export class WebcamDashboardComponent implements OnInit {
     this.predictWithCocoModel();
     // this.loadAllUsers();
     this.trackFaceAndRecognize();
+    // this.getCustomersList();
   }
 
   public async trackFaceAndRecognize() {
@@ -74,19 +179,19 @@ export class WebcamDashboardComponent implements OnInit {
     ]);
     console.log("faceapi all model loaded");
 
-    const labeledFaceDescriptors = await this.loadLabeledImages();
+    this.labeledFaceDescriptors = await this.loadLabeledImages();
     console.log('all pattern loaded');
 
     const maxDescriptorDistance = 0.6
-    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
+    this.faceMatcher = new faceapi.FaceMatcher(this.labeledFaceDescriptors, maxDescriptorDistance);
 
     setInterval(() => {
       if (this.detectionMode === 1)
-        this.detectFace(this.video, labeledFaceDescriptors, faceMatcher)
+        this.detectFace(this.video)
     }, 100);
   }
 
-  detectFace = async (video, labeledFaceDescriptors, faceMatcher) => {
+  detectFace = async (video) => {
     console.log('detecting Face...')
 
     const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors()
@@ -100,7 +205,7 @@ export class WebcamDashboardComponent implements OnInit {
 
     // find
     if (this.interval % 5 == 2) {
-      const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
+      const results = resizedDetections.map(d => this.faceMatcher.findBestMatch(d.descriptor));
       this.renderFaces(this.canvas, resizedDetections, results);
       this.interval = 0;
 
@@ -108,8 +213,26 @@ export class WebcamDashboardComponent implements OnInit {
       results.forEach((result, i) => {
         this.findDetail(result.toString())
       });
+
+      /*
+      console.log(results.length);
+      if(results.length > 0)
+        this.getCustomersList(results[0].label)
+        */
     }
     this.interval ++;
+  }
+
+  getCustomersList(query: string) {
+    this.customerService.getQueryList(query).snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+          ({ key: c.payload.key, ...c.payload.val() })
+        )
+      )
+    ).subscribe(customers => {
+      this.customers = customers;
+    });
   }
 
   renderFaces = (canvas, resizedDetections, results) => {
@@ -141,64 +264,49 @@ export class WebcamDashboardComponent implements OnInit {
   }
 
   findDetail(firstName: string) {
-    // const wantedList = [
-    //   {
-    //     "key": "geibi",
-    //     "first_name": "GEIBI",
-    //     "last_name": "KASSIM",
-    //     "gender": "male",
-    //     "dob": "1966-07-01",
-    //     "pob": "Nagaf, Iraq",
-    //     "nationality": "Iraq",
-    //     "wanted_by": "Belgium",
-    //     "charge": ""
-    //   },
-    //   {
-    //     "key": "ramadan",
-    //     "first_name": "RAMADAN",
-    //     "last_name": "RAMADAN TAHER",
-    //     "gender": "male",
-    //     "dob": "1987-08-26",
-    //     "pob": "Shikhan, Iraq",
-    //     "nationality": "Iraq",
-    //     "wanted_by": "Sweden",
-    //     "charge": ""
-    //   },
-    //   {
-    //     "key": "qader",
-    //     "first_name": "QADER",
-    //     "last_name": "GARMIAN",
-    //     "gender": "male",
-    //     "dob": "1997-08-27",
-    //     "pob": "Nagaf, Iraq",
-    //     "nationality": "Iraq",
-    //     "wanted_by": "Sweden",
-    //     "charge": ""
-    //   },
-    //   {
-    //     "key": "alaswadi",
-    //     "first_name": "ALASWADI",
-    //     "last_name": "AHMAD",
-    //     "gender": "male",
-    //     "dob": "1985",
-    //     "pob": "Iraq",
-    //     "nationality": "Iraq",
-    //     "wanted_by": "Iraq",
-    //     "charge": ""
-    //   }]
+
     let param = firstName.split(" ")[0];
-    let detail = faceRegister.find(item => (item.key === param))
+    let detail = faceRegister.find(item => (item.key === param));
+    // this.detected_faces.splice(0, 3);
     if (detail) {
       this.detail = detail;
       this.photo = `/assets/img/${param}/1.jpg`;
+      this.detected_faces.push({firstName: this.detail.first_name,
+      lastName:this.detail.last_name,
+      photo:this.photo,
+      gender:this.detail.gender,
+      dateOfBirth:this.detail.dob,
+      placeOfBirth:this.detail.pob,
+      nationality:this.detail.nationality,
+      wantedStatus:this.detail.wanted_status,
+      wantedBy:this.detail.wanted_by,
+      charge:this.detail.charge,
+      timeStamp:this.time});
+      this.face_counter ++;
     } else {
       //this.detail = {};
     }
+    if ( this.face_counter == 0)
+      {
+        this.detected_faces.splice(0, 3);
+      }
+
+      this.detected_faces = this.detected_faces.reduce((acc, current) => {
+        const x = acc.find(item => item.firstName === current.firstName);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+
+      // this.detected_faces.reverse();
+
     console.log('find detail executed')
   }
 
   loadLabeledImages = () => {
-    const labels = ['geibi', 'ramadan', 'qader', 'alaswadi'];
+    const labels = ['geibi', 'ramadan','qader','alkhazarji','carl','jorge','alex'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
@@ -223,14 +331,15 @@ export class WebcamDashboardComponent implements OnInit {
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
-    const model = await tf.loadModel('./assets/models/tfjs_weapons/model.json')
-    // const model = await cocoSSD.load("lite_mobilenet_v2");
+    this.objectModel = await cocoSSD.load("lite_mobilenet_v2");
+    // Weapons model
+    // this.objectModel = await tf.loadModel('./assets/models/tfjs_weapons/model.json');
     console.log("weapons model loaded");
-
-    setInterval(() => {
-      if(this.detectionMode === 3)
-        this.detectFrame(this.video, model);
-    }, 200);
+    this.detectFrame(this.video, this.objectModel);
+    // setInterval(() => {
+    //   if(this.detectionMode === 3)
+    //     this.detectFrame(this.video, model);
+    // }, 200);
   }
 
   deleteUser(id: number) {
@@ -287,7 +396,6 @@ export class WebcamDashboardComponent implements OnInit {
     console.log("detectFrame :");
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
-      console.log(predictions);
 
       predictions.forEach(prediction => {
         var today = new Date();
@@ -298,54 +406,68 @@ export class WebcamDashboardComponent implements OnInit {
           timeFrame: time
         });
       });
+
+      this.detected_objects = this.detected_objects.reduce((acc, current) => {
+        const x = acc.find(item => item.objectDetected === current.objectDetected);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+
+
       if (this.detected_objects.length >20)
       {
         this.detected_objects.splice(0, this.detected_objects.length-20);
       }
-      // requestAnimationFrame(() => {
-      //   if (this.detectionMode !== 3) return;
-      //   setTimeout(function(){console.log(this); this.detectFrame(video, model)}, 150);
-      // });
+
+      requestAnimationFrame(() => {
+        if (this.detectionMode !== 3) return;
+        this.detectFrame(video, model);
+      });
+      console.log(predictions);
     });
+    // this.detected_objects.reverse();
   };
-  async onDoubleClick(vID) {
-    var pvTag = document.getElementById("def-video");
-    var videTag = document.createElement("video");
-    var sourceTag = document.createElement("source");
-    var movieName = vID;
-    var canvasTag = document.createElement("canvas");
-    // source tag attribute
-    sourceTag.setAttribute("src", movieName);
-    sourceTag.setAttribute("type", "video/mp4");
+  // async onDoubleClick(vID) {
+  //   var pvTag = document.getElementById("def-video");
+  //   var videTag = document.createElement("video");
+  //   var sourceTag = document.createElement("source");
+  //   var movieName = vID;
+  //   var canvasTag = document.createElement("canvas");
+  //   // source tag attribute
+  //   sourceTag.setAttribute("src", movieName);
+  //   sourceTag.setAttribute("type", "video/mp4");
 
-    // canvas tag attribute
-    canvasTag.setAttribute("_ngcontent-lfq-c1", "");
-    canvasTag.setAttribute("id", "canvas");
-    canvasTag.setAttribute("width", "640");
-    canvasTag.setAttribute("height", "480");
-    canvasTag.setAttribute("style", "position: relative; top:-480px");
-    // video tag attribute
-    videTag.setAttribute("autoplay", "true");
-    videTag.setAttribute("loop", "true");
-    videTag.setAttribute("width", "640");
-    videTag.setAttribute("height", "480");
-    videTag.setAttribute("id", "vid");
-    videTag.appendChild(sourceTag);
-    this.convertState = 1;
-    if (pvTag.childNodes.length != 0) {
-      await pvTag.removeChild(pvTag.childNodes[1]);
-      await pvTag.removeChild(pvTag.childNodes[0]);
-    }
+  //   // canvas tag attribute
+  //   canvasTag.setAttribute("_ngcontent-lfq-c1", "");
+  //   canvasTag.setAttribute("id", "canvas");
+  //   canvasTag.setAttribute("width", "640");
+  //   canvasTag.setAttribute("height", "480");
+  //   canvasTag.setAttribute("style", "position: relative; top:-480px");
+  //   // video tag attribute
+  //   videTag.setAttribute("autoplay", "true");
+  //   videTag.setAttribute("loop", "true");
+  //   videTag.setAttribute("width", "640");
+  //   videTag.setAttribute("height", "480");
+  //   videTag.setAttribute("id", "vid");
+  //   videTag.appendChild(sourceTag);
+  //   this.convertState = 1;
+  //   if (pvTag.childNodes.length != 0) {
+  //     await pvTag.removeChild(pvTag.childNodes[1]);
+  //     await pvTag.removeChild(pvTag.childNodes[0]);
+  //   }
 
-    await pvTag.appendChild(videTag);
-    await pvTag.appendChild(canvasTag);
-    await this.getVideoTag();
-    const model = await cocoSSD.load("lite_mobilenet_v2");
-    await this.loadDetectFrame(this.video, model);
-  }
-  getVideoTag() {
-    this.video = <HTMLVideoElement>document.getElementById("vid");
-  }
+  //   await pvTag.appendChild(videTag);
+  //   await pvTag.appendChild(canvasTag);
+  //   await this.getVideoTag();
+  //   const model = await cocoSSD.load("lite_mobilenet_v2");
+  //   await this.loadDetectFrame(this.video, model);
+  // }
+  // getVideoTag() {
+  //   this.video = <HTMLVideoElement>document.getElementById("vid");
+  // }
 
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
@@ -387,10 +509,12 @@ export class WebcamDashboardComponent implements OnInit {
   public onFaceButton() {
     console.log("model button clicked");
     this.detectionMode = 1;
+    this.detectFace(this.video)
   }
 
   public onObjectButton() {
     console.log("model button clicked");
     this.detectionMode = 3;
+    this.detectFrame(this.video, this.objectModel);
   }
 }

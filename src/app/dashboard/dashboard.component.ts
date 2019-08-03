@@ -307,7 +307,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadLabeledImages = () => {
-    const labels = ['geibi', 'ramadan', 'qader', 'alaswadi','carl','jorge','alex'];
+    const labels = ['geibi', 'ramadan','qader','alkhazarji','carl','jorge','alex'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
