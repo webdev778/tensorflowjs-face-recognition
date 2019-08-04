@@ -23,7 +23,7 @@ export class WebcamDashboardComponent implements OnInit {
   customers: any;
   timeNow: any;
   todayDate: any= new Date();
-  face_counter:number = 0;
+  // face_counter:number = 0;
   // todayDate = new Date();
   time = this.todayDate.getHours() + ":" + this.todayDate.getMinutes() + ":" + this.todayDate.getSeconds();
 
@@ -191,6 +191,13 @@ export class WebcamDashboardComponent implements OnInit {
     }, 100);
   }
 
+  getFields(input, field) {
+    var output = [];
+    for (var i=0; i < input.length ; ++i)
+        output.push(input[i][field]);
+    return output;
+}
+
   detectFace = async (video) => {
     console.log('detecting Face...')
 
@@ -268,45 +275,72 @@ export class WebcamDashboardComponent implements OnInit {
     let param = firstName.split(" ")[0];
     let detail = faceRegister.find(item => (item.key === param));
     // this.detected_faces.splice(0, 3);
+    var face_counter;
+    
     if (detail) {
       this.detail = detail;
+      var detail_first_name = this.detail.first_name
+      console.log('-------------Detail-------------')
+      console.log(detail_first_name)
       this.photo = `/assets/img/${param}/1.jpg`;
-      this.detected_faces.push({firstName: this.detail.first_name,
-      lastName:this.detail.last_name,
-      photo:this.photo,
-      gender:this.detail.gender,
-      dateOfBirth:this.detail.dob,
-      placeOfBirth:this.detail.pob,
-      nationality:this.detail.nationality,
-      wantedStatus:this.detail.wanted_status,
-      wantedBy:this.detail.wanted_by,
-      charge:this.detail.charge,
-      timeStamp:this.time});
-      this.face_counter ++;
+      var last_element = this.detected_faces[this.detected_faces.length - 1];
+      console.log('------------------last element------------------')
+      console.log(last_element.firstName)
+
+      // last_element.firstName !== detail_first_name && this.face_counter ! == 0
+
+      if (face_counter == 0){
+
+        console.log('-----------------in the check------------------------')
+        this.detected_faces.push({firstName: this.detail.first_name,
+          lastName:this.detail.last_name,
+          photo:this.photo,
+          gender:this.detail.gender,
+          dateOfBirth:this.detail.dob,
+          placeOfBirth:this.detail.pob,
+          nationality:this.detail.nationality,
+          wantedStatus:this.detail.wanted_status,
+          wantedBy:this.detail.wanted_by,
+          charge:this.detail.charge,
+          timeStamp:this.time});
+          face_counter ++;
+      }else if (last_element.firstName !== detail_first_name){
+        this.detected_faces.push({firstName: this.detail.first_name,
+          lastName:this.detail.last_name,
+          photo:this.photo,
+          gender:this.detail.gender,
+          dateOfBirth:this.detail.dob,
+          placeOfBirth:this.detail.pob,
+          nationality:this.detail.nationality,
+          wantedStatus:this.detail.wanted_status,
+          wantedBy:this.detail.wanted_by,
+          charge:this.detail.charge,
+          timeStamp:this.time});
+          face_counter ++;
+      }
+      
     } else {
       //this.detail = {};
     }
-    if ( this.face_counter == 0)
+    if (face_counter == 0)
       {
         this.detected_faces.splice(0, 3);
       }
 
-      this.detected_faces = this.detected_faces.reduce((acc, current) => {
-        const x = acc.find(item => item.firstName === current.firstName);
-        if (!x) {
-          return acc.concat([current]);
-        } else {
-          return acc;
-        }
-      }, []);
-
-      // this.detected_faces.reverse();
+      // this.detected_faces = this.detected_faces.reduce((acc, current) => {
+      //   const x = acc.find(item => item.firstName === current.firstName);
+      //   if (!x) {
+      //     return acc.concat([current]);
+      //   } else {
+      //     return acc;
+      //   }
+      // }, []);
 
     console.log('find detail executed')
   }
 
   loadLabeledImages = () => {
-    const labels = ['geibi', 'ramadan','qader','alkhazarji','carl','jorge','alex'];
+    const labels = ['geibi', 'ramadan','qader','alkhazarji','carl'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
@@ -407,14 +441,14 @@ export class WebcamDashboardComponent implements OnInit {
         });
       });
 
-      this.detected_objects = this.detected_objects.reduce((acc, current) => {
-        const x = acc.find(item => item.objectDetected === current.objectDetected);
-        if (!x) {
-          return acc.concat([current]);
-        } else {
-          return acc;
-        }
-      }, []);
+      // this.detected_objects = this.detected_objects.reduce((acc, current) => {
+      //   const x = acc.find(item => item.objectDetected === current.objectDetected);
+      //   if (!x) {
+      //     return acc.concat([current]);
+      //   } else {
+      //     return acc;
+      //   }
+      // }, []);
 
 
       if (this.detected_objects.length >20)

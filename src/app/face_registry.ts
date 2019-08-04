@@ -58,28 +58,30 @@ export const faceRegister = [
     "wanted_by": "None",
     "wanted_status":0,
     "charge": "None"
-  },
-  {
-    "key": "jorge",
-    "first_name": "JORGE",
-    "last_name": "SEBASTIAO",
-    "gender": "Male",
-    "dob": "1965",
-    "pob": "Portugal",
-    "nationality": "Portugese",
-    "wanted_by": "None",
-    "wanted_status":0,
-    "charge": "None"
-  },
-  {
-    "key": "alex",
-    "first_name": "ALEX",
-    "last_name": "GADOTTI",
-    "gender": "Male",
-    "dob": "1969",
-    "pob": "Italy",
-    "nationality": "Italian",
-    "wanted_by": "None",
-    "wanted_status":0,
-    "charge": "None"
-  }]
+  }
+  // ,
+  // {
+  //   "key": "jorge",
+  //   "first_name": "JORGE",
+  //   "last_name": "SEBASTIAO",
+  //   "gender": "Male",
+  //   "dob": "1965",
+  //   "pob": "Portugal",
+  //   "nationality": "Portugese",
+  //   "wanted_by": "None",
+  //   "wanted_status":0,
+  //   "charge": "None"
+  // },
+  // {
+  //   "key": "alex",
+  //   "first_name": "ALEX",
+  //   "last_name": "GADOTTI",
+  //   "gender": "Male",
+  //   "dob": "1969",
+  //   "pob": "Italy",
+  //   "nationality": "Italian",
+  //   "wanted_by": "None",
+  //   "wanted_status":0,
+  //   "charge": "None"
+  // }
+]
