@@ -5,7 +5,9 @@ import {
     NgZone
 } from "@angular/core";
 import { Observable } from "rxjs";
-import { changeStreamById } from '@customjs/index.js';
+declare var changeStreamById:any;
+
+
 
 @Component({
     selector: "app-video-source",
