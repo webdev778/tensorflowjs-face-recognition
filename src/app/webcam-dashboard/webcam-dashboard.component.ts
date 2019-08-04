@@ -395,8 +395,8 @@ export class WebcamDashboardComponent implements OnInit {
   }
 
   webcam_init() {
-    this.video = <HTMLVideoElement>document.getElementById("vid");
-    this.canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    this.video = <HTMLVideoElement>document.getElementById("vidwebcam");
+    this.canvas = <HTMLCanvasElement>document.getElementById("canvaswebcam");
     const displaySize = { width: 640, height: 480 };
     faceapi.matchDimensions(this.canvas, displaySize);
 

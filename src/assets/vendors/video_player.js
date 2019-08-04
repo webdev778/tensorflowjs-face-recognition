@@ -9,7 +9,7 @@
   var playSelectedFile = function (event) {
     var file = this.files[0]
     var type = file.type
-    var videoNode = document.getElementById('vid')
+    var videoNode = document.getElementById('vidrecord')
     var canPlay = videoNode.canPlayType(type)
     if (canPlay === '') canPlay = 'no'
     var message = 'Can play type "' + type + '": ' + canPlay

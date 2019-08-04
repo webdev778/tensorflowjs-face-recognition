@@ -162,6 +162,7 @@ export class RecordedSourceComponent implements OnInit {
     this.video_url = "";
   }
   ngOnInit() {
+    console.log(localFileVideoPlayer);
     this.webcam_init();
     this.predictWithCocoModel();
     // this.loadAllUsers();
@@ -389,24 +390,10 @@ export class RecordedSourceComponent implements OnInit {
   }
 
   webcam_init() {
-    this.video = <HTMLVideoElement>document.getElementById("vid");
-    this.canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    this.video = <HTMLVideoElement>document.getElementById("vidrecord");
+    this.canvas = <HTMLCanvasElement>document.getElementById("canvasrecord");
     const displaySize = { width: 640, height: 480 };
     faceapi.matchDimensions(this.canvas, displaySize);
-
-    // navigator.mediaDevices
-    //   .getUserMedia({
-    //     audio: false,
-    //     video: {
-    //       facingMode: "user"
-    //     }
-    //   })
-    //   .then(stream => {
-    //     this.video.srcObject = stream;
-    //     this.video.onloadedmetadata = () => {
-    //       this.video.play();
-    //     };
-    //   });
   }
 
   loadDetectFrame = (video, model) => {

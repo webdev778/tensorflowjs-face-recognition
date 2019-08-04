@@ -15,10 +15,10 @@ import { CreateCustomerComponent } from './customers/create-customer/create-cust
 import { CustomersListComponent } from './customers/customers-list/customers-list.component';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: '', component: WebcamDashboardComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'webcam', component: WebcamDashboardComponent },
-  // { path: 'drone', component: DashboardComponent },
+  { path: 'drone', component: DashboardComponent },
   { path: 'profile', component: UserProfileComponent },
   { path: 'recorded', component: RecordedSourceComponent },
   { path: 'emotions', component: AffectivaEmotionsComponent },
