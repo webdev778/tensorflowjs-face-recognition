@@ -1,14 +1,18 @@
-function getParameterByName(name, url) {
-    if (!url) {
-        url = window.location.href;
-        url = url.replace(":4200", "");
-        url = url + "?streamId=1";
-    }
+function getParameterByName(name, streamId) {
+    var url = window.location.href;
+
+    if (!streamId) streamId = 1;
+    url = window.location.href;
+    url = url.replace(":4200", "");
+    url = url + "?streamId="+streamId;
+
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
+
     if (!results) return null;
     if (!results[2]) return '';
+
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
