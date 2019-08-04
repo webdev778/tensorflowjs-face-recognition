@@ -14,7 +14,7 @@
     if (canPlay === '') canPlay = 'no'
     var message = 'Can play type "' + type + '": ' + canPlay
     var isError = canPlay === 'no'
-    displayMessage(message, isError)
+    //displayMessage(message, isError)
 
     if (isError) {
       return
@@ -22,7 +22,12 @@
 
     var fileURL = URL.createObjectURL(file)
     videoNode.src = fileURL
+    var inputNode = document.getElementById('inputvideo')
+    inputNode.addEventListener('change', playSelectedFile, false)
   }
-  var inputNode = document.querySelector('input')
-  inputNode.addEventListener('change', playSelectedFile, false)
+  setTimeout(() => {
+    var inputNode = document.getElementById('inputvideo')
+    inputNode.addEventListener('change', playSelectedFile, false)
+  }, 500);
+  
 })()

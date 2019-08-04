@@ -13,6 +13,7 @@ import { CustomerService } from '../customers/customer.service';
 import { map } from 'rxjs/operators';
 
 declare var faceapi: any;
+declare var localFileVideoPlayer:any;
 
 @Component({
   selector: 'app-recorded-source',
@@ -393,19 +394,19 @@ export class RecordedSourceComponent implements OnInit {
     const displaySize = { width: 640, height: 480 };
     faceapi.matchDimensions(this.canvas, displaySize);
 
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: false,
-        video: {
-          facingMode: "user"
-        }
-      })
-      .then(stream => {
-        this.video.srcObject = stream;
-        this.video.onloadedmetadata = () => {
-          this.video.play();
-        };
-      });
+    // navigator.mediaDevices
+    //   .getUserMedia({
+    //     audio: false,
+    //     video: {
+    //       facingMode: "user"
+    //     }
+    //   })
+    //   .then(stream => {
+    //     this.video.srcObject = stream;
+    //     this.video.onloadedmetadata = () => {
+    //       this.video.play();
+    //     };
+    //   });
   }
 
   loadDetectFrame = (video, model) => {

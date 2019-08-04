@@ -26,6 +26,7 @@ $(document).ready(function() {
 //   startJanusStream(getParameterByName('streamId', id), 'stream');
 // }
 
+
 export function changeStreamById(id) {
     startJanusStream(getParameterByName('streamId', id), 'stream');
     console.log(`starting stream: ${id}`);

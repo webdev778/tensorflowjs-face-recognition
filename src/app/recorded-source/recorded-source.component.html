@@ -27,7 +27,7 @@
                                     <span class="d-none d-sm-inline"><b>Emotions</b> </span></a>
                             </div>
                             <div class="list-inline-item">
-                                <input type="file" accept="video/*"/>
+                                <input id="inputvideo" type="file" accept="video/*"/>
                                 <!-- <a href="" id="emotions" [routerLink]="['/webcam']" class="nav-link">
                                     <span class="d-none d-sm-inline"><b>Choose Recorded Source</b> </span></a> -->
                             </div>
@@ -39,6 +39,7 @@
                             <div class="thumb thumb--middle">
                                 <div id="def-video" class="def-video">
                                     <video class="rounded centered hide" id="vid" autoplay muted width="640" height="475"></video>
+                                    <!-- <source  -->
                                     <canvas id="canvas"></canvas>
                                 </div>
                             </div>
