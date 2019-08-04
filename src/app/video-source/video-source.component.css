@@ -18,3 +18,8 @@
 .camera-item:hover img {
   opacity: 1;
 }
+.stream-source{
+  cursor: pointer;
+}
+
+a { cursor: pointer; }
