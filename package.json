@@ -23,6 +23,7 @@
         "@tensorflow-models/coco-ssd": "^0.1.1",
         "@tensorflow/tfjs": "^0.13.5",
         "@tensorflow/tfjs-node": "^1.2.3",
+        "@types/googlemaps": "^3.37.0",
         "canvas": "^2.5.0",
         "core-js": "^2.5.4",
         "firebase": "^6.3.4",

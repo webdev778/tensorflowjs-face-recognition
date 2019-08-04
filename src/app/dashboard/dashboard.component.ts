@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   //   objectDetected: "Person",
   //   timeFrame: 'Test'
   // };
-
+  clickFlag:any = false;
   detected_faces:DetectedFace[]=[{firstName: 'Target',
     lastName:'',
     photo:'./assets/img/placeholder1.jpg',
@@ -307,7 +307,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadLabeledImages = () => {
-    const labels = ['geibi', 'ramadan','qader','alkhazarji','carl','jorge','alex'];
+    const labels = ['geibi', 'ramadan','qader','alkhazarji','carl'];
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];

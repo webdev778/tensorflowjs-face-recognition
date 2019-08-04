@@ -106,3 +106,7 @@ demo.component.html
 
 
 gsutil rsync -r gs://aipod-web-bucket ./aipod-web
+
+
+
+https://medium.com/@jkeung/integrating-google-maps-api-w-angular-7-e7672396ce2d

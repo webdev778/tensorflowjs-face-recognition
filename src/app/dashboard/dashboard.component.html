@@ -11,11 +11,11 @@
                     <div class="user-block block text-center">
                         <div class="right-menu list-inline no-margin-bottom align-items-center justify-content-between">
                             <div class="list-inline-item">
-                                <a (click)="onObjectButton()" class="nav-link">
+                                <a href="" (click)="onObjectButton()" class="nav-link" (click)="clickFlag = !clickFlag" [class.clicked]="clickFlag">
                                     <span class="d-none d-sm-inline"><b>Objects</b> </span></a>
                             </div>
                             <div class="list-inline-item">
-                                <a (click)="onFaceButton()" class="nav-link">
+                                <a href="" (click)="onFaceButton()" class="nav-link">
                                     <span class="d-none d-sm-inline"><b>Face</b> </span></a>
                             </div>
                             <div class="list-inline-item">
