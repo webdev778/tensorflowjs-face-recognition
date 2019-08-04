@@ -41,6 +41,7 @@ import { Header2Component } from './header2/header2.component';
 import { CustomerDetailsComponent } from './customers/customer-details/customer-details.component';
 import { CustomersListComponent } from './customers/customers-list/customers-list.component';
 import { CreateCustomerComponent } from './customers/create-customer/create-customer.component';
+import { RecordedSourceComponent } from './recorded-source/recorded-source.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { CreateCustomerComponent } from './customers/create-customer/create-cust
     CustomerDetailsComponent,
     CustomersListComponent,
     CreateCustomerComponent,
+    RecordedSourceComponent,
   ],
   imports: [
     BrowserModule,

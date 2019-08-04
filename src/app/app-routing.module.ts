@@ -9,6 +9,7 @@ import { RegisterComponent } from './register';
 import { WebcamDashboardComponent } from './webcam-dashboard';
 import { CameraArrayComponent } from './camera-array';
 import { UserProfileComponent } from './user-profile';
+import { RecordedSourceComponent } from './recorded-source';
 import { AuthGuard } from './_guards';
 import { CreateCustomerComponent } from './customers/create-customer/create-customer.component';
 import { CustomersListComponent } from './customers/customers-list/customers-list.component';
@@ -17,8 +18,9 @@ const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'webcam', component: WebcamDashboardComponent },
-  { path: 'drone', component: DashboardComponent },
+  // { path: 'drone', component: DashboardComponent },
   { path: 'profile', component: UserProfileComponent },
+  { path: 'recorded', component: RecordedSourceComponent },
   { path: 'emotions', component: AffectivaEmotionsComponent },
   { path: 'add_camera', component: CameraArrayComponent },
   { path: 'register', component: RegisterComponent },

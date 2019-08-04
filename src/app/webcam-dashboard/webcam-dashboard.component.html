@@ -11,19 +11,19 @@
                     <div class="user-block block text-center">
                         <div class="right-menu list-inline no-margin-bottom align-items-center justify-content-between">
                             <div class="list-inline-item">
-                                <a (click)="onObjectButton()" class="nav-link">
+                                <a href="" (click)="onObjectButton()" class="nav-link">
                                     <span class="d-none d-sm-inline"><b>Objects</b> </span></a>
                             </div>
                             <div class="list-inline-item">
-                                <a (click)="onFaceButton()" class="nav-link">
+                                <a href="" (click)="onFaceButton()" class="nav-link">
                                     <span class="d-none d-sm-inline"><b>Face</b> </span></a>
                             </div>
                             <div class="list-inline-item">
-                                <a id="logout" href="login.html" class="nav-link">
+                                <a id="logout" href="" class="nav-link">
                                     <span class="d-none d-sm-inline"><b>Vehicles</b> </span></a>
                             </div>
                             <div class="list-inline-item">
-                                <a id="webcam" [routerLink]="['/webcam']" class="nav-link">
+                                <a href="" id="emotions" [routerLink]="['/webcam']" class="nav-link">
                                     <span class="d-none d-sm-inline"><b>Emotions</b> </span></a>
                             </div>
                             <div class="progress progress-template progress-small">
@@ -33,15 +33,13 @@
                         <div class="rectangle rectangle--middle">
                             <div class="thumb thumb--middle">
                                 <div id="def-video" class="def-video">
-                                    <!-- <div id="stream"> -->
                                     <video class="rounded centered hide" id="vid" autoplay muted width="640" height="475"></video>
-                                    <!-- </div> -->
                                     <canvas id="canvas"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="user-block block text-center">
+                    <div class="user-block block text-center full-screen-auto">
                         <app-map></app-map>
                     </div>
                 </div>
