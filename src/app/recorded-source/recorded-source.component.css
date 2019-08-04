@@ -85,3 +85,5 @@ input[type=file] {
     /* background: #0099cc;
     color: #ffffff; */
   }
+
+  a { cursor: pointer; }

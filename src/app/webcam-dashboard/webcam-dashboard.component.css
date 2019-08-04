@@ -75,3 +75,5 @@ canvas {
 .dot-4 {
     top: 7px;
 }
+
+a { cursor: pointer; }

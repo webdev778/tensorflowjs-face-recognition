@@ -79,3 +79,5 @@ canvas {
 .clicked{
     color : crimson;
   }
+
+a { cursor: pointer; }
