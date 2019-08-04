@@ -110,3 +110,16 @@ gsutil rsync -r gs://aipod-web-bucket ./aipod-web
 
 
 https://medium.com/@jkeung/integrating-google-maps-api-w-angular-7-e7672396ce2d
+
+
+
+# Resets index to former commit; replace '56e05fced' with your commit code
+git reset 56e05fced 
+
+# Moves pointer back to previous HEAD
+git reset --soft HEAD@{1}
+
+git commit -m "Revert to 56e05fced"
+
+# Updates working copy to reflect the new commit
+git reset --hard

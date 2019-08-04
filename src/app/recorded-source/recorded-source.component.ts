@@ -162,7 +162,7 @@ export class RecordedSourceComponent implements OnInit {
     this.video_url = "";
   }
   ngOnInit() {
-    console.log(localFileVideoPlayer);
+    localFileVideoPlayer();
     this.webcam_init();
     this.predictWithCocoModel();
     // this.loadAllUsers();
@@ -213,6 +213,7 @@ export class RecordedSourceComponent implements OnInit {
 
       //find details from database
       results.forEach((result, i) => {
+        if(result.distance > 0.3)
         this.findDetail(result.toString())
       });
 
