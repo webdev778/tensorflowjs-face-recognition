@@ -14,6 +14,15 @@ import { map } from 'rxjs/operators';
 
 declare var faceapi: any;
 
+const IMAGENET_CLASSES = {
+  0: 'AK47',
+  1: 'AR15_rifle',
+  2: 'Glock_9mm',
+  3: 'Humvee',
+  4: 'M4_rifle',
+  5: 'SigSauer_gun'
+};
+
 @Component({
   selector: 'app-webcam-dashboard',
   templateUrl: './webcam-dashboard.component.html',
@@ -154,6 +163,7 @@ export class WebcamDashboardComponent implements OnInit {
   labeledFaceDescriptors: any;
   faceMatcher: any;
   objectModel: any;
+  weaponModel: any;
 
 
   constructor(private userService: UserService, private customerService: CustomerService) {
@@ -163,10 +173,42 @@ export class WebcamDashboardComponent implements OnInit {
   ngOnInit() {
     this.webcam_init();
     this.predictWithCocoModel();
+    this.predictWithWeaponModel();
     // this.loadAllUsers();
     this.trackFaceAndRecognize();
     // this.getCustomersList();
   }
+
+preprocessImage(image,modelName)
+{
+    let tensor=tf.fromPixels(image)
+    .resizeNearestNeighbor([224,224])
+    .toFloat();//.sub(meanImageNetRGB)
+
+    if(modelName==undefined)
+    {
+        return tensor.expandDims();
+    }
+    else if(modelName=="vgg")
+    {
+        let meanImageNetRGB= tf.tensor1d([123.68,116.779,103.939]);
+        return tensor.sub(meanImageNetRGB)
+                    .reverse(2)   // using the conventions from vgg16 documentation
+                    .expandDims();
+          console.log("inside the vgg preProcessing:");
+    }
+    else if(modelName=="mobilenet")
+    {
+        let offset=tf.scalar(127.5);
+        return tensor.sub(offset)
+                    .div(offset)
+                    .expandDims();
+    }
+    else
+    {
+        throw new Error("UnKnown Model error");
+    }
+}
 
   public async trackFaceAndRecognize() {
     await Promise.all([
@@ -363,6 +405,16 @@ export class WebcamDashboardComponent implements OnInit {
     );
   }
 
+  public async predictWithWeaponModel(){
+
+    // // For COCO SDD Models
+    // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
+    // Weapons model
+    this.weaponModel = await tf.loadModel('./assets/models/vgg_weapons/model.json');
+    console.log("weapons model loaded");
+    // this.detectFrameForWeapon(this.video, this.weaponModel);
+  }
+
   public async predictWithCocoModel() {
     // For COCO SDD Models
     this.objectModel = await cocoSSD.load("lite_mobilenet_v2");
@@ -374,24 +426,6 @@ export class WebcamDashboardComponent implements OnInit {
     //   if(this.detectionMode === 3)
     //     this.detectFrame(this.video, model);
     // }, 200);
-  }
-
-  deleteUser(id: number) {
-    this.userService
-      .delete(id)
-      .pipe(first())
-      .subscribe(() => {
-        this.loadAllUsers();
-      });
-  }
-
-  private loadAllUsers() {
-    this.userService
-      .getAll()
-      .pipe(first())
-      .subscribe(users => {
-        this.users = users;
-      });
   }
 
   webcam_init() {
@@ -425,6 +459,31 @@ export class WebcamDashboardComponent implements OnInit {
     });
   };
 
+  detectFrameForWeapon = (video, model) => {
+
+    let tensor = this.preprocessImage(video,'vgg');
+
+    model.predict(tensor).data().then(predictions=>{
+      predictions.forEach(prediction=>{
+        console.log(prediction);
+        let top5=Array.from(prediction)
+                .map(function(p,i){
+    return {
+        probability: p,
+        className: IMAGENET_CLASSES[i]
+    };
+    });
+    console.log(top5);
+        
+      })
+    });
+
+      requestAnimationFrame(() => {
+        if (this.detectionMode !== 2) return;
+        this.detectFrameForWeapon(video, model);
+      });
+  };
+
   detectFrame = (video, model) => {
     if (this.video == null || this.convertState == 1) return;
     console.log("detectFrame :");
@@ -441,16 +500,6 @@ export class WebcamDashboardComponent implements OnInit {
         });
       });
 
-      // this.detected_objects = this.detected_objects.reduce((acc, current) => {
-      //   const x = acc.find(item => item.objectDetected === current.objectDetected);
-      //   if (!x) {
-      //     return acc.concat([current]);
-      //   } else {
-      //     return acc;
-      //   }
-      // }, []);
-
-
       if (this.detected_objects.length >20)
       {
         this.detected_objects.splice(0, this.detected_objects.length-20);
@@ -462,47 +511,8 @@ export class WebcamDashboardComponent implements OnInit {
       });
       console.log(predictions);
     });
-    // this.detected_objects.reverse();
   };
-  // async onDoubleClick(vID) {
-  //   var pvTag = document.getElementById("def-video");
-  //   var videTag = document.createElement("video");
-  //   var sourceTag = document.createElement("source");
-  //   var movieName = vID;
-  //   var canvasTag = document.createElement("canvas");
-  //   // source tag attribute
-  //   sourceTag.setAttribute("src", movieName);
-  //   sourceTag.setAttribute("type", "video/mp4");
-
-  //   // canvas tag attribute
-  //   canvasTag.setAttribute("_ngcontent-lfq-c1", "");
-  //   canvasTag.setAttribute("id", "canvas");
-  //   canvasTag.setAttribute("width", "640");
-  //   canvasTag.setAttribute("height", "480");
-  //   canvasTag.setAttribute("style", "position: relative; top:-480px");
-  //   // video tag attribute
-  //   videTag.setAttribute("autoplay", "true");
-  //   videTag.setAttribute("loop", "true");
-  //   videTag.setAttribute("width", "640");
-  //   videTag.setAttribute("height", "480");
-  //   videTag.setAttribute("id", "vid");
-  //   videTag.appendChild(sourceTag);
-  //   this.convertState = 1;
-  //   if (pvTag.childNodes.length != 0) {
-  //     await pvTag.removeChild(pvTag.childNodes[1]);
-  //     await pvTag.removeChild(pvTag.childNodes[0]);
-  //   }
-
-  //   await pvTag.appendChild(videTag);
-  //   await pvTag.appendChild(canvasTag);
-  //   await this.getVideoTag();
-  //   const model = await cocoSSD.load("lite_mobilenet_v2");
-  //   await this.loadDetectFrame(this.video, model);
-  // }
-  // getVideoTag() {
-  //   this.video = <HTMLVideoElement>document.getElementById("vid");
-  // }
-
+  
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
 
@@ -550,5 +560,11 @@ export class WebcamDashboardComponent implements OnInit {
     console.log("model button clicked");
     this.detectionMode = 3;
     this.detectFrame(this.video, this.objectModel);
+  }
+
+  public onWeaponsButton() {
+    console.log("model button clicked");
+    this.detectionMode = 2;
+    this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 }
