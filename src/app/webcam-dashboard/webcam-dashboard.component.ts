@@ -184,7 +184,7 @@ export class WebcamDashboardComponent implements OnInit {
 preprocessImage(image,modelName)
 {
     let tensor=tf.fromPixels(image)
-    .resizeNearestNeighbor([224,224])
+    .resizeNearestNeighbor([128,128])
     .toFloat();//.sub(meanImageNetRGB)
 
     if(modelName==undefined)
@@ -205,6 +205,14 @@ preprocessImage(image,modelName)
         return tensor.sub(offset)
                     .div(offset)
                     .expandDims();
+    }
+    else if(modelName=="olga"){
+      let offset=tf.scalar(127.5);
+        return tensor //.resizeNearestNeighbor([128, 128])
+        .mean(2)
+        .toFloat()
+        .expandDims(0)
+        .expandDims(-1);
     }
     else
     {
@@ -263,7 +271,7 @@ preprocessImage(image,modelName)
       //find details from database
       results.forEach((result, i) => {
         if(result.distance > 0.3)
-        this.findDetail(result.toString())
+          this.findDetail(result.toString())
       });
 
       /*
@@ -413,8 +421,8 @@ preprocessImage(image,modelName)
     // // For COCO SDD Models
     // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
     // Weapons model
-    this.weaponModel = await tf.loadModel('./assets/models/vgg_light_weapons/model.json');
-    // this.tensor = this.preprocessImage(this.video,'mobilenet');
+    this.weaponModel = await tf.loadModel('./assets/models/olga/model.json');
+    // this.tensor = this.preprocessImage(this.video,'olganet');
     console.log("weapons model loaded");
     // this.detectFrameForWeapon(this.video, this.weaponModel);
   }
@@ -465,7 +473,7 @@ preprocessImage(image,modelName)
 
   detectFrameForWeapon = (video, model) => {
     console.log('detectFrameForWeapon:');
-    this.tensor = this.preprocessImage(this.video,'mobilenet');
+    this.tensor = this.preprocessImage(this.video, "olga");
     let tensor = this.tensor;
     model.predict(tensor).data().then(predictions=>{
 
@@ -495,8 +503,13 @@ preprocessImage(image,modelName)
             timeFrame: time
           });
         }else{
-          this.detected_objects[temp].confidence = Math.round(prediction.score*100);
-          this.detected_objects[temp].timeFrame = time;
+          this.detected_objects.splice(temp,1);
+
+          this.detected_objects.push({
+            objectDetected: prediction.class,
+            confidence:Math.round(prediction.score*100),
+            timeFrame: time
+          });
          }
 
 
