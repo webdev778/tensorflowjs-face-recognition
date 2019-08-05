@@ -483,13 +483,23 @@ preprocessImage(image,modelName)
 
         const prediction:any = top5[0];
 
+        const temp = this.detected_objects.findIndex((item:any) => item.objectDetected === prediction.class)
+        console.log('TEMP')
+        console.log(temp);
         var today = new Date();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        this.detected_objects.push({
-          objectDetected: prediction.class,
-          confidence:Math.round(prediction.score*100),
-          timeFrame: time
-        });
+        if(temp === -1){
+          this.detected_objects.push({
+            objectDetected: prediction.class,
+            confidence:Math.round(prediction.score*100),
+            timeFrame: time
+          });
+        }else{
+          this.detected_objects[temp].confidence = Math.round(prediction.score*100);
+          this.detected_objects[temp].timeFrame = time;
+         }
+
+
 
         // this.detected_objects = this.detected_objects.reduce((acc, current) => {
         //   const x = acc.find(item => item.objectDetected === current.objectDetected);
@@ -508,7 +518,7 @@ preprocessImage(image,modelName)
       console.log('detectFrameForWeapon executed');
       requestAnimationFrame(() => {
         if (this.detectionMode !== 2) return;
-        this.detectFrameForWeapon(video, model);
+        setTimeout(() => {this.detectFrameForWeapon(video, model);}, 300);
       });
     });
   };
@@ -618,6 +628,7 @@ preprocessImage(image,modelName)
     this.weaponStatus = true;
     this.emotionsStatus = false;
     this.detectionMode = 2;
+    this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 
