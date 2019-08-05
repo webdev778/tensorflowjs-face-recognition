@@ -1,4 +1,4 @@
-(function localFileVideoPlayer() {
+function localFileVideoPlayer() {
 	'use strict'
   var URL = window.URL || window.webkitURL
   var displayMessage = function (message, isError) {
@@ -30,4 +30,4 @@
     inputNode.addEventListener('change', playSelectedFile, false)
   }, 500);
   
-})()
+}

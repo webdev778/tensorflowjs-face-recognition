@@ -261,6 +261,7 @@ preprocessImage(image,modelName)
 
       //find details from database
       results.forEach((result, i) => {
+        if(result.distance > 0.3)
         this.findDetail(result.toString())
       });
 
