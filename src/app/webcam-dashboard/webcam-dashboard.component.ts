@@ -165,6 +165,7 @@ export class WebcamDashboardComponent implements OnInit {
   faceMatcher: any;
   objectModel: any;
   weaponModel: any;
+  tensor: any;
 
 
   constructor(private userService: UserService, private customerService: CustomerService) {
@@ -174,7 +175,7 @@ export class WebcamDashboardComponent implements OnInit {
   ngOnInit() {
     this.webcam_init();
     this.predictWithCocoModel();
-    // this.predictWithWeaponModel();
+    this.predictWithWeaponModel();
     // this.loadAllUsers();
     this.trackFaceAndRecognize();
     // this.getCustomersList();
@@ -183,7 +184,7 @@ export class WebcamDashboardComponent implements OnInit {
 preprocessImage(image,modelName)
 {
     let tensor=tf.fromPixels(image)
-    .resizeNearestNeighbor([224,224])
+    .resizeNearestNeighbor([128,128])
     .toFloat();//.sub(meanImageNetRGB)
 
     if(modelName==undefined)
@@ -204,6 +205,14 @@ preprocessImage(image,modelName)
         return tensor.sub(offset)
                     .div(offset)
                     .expandDims();
+    }
+    else if(modelName=="olga"){
+      let offset=tf.scalar(127.5);
+        return tensor //.resizeNearestNeighbor([128, 128])
+        .mean(2)
+        .toFloat()
+        .expandDims(0)
+        .expandDims(-1);
     }
     else
     {
@@ -262,7 +271,7 @@ preprocessImage(image,modelName)
       //find details from database
       results.forEach((result, i) => {
         if(result.distance > 0.3)
-        this.findDetail(result.toString())
+          this.findDetail(result.toString())
       });
 
       /*
@@ -320,7 +329,7 @@ preprocessImage(image,modelName)
     let detail = faceRegister.find(item => (item.key === param));
     // this.detected_faces.splice(0, 3);
     var face_counter;
-    
+
     if (detail) {
       this.detail = detail;
       var detail_first_name = this.detail.first_name
@@ -362,7 +371,7 @@ preprocessImage(image,modelName)
           timeStamp:this.time});
           face_counter ++;
       }
-      
+
     } else {
       //this.detail = {};
     }
@@ -407,15 +416,16 @@ preprocessImage(image,modelName)
     );
   }
 
-  // public async predictWithWeaponModel(){
+  public async predictWithWeaponModel(){
 
-  //   // // For COCO SDD Models
-  //   // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
-  //   // Weapons model
-  //   this.weaponModel = await tf.loadModel('./assets/models/vgg_weapons/model.json');
-  //   console.log("weapons model loaded");
-  //   // this.detectFrameForWeapon(this.video, this.weaponModel);
-  // }
+    // // For COCO SDD Models
+    // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
+    // Weapons model
+    this.weaponModel = await tf.loadModel('./assets/models/olga/model.json');
+    // this.tensor = this.preprocessImage(this.video,'olganet');
+    console.log("weapons model loaded");
+    // this.detectFrameForWeapon(this.video, this.weaponModel);
+  }
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
@@ -461,30 +471,70 @@ preprocessImage(image,modelName)
     });
   };
 
-  // detectFrameForWeapon = (video, model) => {
+  detectFrameForWeapon = (video, model) => {
+    console.log('detectFrameForWeapon:');
+    this.tensor = this.preprocessImage(this.video, "olga");
+    let tensor = this.tensor;
+    model.predict(tensor).data().then(predictions=>{
 
-  //   let tensor = this.preprocessImage(video,'vgg');
+        // console.log(prediction);
+        let top5=Array.from(predictions)
+        .map(function(p,i){
+          return {
+            score: p,
+            class: IMAGENET_CLASSES[i]
+          };
+        }).sort(function(a:any ,b:any){
+          return b.score-a.score;
+        }).slice(0,5);
+        console.log(top5);
 
-  //   model.predict(tensor).data().then(predictions=>{
-  //     predictions.forEach(prediction=>{
-  //       console.log(prediction);
-  //       let top5=Array.from(prediction)
-  //               .map(function(p,i){
-  //   return {
-  //       probability: p,
-  //       className: IMAGENET_CLASSES[i]
-  //   };
-  //   });
-  //   console.log(top5);
-        
-  //     })
-  //   });
+        const prediction:any = top5[0];
 
-  //     requestAnimationFrame(() => {
-  //       if (this.detectionMode !== 2) return;
-  //       this.detectFrameForWeapon(video, model);
-  //     });
-  // };
+        const temp = this.detected_objects.findIndex((item:any) => item.objectDetected === prediction.class)
+        console.log('TEMP')
+        console.log(temp);
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        if(temp === -1){
+          this.detected_objects.push({
+            objectDetected: prediction.class,
+            confidence:Math.round(prediction.score*100),
+            timeFrame: time
+          });
+        }else{
+          this.detected_objects.splice(temp,1);
+
+          this.detected_objects.push({
+            objectDetected: prediction.class,
+            confidence:Math.round(prediction.score*100),
+            timeFrame: time
+          });
+         }
+
+
+
+        // this.detected_objects = this.detected_objects.reduce((acc, current) => {
+        //   const x = acc.find(item => item.objectDetected === current.objectDetected);
+        //   if (!x) {
+        //     return acc.concat([current]);
+        //   } else {
+        //     return acc;
+        //   }
+        // }, []);
+
+        if (this.detected_objects.length >20)
+        {
+          this.detected_objects.splice(0, this.detected_objects.length-20);
+        }
+
+      console.log('detectFrameForWeapon executed');
+      requestAnimationFrame(() => {
+        if (this.detectionMode !== 2) return;
+        setTimeout(() => {this.detectFrameForWeapon(video, model);}, 300);
+      });
+    });
+  };
 
   detectFrame = (video, model) => {
     if (this.video == null || this.convertState == 1) return;
@@ -523,7 +573,7 @@ preprocessImage(image,modelName)
       console.log(predictions);
     });
   };
-  
+
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
 
@@ -591,7 +641,8 @@ preprocessImage(image,modelName)
     this.weaponStatus = true;
     this.emotionsStatus = false;
     this.detectionMode = 2;
-    this.detectFrame(this.video, this.objectModel);
+    this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 
   emotionsStatus:boolean = false;
