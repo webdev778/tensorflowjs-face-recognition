@@ -165,6 +165,7 @@ export class WebcamDashboardComponent implements OnInit {
   faceMatcher: any;
   objectModel: any;
   weaponModel: any;
+  tensor: any;
 
 
   constructor(private userService: UserService, private customerService: CustomerService) {
@@ -174,7 +175,7 @@ export class WebcamDashboardComponent implements OnInit {
   ngOnInit() {
     this.webcam_init();
     this.predictWithCocoModel();
-    // this.predictWithWeaponModel();
+    this.predictWithWeaponModel();
     // this.loadAllUsers();
     this.trackFaceAndRecognize();
     // this.getCustomersList();
@@ -320,7 +321,7 @@ preprocessImage(image,modelName)
     let detail = faceRegister.find(item => (item.key === param));
     // this.detected_faces.splice(0, 3);
     var face_counter;
-    
+
     if (detail) {
       this.detail = detail;
       var detail_first_name = this.detail.first_name
@@ -362,7 +363,7 @@ preprocessImage(image,modelName)
           timeStamp:this.time});
           face_counter ++;
       }
-      
+
     } else {
       //this.detail = {};
     }
@@ -407,15 +408,16 @@ preprocessImage(image,modelName)
     );
   }
 
-  // public async predictWithWeaponModel(){
+  public async predictWithWeaponModel(){
 
-  //   // // For COCO SDD Models
-  //   // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
-  //   // Weapons model
-  //   this.weaponModel = await tf.loadModel('./assets/models/vgg_weapons/model.json');
-  //   console.log("weapons model loaded");
-  //   // this.detectFrameForWeapon(this.video, this.weaponModel);
-  // }
+    // // For COCO SDD Models
+    // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
+    // Weapons model
+    this.weaponModel = await tf.loadModel('./assets/models/vgg_light_weapons/model.json');
+    this.tensor = this.preprocessImage(this.video,'mobilenet');
+    console.log("weapons model loaded");
+    // this.detectFrameForWeapon(this.video, this.weaponModel);
+  }
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
@@ -461,30 +463,28 @@ preprocessImage(image,modelName)
     });
   };
 
-  // detectFrameForWeapon = (video, model) => {
+  detectFrameForWeapon = (video, model) => {
 
-  //   let tensor = this.preprocessImage(video,'vgg');
-
-  //   model.predict(tensor).data().then(predictions=>{
-  //     predictions.forEach(prediction=>{
-  //       console.log(prediction);
-  //       let top5=Array.from(prediction)
-  //               .map(function(p,i){
-  //   return {
-  //       probability: p,
-  //       className: IMAGENET_CLASSES[i]
-  //   };
-  //   });
-  //   console.log(top5);
-        
-  //     })
-  //   });
-
-  //     requestAnimationFrame(() => {
-  //       if (this.detectionMode !== 2) return;
-  //       this.detectFrameForWeapon(video, model);
-  //     });
-  // };
+    let tensor = this.tensor;
+    model.predict(tensor).data().then(predictions=>{
+      predictions.forEach(prediction=>{
+        console.log(prediction);
+        let top5=Array.from(prediction)
+        .map(function(p,i){
+          return {
+            probability: p,
+            className: IMAGENET_CLASSES[i]
+          };
+        });
+        console.log(top5);
+      })
+      console.log('detectFrameForWeapon executed');
+      requestAnimationFrame(() => {
+        if (this.detectionMode !== 2) return;
+        this.detectFrameForWeapon(video, model);
+      });
+    });
+  };
 
   detectFrame = (video, model) => {
     if (this.video == null || this.convertState == 1) return;
@@ -523,7 +523,7 @@ preprocessImage(image,modelName)
       console.log(predictions);
     });
   };
-  
+
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
 
@@ -591,7 +591,7 @@ preprocessImage(image,modelName)
     this.weaponStatus = true;
     this.emotionsStatus = false;
     this.detectionMode = 2;
-    this.detectFrame(this.video, this.objectModel);
+    this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 
   emotionsStatus:boolean = false;
