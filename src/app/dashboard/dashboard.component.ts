@@ -212,7 +212,7 @@ export class DashboardComponent implements OnInit {
 
       //find details from database
       results.forEach((result, i) => {
-        if(result.distance > 0.3)
+        if(result.distance > 0.5)
         this.findDetail(result.toString())
       });
 
@@ -271,7 +271,7 @@ export class DashboardComponent implements OnInit {
     let detail = faceRegister.find(item => (item.key === param));
     // this.detected_faces.splice(0, 3);
     var face_counter;
-    
+
     if (detail) {
       this.detail = detail;
       var detail_first_name = this.detail.first_name
@@ -313,7 +313,7 @@ export class DashboardComponent implements OnInit {
           timeStamp:this.time});
           face_counter ++;
       }
-      
+
     } else {
       //this.detail = {};
     }
@@ -458,7 +458,7 @@ export class DashboardComponent implements OnInit {
     });
     // this.detected_objects.reverse();
   };
-  
+
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
 
