@@ -13,6 +13,7 @@ import { CustomerService } from '../customers/customer.service';
 import { map } from 'rxjs/operators';
 
 declare var faceapi: any;
+const FACE_THRESHOLD = 0.5;
 
 @Component({
   selector: "app-dashboard",
@@ -212,7 +213,7 @@ export class DashboardComponent implements OnInit {
 
       //find details from database
       results.forEach((result, i) => {
-        if(result.distance > 0.5)
+        if(result.distance > FACE_THRESHOLD)
         this.findDetail(result.toString())
       });
 
