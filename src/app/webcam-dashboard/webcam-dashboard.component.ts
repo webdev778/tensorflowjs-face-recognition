@@ -414,7 +414,7 @@ preprocessImage(image,modelName)
     // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
     // Weapons model
     this.weaponModel = await tf.loadModel('./assets/models/vgg_light_weapons/model.json');
-    this.tensor = this.preprocessImage(this.video,'mobilenet');
+    // this.tensor = this.preprocessImage(this.video,'mobilenet');
     console.log("weapons model loaded");
     // this.detectFrameForWeapon(this.video, this.weaponModel);
   }
@@ -465,9 +465,9 @@ preprocessImage(image,modelName)
 
   detectFrameForWeapon = (video, model) => {
     console.log('detectFrameForWeapon:');
+    this.tensor = this.preprocessImage(this.video,'mobilenet');
     let tensor = this.tensor;
     model.predict(tensor).data().then(predictions=>{
-      console.log(predictions);
 
         // console.log(prediction);
         let top5=Array.from(predictions)
@@ -481,24 +481,24 @@ preprocessImage(image,modelName)
         }).slice(0,5);
         console.log(top5);
 
-        top5.forEach((prediction:any) => {
-          var today = new Date();
-          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-          this.detected_objects.push({
-            objectDetected: prediction.class,
-            confidence:Math.round(prediction.score*100),
-            timeFrame: time
-          });
+        const prediction:any = top5[0];
+
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        this.detected_objects.push({
+          objectDetected: prediction.class,
+          confidence:Math.round(prediction.score*100),
+          timeFrame: time
         });
 
-        this.detected_objects = this.detected_objects.reduce((acc, current) => {
-          const x = acc.find(item => item.objectDetected === current.objectDetected);
-          if (!x) {
-            return acc.concat([current]);
-          } else {
-            return acc;
-          }
-        }, []);
+        // this.detected_objects = this.detected_objects.reduce((acc, current) => {
+        //   const x = acc.find(item => item.objectDetected === current.objectDetected);
+        //   if (!x) {
+        //     return acc.concat([current]);
+        //   } else {
+        //     return acc;
+        //   }
+        // }, []);
 
         if (this.detected_objects.length >20)
         {
