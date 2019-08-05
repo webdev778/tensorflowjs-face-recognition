@@ -464,20 +464,23 @@ preprocessImage(image,modelName)
   };
 
   detectFrameForWeapon = (video, model) => {
-
+    console.log('detectFrameForWeapon:');
     let tensor = this.tensor;
     model.predict(tensor).data().then(predictions=>{
-      predictions.forEach(prediction=>{
-        console.log(prediction);
-        let top5=Array.from(prediction)
+      console.log(predictions);
+
+        // console.log(prediction);
+        let top5=Array.from(predictions)
         .map(function(p,i){
           return {
             probability: p,
             className: IMAGENET_CLASSES[i]
           };
-        });
+        }).sort(function(a:any ,b:any){
+          return b.probability-a.probability;
+        }).slice(0,5);
         console.log(top5);
-      })
+
       console.log('detectFrameForWeapon executed');
       requestAnimationFrame(() => {
         if (this.detectionMode !== 2) return;
