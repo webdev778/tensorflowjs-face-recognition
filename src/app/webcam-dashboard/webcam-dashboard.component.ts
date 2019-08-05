@@ -473,13 +473,37 @@ preprocessImage(image,modelName)
         let top5=Array.from(predictions)
         .map(function(p,i){
           return {
-            probability: p,
-            className: IMAGENET_CLASSES[i]
+            score: p,
+            class: IMAGENET_CLASSES[i]
           };
         }).sort(function(a:any ,b:any){
-          return b.probability-a.probability;
+          return b.score-a.score;
         }).slice(0,5);
         console.log(top5);
+
+        top5.forEach((prediction:any) => {
+          var today = new Date();
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+          this.detected_objects.push({
+            objectDetected: prediction.class,
+            confidence:Math.round(prediction.score*100),
+            timeFrame: time
+          });
+        });
+
+        this.detected_objects = this.detected_objects.reduce((acc, current) => {
+          const x = acc.find(item => item.objectDetected === current.objectDetected);
+          if (!x) {
+            return acc.concat([current]);
+          } else {
+            return acc;
+          }
+        }, []);
+
+        if (this.detected_objects.length >20)
+        {
+          this.detected_objects.splice(0, this.detected_objects.length-20);
+        }
 
       console.log('detectFrameForWeapon executed');
       requestAnimationFrame(() => {
