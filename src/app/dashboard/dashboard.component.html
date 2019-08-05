@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header [mode]="currentMode"></app-header>
 
 <body>
     <div class="main-wrapper">
@@ -12,19 +12,19 @@
                         <div class="right-menu list-inline no-margin-bottom align-items-center justify-content-between">
                             <div class="list-inline-item">
                                 <a (click)="onObjectButton()" class="nav-link">
-                                    <span class="d-none d-sm-inline"><b>Objects</b> </span></a>
+                                    <span class="d-none d-sm-inline" [ngStyle]="{'color':objectStatus ? 'red' : 'grey' }"><b>Objects</b> </span></a>
                             </div>
                             <div class="list-inline-item">
                                 <a (click)="onFaceButton()" class="nav-link">
-                                    <span class="d-none d-sm-inline"><b>Face</b> </span></a>
+                                    <span class="d-none d-sm-inline" [ngStyle]="{'color':faceStatus ? 'red' : 'grey' }"><b>Face</b> </span></a>
                             </div>
                             <div class="list-inline-item">
-                                <a [routerLink]="['/webcam']" class="nav-link">
-                                    <span class="d-none d-sm-inline"><b>Vehicles</b> </span></a>
+                                <a (click)="onWeaponsButton()" class="nav-link">
+                                    <span class="d-none d-sm-inline" [ngStyle]="{'color':weaponStatus ? 'red' : 'grey' }"><b>Weapons</b> </span></a>
                             </div>
                             <div class="list-inline-item">
-                                <a [routerLink]="['/webcam']" class="nav-link">
-                                    <span class="d-none d-sm-inline"><b>Emotions</b> </span></a>
+                                <a (click)="onEmotionsButton()" class="nav-link">
+                                    <span class="d-none d-sm-inline" [ngStyle]="{'color':emotionsStatus ? 'red' : 'grey' }"><b>Emotions</b> </span></a>
                             </div>
                             <div class="progress progress-template progress-small">
                                 <div role="progressbar" style="width: 100%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template progress-bar-small dashbg-3"></div>

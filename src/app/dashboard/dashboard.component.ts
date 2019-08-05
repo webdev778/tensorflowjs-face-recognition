@@ -20,7 +20,7 @@ declare var faceapi: any;
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
-
+  currentMode = 2;
   customers: any;
   timeNow: any;
   todayDate: any= new Date();
@@ -457,45 +457,7 @@ export class DashboardComponent implements OnInit {
     });
     // this.detected_objects.reverse();
   };
-  // async onDoubleClick(vID) {
-  //   var pvTag = document.getElementById("def-video");
-  //   var videTag = document.createElement("video");
-  //   var sourceTag = document.createElement("source");
-  //   var movieName = vID;
-  //   var canvasTag = document.createElement("canvas");
-  //   // source tag attribute
-  //   sourceTag.setAttribute("src", movieName);
-  //   sourceTag.setAttribute("type", "video/mp4");
-
-  //   // canvas tag attribute
-  //   canvasTag.setAttribute("_ngcontent-lfq-c1", "");
-  //   canvasTag.setAttribute("id", "canvas");
-  //   canvasTag.setAttribute("width", "640");
-  //   canvasTag.setAttribute("height", "480");
-  //   canvasTag.setAttribute("style", "position: relative; top:-480px");
-  //   // video tag attribute
-  //   videTag.setAttribute("autoplay", "true");
-  //   videTag.setAttribute("loop", "true");
-  //   videTag.setAttribute("width", "640");
-  //   videTag.setAttribute("height", "480");
-  //   videTag.setAttribute("id", "vid");
-  //   videTag.appendChild(sourceTag);
-  //   this.convertState = 1;
-  //   if (pvTag.childNodes.length != 0) {
-  //     await pvTag.removeChild(pvTag.childNodes[1]);
-  //     await pvTag.removeChild(pvTag.childNodes[0]);
-  //   }
-
-  //   await pvTag.appendChild(videTag);
-  //   await pvTag.appendChild(canvasTag);
-  //   await this.getVideoTag();
-  //   const model = await cocoSSD.load("lite_mobilenet_v2");
-  //   await this.loadDetectFrame(this.video, model);
-  // }
-  // getVideoTag() {
-  //   this.video = <HTMLVideoElement>document.getElementById("vid");
-  // }
-
+  
   renderPredictions = predictions => {
     //console.log("renderpredictions : ");
 
@@ -533,14 +495,46 @@ export class DashboardComponent implements OnInit {
     });
   };
 
+  faceStatus: boolean = false;
   public onFaceButton() {
     console.log("model button clicked");
+    this.faceStatus = true;
+    this.objectStatus = false;
+    this.weaponStatus = false;
+    this.emotionsStatus = false;
     this.detectionMode = 1;
     this.detectFace(this.video)
   }
 
+  objectStatus: boolean = true;
   public onObjectButton() {
     console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = true;
+    this.weaponStatus = false;
+    this.emotionsStatus = false;
+    this.detectionMode = 3;
+    this.detectFrame(this.video, this.objectModel);
+  }
+
+  weaponStatus:boolean = false;
+  public onWeaponsButton() {
+    console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = false;
+    this.weaponStatus = true;
+    this.emotionsStatus = false;
+    this.detectionMode = 3;
+    this.detectFrame(this.video, this.objectModel);
+  }
+
+  emotionsStatus:boolean = false;
+  public onEmotionsButton() {
+    console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = false;
+    this.weaponStatus = false;
+    this.emotionsStatus = true;
     this.detectionMode = 3;
     this.detectFrame(this.video, this.objectModel);
   }

@@ -53,19 +53,19 @@
             <div class="right-menu list-inline no-margin-bottom">
                 <div class="list-inline-item logout">
                     <a id="logout" href="" class="nav-link">
-                        <span class="d-none d-sm-inline"><b>GPR Mode</b> </span></a>
+                        <span class="d-none d-sm-inline" [ngStyle]="{'color':mode == 4 ? 'red' : 'grey' }"><b>GPR Mode</b> </span></a>
                 </div>
                 <div class="list-inline-item logout">
                     <a id="logout" href="" [routerLink]="['/recorded']" class="nav-link">
-                        <span class="d-none d-sm-inline"><b>Recorded Source</b> </span></a>
+                        <span class="d-none d-sm-inline" [ngStyle]="{'color':mode == 3 ? 'red' : 'grey' }"><b>Recorded Source</b> </span></a>
                 </div>
                 <div class="list-inline-item logout">
                     <a id="logout"  href="" [routerLink]="['/drone']" class="nav-link">
-                        <span class="d-none d-sm-inline"><b>Drone Feed Mode</b> </span></a>
+                        <span class="d-none d-sm-inline" [ngStyle]="{'color':mode == 2 ? 'red' : 'grey' }"><b>Drone Feed Mode</b> </span></a>
                 </div>
                 <div class="list-inline-item logout">
                     <a id="webcam"  href="" [routerLink]="['/webcam']" class="nav-link">
-                        <span class="d-none d-sm-inline"><b>Webcam Mode</b> </span></a>
+                        <span class="d-none d-sm-inline" [ngStyle]="{'color':mode == 1 ? 'red' : 'grey' }"><b>Webcam Mode</b> </span></a>
                 </div>
                 <div class="list-inline-item logout">
                     <span class="d-none d-sm-inline"><div class="user-img">

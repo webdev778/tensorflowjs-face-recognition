@@ -91,3 +91,5 @@
 .hover:hover {
     background: #2d313e;
 }
+
+a { cursor: pointer; }

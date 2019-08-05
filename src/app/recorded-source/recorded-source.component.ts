@@ -21,6 +21,7 @@ declare var localFileVideoPlayer:any;
   styleUrls: ['./recorded-source.component.css']
 })
 export class RecordedSourceComponent implements OnInit {
+  currentMode = 3;
   customers: any;
   timeNow: any;
   todayDate: any= new Date();
@@ -521,14 +522,46 @@ export class RecordedSourceComponent implements OnInit {
     });
   };
 
+  faceStatus: boolean = false;
   public onFaceButton() {
     console.log("model button clicked");
+    this.faceStatus = true;
+    this.objectStatus = false;
+    this.weaponStatus = false;
+    this.emotionsStatus = false;
     this.detectionMode = 1;
     this.detectFace(this.video)
   }
 
+  objectStatus: boolean = true;
   public onObjectButton() {
     console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = true;
+    this.weaponStatus = false;
+    this.emotionsStatus = false;
+    this.detectionMode = 3;
+    this.detectFrame(this.video, this.objectModel);
+  }
+
+  weaponStatus:boolean = false;
+  public onWeaponsButton() {
+    console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = false;
+    this.weaponStatus = true;
+    this.emotionsStatus = false;
+    this.detectionMode = 3;
+    this.detectFrame(this.video, this.objectModel);
+  }
+
+  emotionsStatus:boolean = false;
+  public onEmotionsButton() {
+    console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = false;
+    this.weaponStatus = false;
+    this.emotionsStatus = true;
     this.detectionMode = 3;
     this.detectFrame(this.video, this.objectModel);
   }

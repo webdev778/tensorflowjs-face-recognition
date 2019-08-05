@@ -29,6 +29,7 @@ const IMAGENET_CLASSES = {
   styleUrls: ['./webcam-dashboard.component.css']
 })
 export class WebcamDashboardComponent implements OnInit {
+  currentMode = 1;
   customers: any;
   timeNow: any;
   todayDate: any= new Date();
@@ -173,7 +174,7 @@ export class WebcamDashboardComponent implements OnInit {
   ngOnInit() {
     this.webcam_init();
     this.predictWithCocoModel();
-    this.predictWithWeaponModel();
+    // this.predictWithWeaponModel();
     // this.loadAllUsers();
     this.trackFaceAndRecognize();
     // this.getCustomersList();
@@ -405,15 +406,15 @@ preprocessImage(image,modelName)
     );
   }
 
-  public async predictWithWeaponModel(){
+  // public async predictWithWeaponModel(){
 
-    // // For COCO SDD Models
-    // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
-    // Weapons model
-    this.weaponModel = await tf.loadModel('./assets/models/vgg_weapons/model.json');
-    console.log("weapons model loaded");
-    // this.detectFrameForWeapon(this.video, this.weaponModel);
-  }
+  //   // // For COCO SDD Models
+  //   // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
+  //   // Weapons model
+  //   this.weaponModel = await tf.loadModel('./assets/models/vgg_weapons/model.json');
+  //   console.log("weapons model loaded");
+  //   // this.detectFrameForWeapon(this.video, this.weaponModel);
+  // }
 
   public async predictWithCocoModel() {
     // For COCO SDD Models
@@ -459,30 +460,30 @@ preprocessImage(image,modelName)
     });
   };
 
-  detectFrameForWeapon = (video, model) => {
+  // detectFrameForWeapon = (video, model) => {
 
-    let tensor = this.preprocessImage(video,'vgg');
+  //   let tensor = this.preprocessImage(video,'vgg');
 
-    model.predict(tensor).data().then(predictions=>{
-      predictions.forEach(prediction=>{
-        console.log(prediction);
-        let top5=Array.from(prediction)
-                .map(function(p,i){
-    return {
-        probability: p,
-        className: IMAGENET_CLASSES[i]
-    };
-    });
-    console.log(top5);
+  //   model.predict(tensor).data().then(predictions=>{
+  //     predictions.forEach(prediction=>{
+  //       console.log(prediction);
+  //       let top5=Array.from(prediction)
+  //               .map(function(p,i){
+  //   return {
+  //       probability: p,
+  //       className: IMAGENET_CLASSES[i]
+  //   };
+  //   });
+  //   console.log(top5);
         
-      })
-    });
+  //     })
+  //   });
 
-      requestAnimationFrame(() => {
-        if (this.detectionMode !== 2) return;
-        this.detectFrameForWeapon(video, model);
-      });
-  };
+  //     requestAnimationFrame(() => {
+  //       if (this.detectionMode !== 2) return;
+  //       this.detectFrameForWeapon(video, model);
+  //     });
+  // };
 
   detectFrame = (video, model) => {
     if (this.video == null || this.convertState == 1) return;
@@ -499,6 +500,15 @@ preprocessImage(image,modelName)
           timeFrame: time
         });
       });
+
+      this.detected_objects = this.detected_objects.reduce((acc, current) => {
+        const x = acc.find(item => item.objectDetected === current.objectDetected);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
 
       if (this.detected_objects.length >20)
       {
@@ -550,21 +560,47 @@ preprocessImage(image,modelName)
     });
   };
 
+  faceStatus: boolean = false;
   public onFaceButton() {
     console.log("model button clicked");
+    this.faceStatus = true;
+    this.objectStatus = false;
+    this.weaponStatus = false;
+    this.emotionsStatus = false;
     this.detectionMode = 1;
     this.detectFace(this.video)
   }
 
+  objectStatus: boolean = true;
   public onObjectButton() {
     console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = true;
+    this.weaponStatus = false;
+    this.emotionsStatus = false;
     this.detectionMode = 3;
     this.detectFrame(this.video, this.objectModel);
   }
 
+  weaponStatus:boolean = false;
   public onWeaponsButton() {
     console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = false;
+    this.weaponStatus = true;
+    this.emotionsStatus = false;
     this.detectionMode = 2;
-    this.detectFrameForWeapon(this.video, this.weaponModel);
+    this.detectFrame(this.video, this.objectModel);
+  }
+
+  emotionsStatus:boolean = false;
+  public onEmotionsButton() {
+    console.log("model button clicked");
+    this.faceStatus = false;
+    this.objectStatus = false;
+    this.weaponStatus = false;
+    this.emotionsStatus = true;
+    this.detectionMode = 3;
+    this.detectFrame(this.video, this.objectModel);
   }
 }
