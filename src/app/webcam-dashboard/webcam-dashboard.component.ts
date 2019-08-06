@@ -477,7 +477,7 @@ preprocessImage(image,modelName)
     this.tensor = this.preprocessImage(this.video, "mobilenet");
     let tensor = this.tensor;
     model.predict(tensor).data().then(predictions=>{
-
+        this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
         // console.log(prediction);
         let top5=Array.from(predictions)
         .map(function(p,i){
