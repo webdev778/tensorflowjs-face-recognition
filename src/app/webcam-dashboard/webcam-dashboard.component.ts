@@ -184,7 +184,7 @@ export class WebcamDashboardComponent implements OnInit {
 preprocessImage(image,modelName)
 {
     let tensor=tf.fromPixels(image)
-    .resizeNearestNeighbor([128,128])
+    .resizeNearestNeighbor([224,224])
     .toFloat();//.sub(meanImageNetRGB)
 
     if(modelName==undefined)
@@ -421,7 +421,7 @@ preprocessImage(image,modelName)
     // // For COCO SDD Models
     // this.weaponModel = await cocoSSD.load("lite_mobilenet_v2");
     // Weapons model
-    this.weaponModel = await tf.loadModel('./assets/models/olga/model.json');
+    this.weaponModel = await tf.loadModel('./assets/models/vgg_light_weapons/model.json');
     // this.tensor = this.preprocessImage(this.video,'olganet');
     console.log("weapons model loaded");
     // this.detectFrameForWeapon(this.video, this.weaponModel);
@@ -473,7 +473,7 @@ preprocessImage(image,modelName)
 
   detectFrameForWeapon = (video, model) => {
     console.log('detectFrameForWeapon:');
-    this.tensor = this.preprocessImage(this.video, "olga");
+    this.tensor = this.preprocessImage(this.video, "mobilenet");
     let tensor = this.tensor;
     model.predict(tensor).data().then(predictions=>{
 
@@ -641,6 +641,7 @@ preprocessImage(image,modelName)
     this.weaponStatus = true;
     this.emotionsStatus = false;
     this.detectionMode = 2;
+    this.detected_objects.splice(0, this.detected_objects.length );
     this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.detectFrameForWeapon(this.video, this.weaponModel);
   }
