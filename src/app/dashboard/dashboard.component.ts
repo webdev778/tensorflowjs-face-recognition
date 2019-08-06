@@ -184,7 +184,7 @@ export class DashboardComponent implements OnInit {
     this.labeledFaceDescriptors = await this.loadLabeledImages();
     console.log('all pattern loaded');
 
-    const maxDescriptorDistance = 0.6
+    const maxDescriptorDistance = 0.3
     this.faceMatcher = new faceapi.FaceMatcher(this.labeledFaceDescriptors, maxDescriptorDistance);
 
     setInterval(() => {
@@ -196,7 +196,7 @@ export class DashboardComponent implements OnInit {
   detectFace = async (video) => {
     console.log('detecting Face...')
 
-    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors()
+    const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors()
     const displaySize = { width: 640, height: 480 };
 
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
@@ -214,7 +214,7 @@ export class DashboardComponent implements OnInit {
       //find details from database
       results.forEach((result, i) => {
         if(result.distance > FACE_THRESHOLD)
-        this.findDetail(result.toString())
+          this.findDetail(result.toString())
       });
 
       /*
@@ -268,8 +268,11 @@ export class DashboardComponent implements OnInit {
 
   findDetail(firstName: string) {
 
-    let param = firstName.split(" ")[0];
-    let detail = faceRegister.find(item => (item.key === param));
+    console.log('-------------findDetail-------------')
+    console.log(firstName)
+
+    // let param = firstName.split(" ")[0];
+    let detail = faceRegister.find(item => (item.key === firstName));
     // this.detected_faces.splice(0, 3);
     var face_counter;
 
@@ -278,7 +281,7 @@ export class DashboardComponent implements OnInit {
       var detail_first_name = this.detail.first_name
       console.log('-------------Detail-------------')
       console.log(detail_first_name)
-      this.photo = `/assets/img/${param}/1.jpg`;
+      this.photo = `/assets/img/${firstName}/1.jpg`;
       var last_element = this.detected_faces[this.detected_faces.length - 1];
       console.log('------------------last element------------------')
       console.log(last_element.firstName)
@@ -422,7 +425,7 @@ export class DashboardComponent implements OnInit {
 
   detectFrame = (video, model) => {
     if (this.video == null || this.convertState == 1) return;
-    console.log("detectFrame :");
+    // console.log("detectFrame :");
     model.detect(video).then(predictions => {
       this.renderPredictions(predictions);
 
@@ -455,7 +458,7 @@ export class DashboardComponent implements OnInit {
         if (this.detectionMode !== 3) return;
         this.detectFrame(video, model);
       });
-      console.log(predictions);
+      // console.log(predictions);
     });
     // this.detected_objects.reverse();
   };
