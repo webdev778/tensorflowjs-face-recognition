@@ -424,7 +424,7 @@ preprocessImage(image,modelName)
     this.weaponModel = await tf.loadModel('./assets/models/vgg_light_weapons/model.json');
     // this.tensor = this.preprocessImage(this.video,'olganet');
     console.log("weapons model loaded");
-    alert("weapons model loaded");
+    // alert("weapons model loaded");
     // this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 
