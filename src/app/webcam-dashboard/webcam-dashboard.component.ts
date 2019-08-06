@@ -491,6 +491,7 @@ preprocessImage(image,modelName)
         console.log(top5);
 
         const prediction:any = top5[0];
+        if(prediction.class === 'Humvee') return;
 
         const temp = this.detected_objects.findIndex((item:any) => item.objectDetected === prediction.class)
         console.log('TEMP')
@@ -653,8 +654,8 @@ preprocessImage(image,modelName)
     setTimeout(()=> {
       this.detected_objects.splice(0, this.detected_objects.length );
       this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.detectFrameForWeapon(this.video, this.weaponModel);
     }, 1000);
-    this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 
   emotionsStatus:boolean = false;
