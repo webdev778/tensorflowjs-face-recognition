@@ -655,7 +655,7 @@ preprocessImage(image,modelName)
       this.detected_objects.splice(0, this.detected_objects.length );
       this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.detectFrameForWeapon(this.video, this.weaponModel);
-    }, 1000);
+    }, 2000);
   }
 
   emotionsStatus:boolean = false;
