@@ -265,7 +265,7 @@ preprocessImage(image,modelName)
     // find
     if (this.interval % 5 == 2) {
       const results = resizedDetections.map(d => this.faceMatcher.findBestMatch(d.descriptor));
-      this.renderFaces(this.canvas, resizedDetections, results);
+      //this.renderFaces(this.canvas, resizedDetections, results);
       this.interval = 0;
 
       //find details from database

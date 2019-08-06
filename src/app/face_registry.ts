@@ -35,18 +35,18 @@ export const faceRegister = [
     "wanted_status":1,
     "charge": "Kidnapping and murder."
   },
-  {
-    "key": "alkhazarji",
-    "first_name": "NAZAR ABDELKARIM",
-    "last_name": "AL KHAZRAJI",
-    "gender": "Male",
-    "dob": "1985",
-    "pob": "Mosul, Iraq",
-    "nationality": "Iraqi",
-    "wanted_by": "Denmark",
-    "wanted_status":1,
-    "charge": "War crimes"
-  },
+  // {
+  //   "key": "alkhazarji",
+  //   "first_name": "NAZAR ABDELKARIM",
+  //   "last_name": "AL KHAZRAJI",
+  //   "gender": "Male",
+  //   "dob": "1985",
+  //   "pob": "Mosul, Iraq",
+  //   "nationality": "Iraqi",
+  //   "wanted_by": "Denmark",
+  //   "wanted_status":1,
+  //   "charge": "War crimes"
+  // },
   {
     "key": "carl",
     "first_name": "CARL",
