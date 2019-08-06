@@ -514,11 +514,11 @@ preprocessImage(image,modelName)
           });
           */
 
-         if (prediction.class === 'AK47' || prediction.class === 'M4_rifle'){
+        //  if (prediction.class === 'AK47' || prediction.class === 'M4_rifle'){
           //this.detected_objects[temp].objectDetected = prediction.class;
           this.detected_objects[temp].confidence = Math.round(prediction.score*100);
           this.detected_objects[temp].timeFrame = time;
-         }
+        //  }
          }
 
 
