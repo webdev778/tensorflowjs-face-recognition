@@ -424,6 +424,7 @@ preprocessImage(image,modelName)
     this.weaponModel = await tf.loadModel('./assets/models/vgg_light_weapons/model.json');
     // this.tensor = this.preprocessImage(this.video,'olganet');
     console.log("weapons model loaded");
+    alert("weapons model loaded");
     // this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 
@@ -503,6 +504,7 @@ preprocessImage(image,modelName)
             timeFrame: time
           });
         }else{
+          /*
           this.detected_objects.splice(temp,1);
 
           this.detected_objects.push({
@@ -510,6 +512,13 @@ preprocessImage(image,modelName)
             confidence:Math.round(prediction.score*100),
             timeFrame: time
           });
+          */
+
+         if (prediction.class === 'AK47' || prediction.class === 'M4_rifle'){
+          //this.detected_objects[temp].objectDetected = prediction.class;
+          this.detected_objects[temp].confidence = Math.round(prediction.score*100);
+          this.detected_objects[temp].timeFrame = time;
+         }
          }
 
 
@@ -531,7 +540,7 @@ preprocessImage(image,modelName)
       console.log('detectFrameForWeapon executed');
       requestAnimationFrame(() => {
         if (this.detectionMode !== 2) return;
-        setTimeout(() => {this.detectFrameForWeapon(video, model);}, 300);
+        setTimeout(() => {this.detectFrameForWeapon(video, model);}, 700);
       });
     });
   };
