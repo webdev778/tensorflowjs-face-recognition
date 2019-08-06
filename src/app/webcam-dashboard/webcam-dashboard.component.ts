@@ -650,8 +650,10 @@ preprocessImage(image,modelName)
     this.weaponStatus = true;
     this.emotionsStatus = false;
     this.detectionMode = 2;
-    this.detected_objects.splice(0, this.detected_objects.length );
-    this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
+    setTimeout(()=> {
+      this.detected_objects.splice(0, this.detected_objects.length );
+      this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }, 1000);
     this.detectFrameForWeapon(this.video, this.weaponModel);
   }
 
