@@ -26,18 +26,57 @@
                                 <a (click)="onEmotionsButton()" class="nav-link">
                                     <span class="d-none d-sm-inline" [ngStyle]="{'color':emotionsStatus ? 'red' : 'grey' }"><b>Emotions</b> </span></a>
                             </div>
+
+                            <div class="list-inline-item">
+                                <a (click)="onPredictionsButton()" class="nav-link">
+                                    <span class="d-none d-sm-inline" [ngStyle]="{'color':predictionsStatus ? 'red' : 'grey' }"><b>Predict</b> </span></a>
+                            </div>
+
+
                             <div class="progress progress-template progress-small">
                                 <div role="progressbar" style="width: 100%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template progress-bar-small dashbg-3"></div>
                             </div>
                         </div>
                         <div class="rectangle rectangle--middle">
-                            <div class="thumb thumb--middle">
-                                <div id="def-video" class="def-video">
-                                    <video class="rounded centered hide" id="vidwebcam" autoplay muted width="640" height="475"></video>
-                                    <canvas id="canvaswebcam"></canvas>
+                            <div class="thumb thumb--middle" >
+                                <div id="def-video" class="def-video" >
+                                    
+                                    <video class="rounded centered hide" id="vidwebcam" autoplay muted width="640" height="475"  [ngStyle]="{'display':isVisible ? 'block':'none' }"></video>
+                                    <canvas id="canvaswebcam" [ngStyle]="{'display':isVisible ? 'block':'none' }"></canvas>   
+                                    
+                                    <div [ngStyle]="{'display':isVisible ? 'none':'inline' }">
+                                       
+                                        
+                                        <form>
+                                            <input placeholder ="name" type="text" (input)="tcode=$event.target.value" name="id">
+                                            <p></p>
+                                            <input type="text" placeholder ="url" (input)="enroll_image_url=$event.target.value" name="enroll_url"> 
+                                            <p></p>
+                                            <input type="file" (change)="fileEvent($event)" />
+                                            <p></p>
+                                            <button type="button" (click)="onUpload()"> Train </button>
+                                        </form>
+
+                                        <p></p>
+                                        <p></p>
+
+                                        <form>
+                                            <input type="text" placeholder ="url" (input)="predict_image_url=$event.target.value" name="predict_url"> 
+                                            <p></p>
+                                            <button type="button" (click)="onPredict()"> Predict </button>
+                                            <p>{{predicted_criminal}}</p>
+
+                                            
+                                        </form>
+                                        
+                                    </div>
                                 </div>
                             </div>
+
+                            
                         </div>
+
+
                     </div>
                     <div class="user-block block text-center full-screen-auto">
                         <app-map></app-map>
@@ -70,6 +109,10 @@
                                         </div> -->
                                         <div class="col-lg-12 d-flex align-items-center">
                                             <a href="#" class="name ml-4 mt-2"><span class="d-block">Wanted By : {{face.wantedBy}}</span><span class="d-block mt-2 mb-3">Charge : {{face.charge}}</span></a>
+                                        </div>
+
+                                        <div class="col-lg-12 d-flex align-items-center">
+                                            <p>hi</p>
                                         </div>
 
                                     </div>
