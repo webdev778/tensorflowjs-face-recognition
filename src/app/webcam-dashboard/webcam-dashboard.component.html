@@ -32,6 +32,11 @@
                                     <span class="d-none d-sm-inline" [ngStyle]="{'color':predictionsStatus ? 'red' : 'grey' }"><b>Predict</b> </span></a>
                             </div>
 
+                            <div class="list-inline-item">
+                                <a (click)="onWebFeedButton()" class="nav-link">
+                                    <span class="d-none d-sm-inline" [ngStyle]="{'color':webFeedStatus ? 'red' : 'grey' }"><b>WebCam feed</b> </span></a>
+                            </div>
+
 
                             <div class="progress progress-template progress-small">
                                 <div role="progressbar" style="width: 100%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template progress-bar-small dashbg-3"></div>
@@ -67,9 +72,9 @@
                                             <p>{{predicted_criminal}}</p>
 
                                             
-                                        </form>
-                                        
+                                        </form> 
                                     </div>
+                                    <p id="overlay"> {{webcamPrediction}} </p>
                                 </div>
                             </div>
 
@@ -111,9 +116,7 @@
                                             <a href="#" class="name ml-4 mt-2"><span class="d-block">Wanted By : {{face.wantedBy}}</span><span class="d-block mt-2 mb-3">Charge : {{face.charge}}</span></a>
                                         </div>
 
-                                        <div class="col-lg-12 d-flex align-items-center">
-                                            <p>hi</p>
-                                        </div>
+                                        
 
                                     </div>
                                 </div>

@@ -686,8 +686,10 @@ export class WebcamDashboardComponent implements OnInit {
     this.weaponStatus = false;
     this.emotionsStatus = false;
     this.predictionsStatus = false;
+    this.webFeedStatus = false;
     this.detectionMode = 1;
     this.isVisible = 1;
+    this.webcamPrediction = null;
     this.detectFace(this.video);
   }
 
@@ -699,8 +701,10 @@ export class WebcamDashboardComponent implements OnInit {
     this.weaponStatus = false;
     this.emotionsStatus = false;
     this.predictionsStatus = false;
+    this.webFeedStatus = false;
     this.detectionMode = 3;
     this.isVisible = 1;
+    this.webcamPrediction = null;
     this.detectFrame(this.video, this.objectModel);
   }
 
@@ -712,8 +716,10 @@ export class WebcamDashboardComponent implements OnInit {
     this.weaponStatus = true;
     this.emotionsStatus = false;
     this.predictionsStatus = false;
+    this.webFeedStatus = false;
     this.detectionMode = 2;
     this.isVisible = 1;
+    this.webcamPrediction = null;
     this.canvas
       .getContext("2d")
       .clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -728,24 +734,78 @@ export class WebcamDashboardComponent implements OnInit {
     this.weaponStatus = false;
     this.emotionsStatus = true;
     this.predictionsStatus = false;
+    this.webFeedStatus = false;
     this.detectionMode = 3;
     this.isVisible = 1;
+    this.webcamPrediction = null;
     this.detectFrame(this.video, this.objectModel);
   }
 
   predictionsStatus: boolean = false;
   isVisible = 1;
   public onPredictionsButton() {
-    console.log("model button clicked");
+    console.log("prediction button clicked");
     this.faceStatus = false;
     this.objectStatus = false;
     this.weaponStatus = false;
     this.emotionsStatus = false;
     this.predictionsStatus = true;
+    this.webFeedStatus = false;
     this.detectionMode = 5;
     this.isVisible = 0;
+    this.webcamPrediction = null;
     this.detectFrame(this.video, this.objectModel);
   }
+
+  webcamPrediction: string = null;
+  webFeedStatus: boolean = false;
+  public onWebFeedButton() {
+    console.log("web feed button clicked");
+    this.faceStatus = false;
+    this.objectStatus = false;
+    this.weaponStatus = false;
+    this.emotionsStatus = false;
+    this.predictionsStatus = false;
+    this.webFeedStatus = true;
+    this.detectionMode = 3;
+    this.isVisible = 1;
+
+    //for getting image from the canvas
+
+    console.log("check web image running");
+    var canvas = document.createElement("canvas");
+    canvas.width = this.video.videoWidth;
+    canvas.height = this.video.videoHeight;
+    canvas
+      .getContext("2d")
+      .drawImage(this.video, 0, 0, canvas.width, canvas.height);
+    var imgData = canvas.toDataURL("image/jpeg");
+
+    // Below two lines are used to see the image taken from the webcam in a new page
+    // var w = window.open("about:blank", "image from canvas");
+    // w.document.write("<img src='" + imgData + "' alt='from canvas'/>");
+
+    var criminal_to_detect = {
+      image: imgData,
+      gallery_name: "criminals"
+    };
+
+    // uncomment below lines once everything is fine
+
+    this.facedectapiservice
+      .recognizeImage(criminal_to_detect)
+      .subscribe(reponse => {
+        this.webcamPrediction = reponse.images[0].transaction.subject_id;
+        console.log("The predicted criminal is " + this.webcamPrediction);
+      });
+
+    // uncomment above line if everything works
+
+    // } while (this.webFeedStatus == true);
+    console.log("exiting");
+  }
+
+  // Function for sleep
 
   // For the handling of files
   selectedFile: File = null;
@@ -805,5 +865,13 @@ export class WebcamDashboardComponent implements OnInit {
       .subscribe(reponse => {
         this.predicted_criminal = reponse.images[0].transaction.subject_id;
       });
+  }
+
+  public wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
   }
 }
