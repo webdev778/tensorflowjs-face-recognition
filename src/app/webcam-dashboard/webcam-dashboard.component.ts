@@ -759,6 +759,7 @@ export class WebcamDashboardComponent implements OnInit {
 
   webcamPrediction: string = null;
   webFeedStatus: boolean = false;
+  complete_name = [];
   public onWebFeedButton() {
     console.log("web feed button clicked");
     this.faceStatus = false;
@@ -797,6 +798,21 @@ export class WebcamDashboardComponent implements OnInit {
       .subscribe(reponse => {
         this.webcamPrediction = reponse.images[0].transaction.subject_id;
         console.log("The predicted criminal is " + this.webcamPrediction);
+
+        this.complete_name = this.getFirstandLastName(this.webcamPrediction);
+        this.detected_faces.push({
+          firstName: this.complete_name[0],
+          lastName: this.complete_name[1],
+          photo: "./assets/img/placeholder1.jpg",
+          gender: "Gender",
+          dateOfBirth: "Date Of Birth",
+          placeOfBirth: "Place of Birth",
+          nationality: "Nationality",
+          wantedStatus: 0,
+          wantedBy: "Wanted by",
+          charge: "Detecting..",
+          timeStamp: "Time"
+        });
       });
 
     // uncomment above line if everything works
@@ -808,11 +824,12 @@ export class WebcamDashboardComponent implements OnInit {
   // Function for sleep
 
   // For the handling of files
-  selectedFile: File = null;
+  selectedFile = null;
   tcode: string = null;
   enroll_image_url: string = null;
   predict_image_url: string = null;
   predicted_criminal: string = null;
+  full_name = [];
   image = null;
   subject_id = null;
   gallery_name = "criminals";
@@ -823,6 +840,26 @@ export class WebcamDashboardComponent implements OnInit {
 
   public fileEvent(event) {
     this.selectedFile = <File>event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload = _event => {
+      var imgURL = reader.result;
+      this.selectedFile = imgURL;
+    };
+
+    // this.detected_faces.push({
+    //   firstName: "Bhuwan",
+    //   lastName: "Bhatt",
+    //   photo: "./assets/img/placeholder1.jpg",
+    //   gender: "Gender",
+    //   dateOfBirth: "Date Of Birth",
+    //   placeOfBirth: "Place of Birth",
+    //   nationality: "Nationality",
+    //   wantedStatus: 0,
+    //   wantedBy: "Wanted by",
+    //   charge: "Detecting..",
+    //   timeStamp: "Time"
+    // });
   }
 
   // Variables for sending to the api
@@ -835,19 +872,29 @@ export class WebcamDashboardComponent implements OnInit {
     this.image = this.selectedFile;
     this.subject_id = this.tcode;
 
-    this.new_criminal = {
-      image: this.enroll_image_url,
-      subject_id: this.subject_id,
-      gallery_name: this.gallery_name
-    };
+    if (this.enroll_image_url == null) {
+      this.new_criminal = {
+        image: this.selectedFile,
+        subject_id: this.subject_id,
+        gallery_name: this.gallery_name
+      };
+    } else {
+      this.new_criminal = {
+        image: this.enroll_image_url,
+        subject_id: this.subject_id,
+        gallery_name: this.gallery_name
+      };
+    }
 
-    // this.new_criminal = JSON.stringify(this.new_criminal);
+    // Enroll image using the api
     this.facedectapiservice
       .enrollImage(this.new_criminal)
       .subscribe(reponse => {
         console.log("the code :" + reponse);
         console.log(this.new_criminal);
       });
+
+    console.log(this.selectedFile);
   }
 
   public onPredict() {
@@ -855,16 +902,53 @@ export class WebcamDashboardComponent implements OnInit {
     console.log("for predition");
     console.log("the image url for prediction :" + this.predict_image_url);
 
-    this.detect_criminal = {
-      image: this.predict_image_url,
-      gallery_name: this.gallery_name
-    };
+    if (this.predict_image_url == null) {
+      this.detect_criminal = {
+        image: this.selectedFile,
+        gallery_name: this.gallery_name
+      };
+    } else {
+      this.detect_criminal = {
+        image: this.predict_image_url,
+        gallery_name: this.gallery_name
+      };
+    }
 
     this.facedectapiservice
       .recognizeImage(this.detect_criminal)
       .subscribe(reponse => {
         this.predicted_criminal = reponse.images[0].transaction.subject_id;
+
+        this.full_name = this.getFirstandLastName(this.predicted_criminal);
+        this.detected_faces.push({
+          firstName: this.full_name[0],
+          lastName: this.full_name[1],
+          photo: "./assets/img/placeholder1.jpg",
+          gender: "Gender",
+          dateOfBirth: "Date Of Birth",
+          placeOfBirth: "Place of Birth",
+          nationality: "Nationality",
+          wantedStatus: 0,
+          wantedBy: "Wanted by",
+          charge: "Detecting..",
+          timeStamp: "Time"
+        });
       });
+  }
+
+  public getFirstandLastName(fullname) {
+    var splitted_criminal_name = fullname.split(" ");
+    console.log("The splitted names are : " + splitted_criminal_name);
+    var first_name = splitted_criminal_name[0];
+    var last_name = "";
+    var i = 0;
+    for (i = 1; i < splitted_criminal_name.length; i++) {
+      last_name += splitted_criminal_name[i] + " ";
+    }
+
+    console.log("Firstname and lastnames are :" + first_name + last_name);
+
+    return [first_name, last_name];
   }
 
   public wait(ms) {

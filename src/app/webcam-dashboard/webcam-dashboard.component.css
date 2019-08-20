@@ -99,4 +99,9 @@ a {
   color: white;
   background-color: lightskyblue;
   font-size: 1.5em;
+  display: none;
+}
+
+#placeholder {
+  margin-right: 1%;
 }

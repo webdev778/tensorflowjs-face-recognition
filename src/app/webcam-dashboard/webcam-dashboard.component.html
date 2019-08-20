@@ -53,8 +53,10 @@
                                        
                                         
                                         <form>
+                                            <label id = "placeholder"> Name: </label>
                                             <input placeholder ="name" type="text" (input)="tcode=$event.target.value" name="id">
                                             <p></p>
+                                            <label id = "placeholder"> Url: </label>
                                             <input type="text" placeholder ="url" (input)="enroll_image_url=$event.target.value" name="enroll_url"> 
                                             <p></p>
                                             <input type="file" (change)="fileEvent($event)" />
@@ -66,7 +68,10 @@
                                         <p></p>
 
                                         <form>
+                                            <label id = "placeholder"> Url: </label>
                                             <input type="text" placeholder ="url" (input)="predict_image_url=$event.target.value" name="predict_url"> 
+                                            <p></p>
+                                            <input type="file" (change)="fileEvent($event)" />
                                             <p></p>
                                             <button type="button" (click)="onPredict()"> Predict </button>
                                             <p>{{predicted_criminal}}</p>
