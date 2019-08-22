@@ -443,11 +443,15 @@ export class WebcamDashboardComponent implements OnInit {
   }
 
   loadLabeledImages = () => {
-    const labels = ["geibi", "ramadan", "qader", "alkhazarji", "carl"];
+    let labels = ["geibi", "ramadan", "qader", "alkhazarji", "carl",
+                    "robles","utsumieva", "marwan", "alvarez", "duongtran",
+                    "george", "oprah", "salah", "ronaldo", "trump", "kardashian"];
+
+    console.log(labels);
     return Promise.all(
       labels.map(async label => {
         const descriptions = [];
-        for (let i = 1; i <= 2; i++) {
+        for (let i = 1; i <= 8; i++) {
           try {
             const img = await faceapi.fetchImage(
               `/assets/img/${label}/${i}.jpg`
